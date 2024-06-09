@@ -23,8 +23,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-
     return MaterialApp(
       title: 'Uno Hero',
       debugShowCheckedModeBanner: false,
@@ -35,7 +33,7 @@ class MyApp extends StatelessWidget {
       home: TournamentPage(),
       routes: <String, WidgetBuilder>{
       "/root": (BuildContext context) =>  TournamentPage(),
-      "/create_tournament_screen": (BuildContext context) => const CreateTournamentPage(),
+      "/create_tournament_screen": (BuildContext context) => CreateTournamentPage(),
       "/scopes_screen": (BuildContext context) => const ScopesPage(),
       "/manage_scopes_screen": (BuildContext context) => const ScopesPage(),
     },

@@ -26,7 +26,10 @@ class TournamentPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
       heroTag: "add",
       backgroundColor: Colors.deepOrangeAccent,
-      onPressed: () => { print("floating action button")},
+      onPressed: () => {
+        print("floating action button"),
+        Navigator.of(context).pushNamed('/create_tournament_screen')
+      },
       child: const Icon(
         Icons.add,
         color: Colors.white,
