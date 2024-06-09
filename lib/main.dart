@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:uno_notes/presantation/create_tournament_page/widgets/create_tournament_page.dart';
 import 'package:uno_notes/presantation/home_page/widgets/home_page.dart';
+import 'package:uno_notes/presantation/scopes_page/scopes_page.dart';
+import 'package:uno_notes/presantation/tournament_page/widgets/tournament_page.dart';
 import 'package:uno_notes/theme.dart';
 import 'application/home_page/home_bloc.dart';
+import 'domain/entities/tournament_entity.dart';
 import 'injection.dart' as di;
 import 'injection.dart';
 GetIt getIt = GetIt.instance;
@@ -28,11 +32,17 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
-      home:
-      BlocProvider(
-          create: (BuildContext context) => sl<HomeBloc>(),
-          child: const Homepage()
-      ),
+      home: TournamentPage(),
+      routes: <String, WidgetBuilder>{
+      "/root": (BuildContext context) =>  TournamentPage(),
+      "/create_tournament_screen": (BuildContext context) => const CreateTournamentPage(),
+      "/scopes_screen": (BuildContext context) => const ScopesPage(),
+      "/manage_scopes_screen": (BuildContext context) => const ScopesPage(),
+    },
+      //BlocProvider(
+       //   create: (BuildContext context) => sl<HomeBloc>(),
+      //    child: TournamentPage()
+     // ),
 
     );
   }

@@ -12,7 +12,7 @@ class Homepage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "UNO Heros",
+          "UNO Hero",
           style: themeData.textTheme.headlineLarge,
         ),
       ),
