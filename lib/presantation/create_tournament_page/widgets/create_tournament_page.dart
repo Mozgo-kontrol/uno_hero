@@ -90,7 +90,7 @@ class CreateTournamentPage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 60*players.length.toDouble(),
+              height: 60*players.length.toDouble(), //TODO
               width: size.width,
               child:  AddPlayerWidget(players: players),
             )
