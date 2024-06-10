@@ -3,20 +3,51 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/player_entity.dart';
-import 'add_player_widget.dart';
+import 'add_player_card_widget.dart';
 
-class CreateTournamentPage extends StatelessWidget {
 
-  List<Player> players  = [
-    Player(id: 1, name: "Igor"),
-    Player(id: 2, name: "Hanna"),
-  ];
+class CreateTournamentPage extends StatefulWidget {
 
-  CreateTournamentPage({super.key});
+
+  const CreateTournamentPage({super.key});
+  @override
+  State<CreateTournamentPage> createState() => _CreateTournamentPageState();
+}
+
+class _CreateTournamentPageState extends State<CreateTournamentPage> {
+
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController playerNameController = TextEditingController();
+  List<Player> players =[];
+
+  void removePlayer(int id){
+    setState(() {
+      players.removeAt(id);
+    });
+  }
+
+  void addPlayer(){
+    setState(() {
+      if(playerNameController.text.isNotEmpty) {
+        int id = players.isEmpty ? 1 : players.last.id + 1;
+        players.add(Player(id: id, name: playerNameController.text));
+        playerNameController.clear();
+        String message = 'Player ${playerNameController.text} added';
+        showSnackBar(message);
+      }
+      else{
+        showSnackBar("add player name");
+      }
+    });
+  }
+  void showSnackBar(String message){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _titleController = TextEditingController();
-    final TextEditingController _playerNameController = TextEditingController();
     final size = MediaQuery.of(context).size;
     final themeData = Theme.of(context);
     return Scaffold(
@@ -35,28 +66,28 @@ class CreateTournamentPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text("Title", style: themeData.textTheme.bodySmall),
-          ),
-          SizedBox(
-          width: size.width,
-          child: TextField(
-            style:  themeData.textTheme.bodyMedium,
-            controller: _titleController,
-            maxLength: 25,
-            decoration: const InputDecoration(
-              hintText: 'Enter Title for you Tournament',
-              border: OutlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-              )
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text("Title", style: themeData.textTheme.bodySmall),
             ),
-          ),
-          ),
+            SizedBox(
+              width: size.width,
+              child: TextField(
+                style:  themeData.textTheme.bodyMedium,
+                controller: titleController,
+                maxLength: 25,
+                decoration: const InputDecoration(
+                    hintText: 'Enter Title for you Tournament',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                    )
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Text("Add player", style: themeData.textTheme.bodySmall),
@@ -65,35 +96,69 @@ class CreateTournamentPage extends StatelessWidget {
               width: size.width,
               child: TextField(
                 style:  themeData.textTheme.bodyMedium,
-                controller: _playerNameController,
+                controller: playerNameController,
                 maxLength: 25,
                 decoration: InputDecoration(
-                    hintText: 'Enter player name',
-                    border: const OutlineInputBorder(),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                    ),
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        // Handle the tap on the icon here
-                          players.add(Player(id: players.last.id+1, name: _playerNameController.text)); //TODO
-                          ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Player ${_playerNameController.text} added', )),
-                        );
-                      },
-                      child: const Icon(Icons.add_circle, color: Colors.green,),
-                    ), // Add the icon here
+                  hintText: 'Enter player name',
+                  border: const OutlineInputBorder(),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () {
+                      addPlayer();
+                    },
+                    child: const Icon(Icons.add_circle, color: Colors.green,size: 35,),
+                  ), // Add the icon here
                 ),
               ),
             ),
             SizedBox(
-              height: 60*players.length.toDouble(), //TODO
+              height: size.height * 0.3,
               width: size.width,
-              child:  AddPlayerWidget(players: players),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: players.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final player = players[index]; // Store the player for readability
+                  return Dismissible(
+                    direction: DismissDirection.endToStart,
+                    key: Key(player.name),
+                    background: Container(
+                      color: Colors.red,
+                      child: const Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 16),
+                          child: Icon(Icons.delete),
+                        ),
+                      ),
+                    ),
+                    confirmDismiss: (direction) async {
+                      if (direction == DismissDirection.endToStart) {
+                        return true;
+                      }
+                    },
+                    child: AddPlayerCardWidget(
+                      id: player.id,
+                      name: player.name,
+                      onPressed: () => {
+                        // Handle player selection here, e.g., navigate to a details screen
+                        print('Selected player: ${player.name}')
+                      },
+                    ),
+                    onDismissed: (_) {
+                      removePlayer(index);
+                    },
+                  );
+                },
+              ),
             )
+
+
 
 
           ],
@@ -102,3 +167,5 @@ class CreateTournamentPage extends StatelessWidget {
     );
   }
 }
+
+
