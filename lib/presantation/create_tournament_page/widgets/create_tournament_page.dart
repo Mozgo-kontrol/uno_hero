@@ -18,6 +18,7 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
+
   List<Player> players =[];
 
   void removePlayer(int id){
@@ -40,6 +41,7 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
       }
     });
   }
+
   void showSnackBar(String message){
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
@@ -116,51 +118,68 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
                 ),
               ),
             ),
-            SizedBox(
-              height: size.height * 0.3,
-              width: size.width,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8),
-                itemCount: players.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final player = players[index]; // Store the player for readability
-                  return Dismissible(
-                    direction: DismissDirection.endToStart,
-                    key: Key(player.name),
-                    background: Container(
-                      color: Colors.red,
-                      child: const Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 16),
-                          child: Icon(Icons.delete),
+            Expanded(
+              flex: 3,
+              child: Card(
+
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: players.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final player = players[index]; // Store the player for readability
+                    return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      key: Key(player.name),
+                      background: Container(
+                        color: Colors.red,
+                        child: const Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 16),
+                            child: Icon(Icons.delete),
+                          ),
                         ),
                       ),
-                    ),
-                    confirmDismiss: (direction) async {
-                      if (direction == DismissDirection.endToStart) {
-                        return true;
-                      }
-                    },
-                    child: AddPlayerCardWidget(
-                      id: player.id,
-                      name: player.name,
-                      onPressed: () => {
-                        // Handle player selection here, e.g., navigate to a details screen
-                        print('Selected player: ${player.name}')
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.endToStart) {
+                          return true;
+                        }
                       },
+                      child: AddPlayerCardWidget(
+                        id: player.id,
+                        name: player.name,
+                        onPressed: () => {
+                          // Handle player selection here, e.g., navigate to a details screen
+                          print('Selected player: ${player.name}')
+                        },
+                      ),
+                      onDismissed: (_) {
+                        removePlayer(index);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(onPressed: () => {}, style: TextButton.styleFrom(
+              foregroundColor: Colors.redAccent,), child: Text("Cancel")),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      elevation: 0,
                     ),
-                    onDismissed: (_) {
-                      removePlayer(index);
-                    },
-                  );
-                },
+                    onPressed: () {},
+                    child: const Text("Start"),
+                  ),
+                ],
               ),
             )
-
-
-
-
           ],
         ),
       ),
