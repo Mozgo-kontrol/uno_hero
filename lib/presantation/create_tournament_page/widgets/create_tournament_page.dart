@@ -168,7 +168,7 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(onPressed: () => {}, style: TextButton.styleFrom(
-              foregroundColor: Colors.redAccent,), child: Text("Cancel")),
+              foregroundColor: Colors.redAccent,), child: const Text("Cancel")),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
