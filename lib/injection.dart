@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uno_notes/application/create_tournament_page/create_tournamet_bloc.dart';
 import 'package:uno_notes/application/tournament_page/tournament_bloc.dart';
 import 'domain/entities/tournament_entity.dart';
 import 'domain/repositories/TournamentRepository.dart';
@@ -19,6 +20,8 @@ Future<void>init() async {
   sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(sl()));
   sl.registerLazySingleton<TournamentRepository>(() => RepositoryImpl(remoteDataSource: sl()));
 
+
+  sl.registerFactory(() => CreateTournamentBloc(usecases: sl()));
 
   /// Initialize Hive
   final appDocumentDirectory = await getApplicationDocumentsDirectory();

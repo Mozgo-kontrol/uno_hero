@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:uno_notes/presantation/create_tournament_page/widgets/create_tournament_page.dart';
+import 'package:uno_notes/presantation/create_tournament_page/widgets/tournament_create_page.dart';
+
 import 'package:uno_notes/presantation/manage_scopes_page/manage_scopes_page.dart';
 
 import 'package:uno_notes/presantation/scopes_page/scopes_page.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_page.dart';
 import 'package:uno_notes/theme.dart';
+import 'application/create_tournament_page/create_tournamet_bloc.dart';
 import 'application/tournament_page/tournament_bloc.dart';
 import 'injection.dart' as di;
 import 'injection.dart';
@@ -38,8 +40,7 @@ class MyApp extends StatelessWidget {
       "/root": (BuildContext context) => const TournamentPage(),
       "/create_tournament_screen": (BuildContext context) => BlocProvider(
           create: (BuildContext context) => sl<CreateTournamentBloc>(),
-          child: const CreateTournamentPage()
-      ),
+          child: const TournamentCreationPage()),
       "/scopes_screen": (BuildContext context) => ScopesPage(tuornamentId: ModalRoute.of(context)!.settings.arguments as int),
       "/manage_scopes_screen": (BuildContext context) => const ManageScopesScreen(),
     },
