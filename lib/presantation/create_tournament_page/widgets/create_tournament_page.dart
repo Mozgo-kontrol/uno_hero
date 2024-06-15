@@ -15,14 +15,11 @@ class CreateTournamentPage extends StatefulWidget {
   State<CreateTournamentPage> createState() => _CreateTournamentPageState();
 }
 
+
 class _CreateTournamentPageState extends State<CreateTournamentPage> {
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
-
-
-
-
 
   int id = 1;
   List<Player> players = [];
