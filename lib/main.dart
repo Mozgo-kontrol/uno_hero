@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
       "/root": (BuildContext context) => const TournamentPage(),
       "/create_tournament_screen": (BuildContext context) => BlocProvider(
-          create: (BuildContext context) => sl<TournamentBloc>(),
+          create: (BuildContext context) => sl<CreateTournamentBloc>(),
           child: const CreateTournamentPage()
       ),
       "/scopes_screen": (BuildContext context) => ScopesPage(tuornamentId: ModalRoute.of(context)!.settings.arguments as int),

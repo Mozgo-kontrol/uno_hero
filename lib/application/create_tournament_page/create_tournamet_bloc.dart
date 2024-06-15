@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-part 'create_tournamet_event.dart';
-part 'create_tournamet_state.dart';
+part 'create_tournament_event.dart';
+part 'create_tournament_state.dart';
 
-class CreateTournametBloc extends Bloc<CreateTournametEvent, CreateTournametState> {
-  CreateTournametBloc() : super(CreateTournametInitial()) {
+class CreateTournamentBloc extends Bloc<CreateTournametEvent, CreateTournamentState> {
+  CreateTournamentBloc() : super(CreateTournamentInitial()) {
     on<CreateTournametEvent>((event, emit) {
       // TODO: implement event handler
     });
