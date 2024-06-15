@@ -1,10 +1,20 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ScopesPage extends StatelessWidget {
-  const ScopesPage({super.key});
+  final int tuornamentId;
+  const ScopesPage({super.key, required this.tuornamentId});
+
+
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Details Page'),
+      ),
+      body: Center(
+        child: Text('Received integer: $tuornamentId'),
+      ),
+    );
   }
 }

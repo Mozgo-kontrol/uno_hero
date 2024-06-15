@@ -3,7 +3,7 @@ import 'package:uno_notes/domain/entities/tournament_entity.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_card_widget.dart';
 class TournamentListWidget extends StatelessWidget {
 
-  final List<Tournament> tournaments;
+  final List<TournamentEntity> tournaments;
 
   const TournamentListWidget({super.key, required this.tournaments});
 

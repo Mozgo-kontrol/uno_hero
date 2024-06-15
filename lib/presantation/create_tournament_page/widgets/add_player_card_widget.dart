@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'CustomCardShape.dart';
+
 class AddPlayerCardWidget extends StatelessWidget {
   final int id;
   final String name;
@@ -18,13 +20,14 @@ class AddPlayerCardWidget extends StatelessWidget {
     final themeData = Theme.of(context); // Consider using this if you plan to style the card
     // final size = MediaQuery.of(context).size; // Not used, can be removed
 
-    return Card( // Wrap the content in a Card widget for a more polished look
+    return Card(
+      shape: const CustomCardShape(),// Wrap the content in a Card widget for a more polished look
       child: InkWell( // Make the entire card tappable
         onTap: onPressed,
         child: SizedBox(
           height: 50,
           child: Center( // Center the text horizontally
-            child: Text(name),
+            child: Text(name, style: themeData.textTheme.headlineMedium,),
           ),
         ),
       ),

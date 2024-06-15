@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
 import '../../../domain/entities/player_entity.dart';
 import 'add_player_card_widget.dart';
@@ -19,7 +20,12 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
 
-  List<Player> players =[];
+
+
+
+
+  int id = 1;
+  List<Player> players = [];
 
   void removePlayer(int id){
     setState(() {
@@ -70,7 +76,7 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 8),
-              child: Text("Title", style: themeData.textTheme.bodySmall),
+              child: Text("Title", style: themeData.textTheme.headlineMedium),
             ),
             SizedBox(
               width: size.width,
@@ -92,7 +98,7 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8),
-              child: Text("Add player", style: themeData.textTheme.bodySmall),
+              child: Text("Add player", style: themeData.textTheme.headlineMedium),
             ),
             SizedBox(
               width: size.width,
@@ -174,7 +180,7 @@ class _CreateTournamentPageState extends State<CreateTournamentPage> {
                       backgroundColor: Colors.green,
                       elevation: 0,
                     ),
-                    onPressed: () {},
+                    onPressed: () {Navigator.pushNamed(context, '/scopes_screen', arguments: id);},
                     child: const Text("Start"),
                   ),
                 ],

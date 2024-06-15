@@ -1,6 +1,6 @@
 import 'package:uno_notes/domain/entities/player_entity.dart';
 
-class Tournament{
+class TournamentEntity{
 
   final int id;
   final String name;
@@ -8,5 +8,5 @@ class Tournament{
   final List<Player> players;
   final Player winner;
 
-  Tournament ({required this.winner, required this.name, required this.status,required this.id, required this.players});
+  TournamentEntity ({required this.winner, required this.name, required this.status,required this.id, required this.players});
 }
