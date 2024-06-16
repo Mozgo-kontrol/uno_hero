@@ -6,5 +6,5 @@ abstract class TournamentRepository{
   Future<List<TournamentEntity>> getAllTournamentsFromApi();
   Future<TournamentEntity>addNewTournamentToDB(TournamentEntity tournament);
   Future<TournamentEntity>findTournamentById(int id);
-  Future<TournamentEntity>getLastAddedTournament();
+  Future<int>getNextTournamentId();
 }

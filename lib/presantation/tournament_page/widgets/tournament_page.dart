@@ -1,58 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
-import '../../../domain/entities/player_entity.dart';
-import '../../../domain/entities/tournament_entity.dart';
 import 'Tournament_list_widget.dart';
 
-
-class TournamentPage extends StatelessWidget {
-
+class TournamentPage extends StatefulWidget {
   const TournamentPage({super.key});
 
   @override
+  State<TournamentPage> createState() => _TournamentPageState();
+}
+
+class _TournamentPageState extends State<TournamentPage> {
+
+  @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
-    // 2. Extract the BlocProvider to a separate variable for better readability.
     final createTournamentBloc = BlocProvider.of<TournamentBloc>(context);
-
     void sendNewEvent(TournamentEvent newEvent) {
       createTournamentBloc.add(newEvent);
     }
+
+    final themeData = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Tournament",
+          "Tournaments", // Pluralize for clarity since it's a list.
           style: themeData.textTheme.headlineLarge,
         ),
       ),
       body: BlocBuilder<TournamentBloc, TournamentState>(
-        bloc: BlocProvider.of<TournamentBloc>(context)..add(InitTournamentsEvent()),
+        // No need to fetch tournaments again here, it was done above.
         builder: (context, tournamentState) {
-          if(tournamentState is TournamentLoadingState){
-           return Center(
-             child: CircularProgressIndicator(
-               color: themeData.colorScheme.secondary,
-             ),
-           );
-          }
-          else if(tournamentState is TournamentLoadedState){
-            return TournamentListWidget(tournaments: tournamentState.tournaments,);
-          }
-          else {
-            return const Placeholder();
+          if (tournamentState is TournamentLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: themeData.colorScheme.secondary,
+              ),
+            );
+          } else if (tournamentState is TournamentLoadedState) {
+            return TournamentListWidget(tournaments: tournamentState.tournaments);
+          } else {
+            // Handle potential error states more explicitly.
+            // Consider displaying an error message to the user.
+            return const Center(child: Text("An error occurred."));
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
-        heroTag: "add",
+        heroTag: "addTournament", // More specific hero tag.
         backgroundColor: Colors.deepOrangeAccent,
-        onPressed: () =>
-        {
-          print("floating action button"),
-          Navigator.of(context).pushNamed('/create_tournament_screen')
+        onPressed: () {
+          // Use a more descriptive message for logging.
+          print("Navigating to create tournament screen");
+          Navigator.of(context).pushNamed('/create_tournament_screen').then((value) async => setState(() {
+            sendNewEvent(InitTournamentsEvent());
+          }));
         },
         child: const Icon(
           Icons.add,
@@ -61,5 +63,4 @@ class TournamentPage extends StatelessWidget {
       ),
     );
   }
-
 }

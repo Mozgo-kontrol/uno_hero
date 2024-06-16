@@ -5,3 +5,4 @@ sealed class TournamentEvent {}
 
 class InitTournamentsEvent extends TournamentEvent {}
 class LoadTournamentsEvent extends TournamentEvent {}
+class RefreshTournamentsEvent extends TournamentEvent {}

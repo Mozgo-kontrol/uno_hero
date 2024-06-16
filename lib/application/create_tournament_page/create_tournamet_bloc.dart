@@ -23,10 +23,13 @@ class CreateTournamentBloc extends Bloc<CreateTournamentEvent, CreateTournamentS
   String _title = '';
   int tournamentId = 0;
 
+
+
   Future<void> _onInitData(CreateTournamentInitEvent event, Emitter<CreateTournamentState> emit) async {
-    tournament = await usecases.tournamentRepository.getLastAddedTournament();
-    tournamentId = (tournament!=null) ? tournament.id+1:0;
-    emit(CreateTournamentData(_title, _players, tournamentId));
+    tournamentId = await usecases.tournamentRepository.getNextTournamentId();
+    _players = [];
+    _title = '';
+    emit(CreateTournamentData(_title, _players, tournamentId, false));
   }
 
   void _onAddPlayer(AddPlayerEvent event, Emitter<CreateTournamentState> emit) {
@@ -36,7 +39,7 @@ class CreateTournamentBloc extends Bloc<CreateTournamentEvent, CreateTournamentS
           id: _players.isEmpty ? 1 : _players.last.id + 1, name: playerName);
       _players.add(newPlayer);
 
-      emit(CreateTournamentData(_title, _players,tournamentId));
+      emit(CreateTournamentData(_title, _players,tournamentId, false));
     } else {
       emit(CreateTournamentError("Enter player name"));
     }
@@ -44,18 +47,21 @@ class CreateTournamentBloc extends Bloc<CreateTournamentEvent, CreateTournamentS
 
   void _onRemovePlayer(RemovePlayerEvent event, Emitter<CreateTournamentState> emit) {
     _players.removeWhere((player) => player.id == event.playerId);
-    emit(CreateTournamentData(_title, _players,tournamentId));
+    emit(CreateTournamentData(_title, _players,tournamentId, false));
   }
 
   void _onUpdateTitle(UpdateTitleEvent event, Emitter<CreateTournamentState> emit) {
     _title = event.title;
-    emit(CreateTournamentData(_title, _players,tournamentId));
+    emit(CreateTournamentData(_title, _players,tournamentId, false));
   }
 
   Future<void> _onStartTournament(
       StartTournamentEvent event, Emitter<CreateTournamentState> emit) async {
-    tournament = TournamentEntity(winner: _players.first, name: _title, status: false, id: tournamentId, players: _players);
+
+    TournamentEntity tournament = TournamentEntity(winner: _players.first, name: _title, status: false, id: tournamentId, players: _players);
+
     TournamentEntity result = await usecases.tournamentRepository.addNewTournamentToDB(tournament);
+
     if(result.id==tournament.id){
       print('Starting tournament with title: $_title and players: $_players');
     }

@@ -11,7 +11,8 @@ class CreateTournamentData extends CreateTournamentState {
   final int tournamentId;
   final String title;
   final List<PlayerEntity> players;
-  CreateTournamentData(this.title, this.players, this.tournamentId);
+  final bool isReadyToStart ;
+  CreateTournamentData(this.title, this.players, this.tournamentId, this.isReadyToStart);
 }
 
 class CreateTournamentError extends CreateTournamentState {

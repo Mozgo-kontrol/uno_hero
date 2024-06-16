@@ -9,6 +9,7 @@ import 'package:uno_notes/presantation/scopes_page/scopes_page.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_page.dart';
 import 'package:uno_notes/theme.dart';
 import 'application/create_tournament_page/create_tournamet_bloc.dart';
+import 'application/scope_page/scope_bloc.dart';
 import 'application/tournament_page/tournament_bloc.dart';
 import 'injection.dart' as di;
 import 'injection.dart';
@@ -38,10 +39,12 @@ class MyApp extends StatelessWidget {
       ),
       routes: <String, WidgetBuilder>{
       "/root": (BuildContext context) => const TournamentPage(),
-      "/create_tournament_screen": (BuildContext context) => BlocProvider(
+      "/create_tournament_screen": (BuildContext context) =>  BlocProvider(
           create: (BuildContext context) => sl<CreateTournamentBloc>(),
           child: const TournamentCreationPage()),
-      "/scopes_screen": (BuildContext context) => ScopesPage(tuornamentId: ModalRoute.of(context)!.settings.arguments as int),
+      "/scopes_screen": (BuildContext context) =>  BlocProvider(
+          create: (BuildContext context) => sl<ScopeBloc>(),
+          child: const ScopesPage()),
       "/manage_scopes_screen": (BuildContext context) => const ManageScopesScreen(),
     },
     );

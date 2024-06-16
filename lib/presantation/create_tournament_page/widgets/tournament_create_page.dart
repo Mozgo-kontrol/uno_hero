@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uno_notes/presantation/create_tournament_page/widgets/pop_up_dialog.dart';
 import '../../../application/create_tournament_page/create_tournamet_bloc.dart';
 import '../../../application/create_tournament_page/error_message_widget.dart';
+import '../../../application/tournament_page/tournament_bloc.dart';
+import '../scope_screen_arguments.dart';
 import 'add_player_card_widget.dart';
 
 
@@ -10,6 +13,17 @@ import 'add_player_card_widget.dart';
 class TournamentCreationPage extends StatelessWidget {
   const TournamentCreationPage({super.key});
 
+  void _showTopPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const Align(
+          alignment: Alignment.topCenter, // Position the popup at the top
+          child: TopPopupDialog(),
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery
@@ -45,7 +59,9 @@ class TournamentCreationPage extends StatelessWidget {
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back_ios_new_rounded,
                       color: themeData.appBarTheme.foregroundColor),
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => Navigator.pop(context, (){
+                    context.read<TournamentBloc>().add(RefreshTournamentsEvent());
+                  })
                 ),
               ),
               body: Padding(
@@ -55,14 +71,14 @@ class TournamentCreationPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 3. Use a more descriptive widget name for the title section.
-                    _buildTitleInput(themeData, titleController, size),
+                    _buildTitleInput(themeData, titleController, size, sendNewEvent),
                     // 4. Use a more descriptive widget name for the player addition section.
                     _buildAddPlayerInput(
                         themeData, playerNameController, size, sendNewEvent),
                     // 5. Use a more descriptive widget name for the player list section.
                     _buildPlayerList(state, sendNewEvent),
                     // 6. Use a more descriptive widget name for the action buttons section.
-                    _buildActionButtons(context, state),
+                    _buildActionButtons(context, state, sendNewEvent),
                   ],
                 ),
               ),
@@ -75,7 +91,7 @@ class TournamentCreationPage extends StatelessWidget {
 
   // 7. Extract the title input section into a separate widget for better organization.
   Widget _buildTitleInput(ThemeData themeData,
-      TextEditingController titleController, Size size) {
+      TextEditingController titleController, Size size, Function(UpdateTitleEvent) sendNewEvent) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -89,6 +105,7 @@ class TournamentCreationPage extends StatelessWidget {
             style: themeData.textTheme.bodyMedium,
             controller: titleController,
             keyboardType: TextInputType.text,
+            onTapOutside:sendNewEvent(UpdateTitleEvent(titleController.value.text)),
             autofocus: false,
             maxLength: 25,
             decoration: const InputDecoration(
@@ -176,6 +193,7 @@ class TournamentCreationPage extends StatelessWidget {
                 if (direction == DismissDirection.endToStart) {
                   return true;
                 }
+                return null;
               },
               child: AddPlayerCardWidget( // Assuming you have a custom widget for displaying player cards
                 id: player.id,
@@ -194,7 +212,8 @@ class TournamentCreationPage extends StatelessWidget {
       ),
     );
   }
-  Widget _buildActionButtons(BuildContext context, CreateTournamentData state) {
+  Widget _buildActionButtons(BuildContext context, CreateTournamentData state,
+  Function(CreateTournamentEvent) sendNewEvent) {
     return Expanded(
       flex: 1,
       child: Row(
@@ -213,8 +232,16 @@ class TournamentCreationPage extends StatelessWidget {
             ),
             onPressed: () {
               // Handle start tournament (e.g., navigate to the next screen)
-              Navigator.pushNamed(context, '/scopes_screen', arguments: state.tournamentId);
+              if(state.title.isNotEmpty&&state.players.isNotEmpty){
+                sendNewEvent(StartTournamentEvent());
+                Navigator.popAndPushNamed(context, '/scopes_screen',
+                    arguments: ScopeScreenArguments(tournamentId: state.tournamentId));
+              }
+              else{
+                _showTopPopup(context);
+              }
             },
+
             child: const Text("Start"),
           ),
         ],

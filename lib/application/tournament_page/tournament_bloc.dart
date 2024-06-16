@@ -17,6 +17,7 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
   TournamentBloc({required this.usecases}) : super(TournamentInitial()) {
     on<InitTournamentsEvent>((event, emit) async {
       emit(TournamentLoadingState());
+      print("TournamentInitial");
       //do something
       //Either<Failure, AdviceEntity> adviceOrFailure =
       //await usecases.getAdviceUsecase();
@@ -30,6 +31,15 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
       //String adviceFromDataSource = advice.advice;
 
     });
+    on<RefreshTournamentsEvent>(_onRefreshTournaments);
+
+  }
+  Future<void> _onRefreshTournaments(RefreshTournamentsEvent event, Emitter<TournamentState> emit) async {
+    // Fetch the updated list of tournaments
+    print("RefreshTournamentsEvent");
+    final tournaments = await usecases.getAllTournamentsUsecase();;
+    // Emit a new state with the updated list
+    emit(TournamentLoadedState(tournaments)); // Assuming you have a state like this
   }
 }
 

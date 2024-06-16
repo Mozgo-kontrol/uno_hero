@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:uno_notes/application/tournament_page/tournament_bloc.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
@@ -13,8 +14,7 @@ abstract class RemoteDataSource{
   ///throws a server-exception if response
   Future <List<TournamentEntity>>  getAllTournamentsFromApi();
   Future<TournamentEntity> addTournamentToDB(TournamentEntity tournamentEntity);
-  Future <TournamentEntity?> getTournamentById(int id);
-  Future <TournamentEntity> getLastAddedTournament();
+  Future <int> getNextTournamentId();
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -25,24 +25,30 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<List<TournamentEntity>> getAllTournamentsFromApi() {
     // TODO: implement getAllTournamentsFromApi
+    if(_box.values.length>=6||_box.values.isEmpty){
+      _box.clear();
+      //_box.addAll(initMockTournaments());
+    }
     List<TournamentEntity> result=[];
+
     for (var element in _box.values) { result.add(element);}
+     print("getAllTournaments $result");
       return Future.value(result);
   }
 
   @override
   Future<TournamentEntity> addTournamentToDB(TournamentEntity tournamentEntity) {
     _box.add(tournamentEntity);
+    print("added new tournament to db $tournamentEntity");
+    print("in db last ${_box.values.last}");
     return  Future.value(_box.values.last);
   }
-
   @override
-  Future<TournamentEntity?> getTournamentById(int id) {
-    return Future.value(_box.getAt(id));
-  }
-  @override
-  Future<TournamentEntity> getLastAddedTournament() {
-    return  Future.value(_box.values.last);
+  Future <int> getNextTournamentId() {
+    if(_box.values.isEmpty){
+      return Future.value(1);
+    }
+    return Future.value(_box.values.last.id+1);
   }
 
 
