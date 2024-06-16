@@ -14,9 +14,9 @@ class _TournamentPageState extends State<TournamentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final createTournamentBloc = BlocProvider.of<TournamentBloc>(context);
+    final tournamentBloc = BlocProvider.of<TournamentBloc>(context);
     void sendNewEvent(TournamentEvent newEvent) {
-      createTournamentBloc.add(newEvent);
+      tournamentBloc.add(newEvent);
     }
 
     final themeData = Theme.of(context);
@@ -30,6 +30,7 @@ class _TournamentPageState extends State<TournamentPage> {
       ),
       body: BlocBuilder<TournamentBloc, TournamentState>(
         // No need to fetch tournaments again here, it was done above.
+        bloc: tournamentBloc..add(InitTournamentsEvent()),
         builder: (context, tournamentState) {
           if (tournamentState is TournamentLoadingState) {
             return Center(

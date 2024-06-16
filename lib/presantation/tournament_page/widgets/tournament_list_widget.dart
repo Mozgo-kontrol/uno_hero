@@ -6,7 +6,6 @@ import '../../create_tournament_page/scope_screen_arguments.dart';
 class TournamentListWidget extends StatelessWidget {
 
   final List<TournamentEntity> tournaments;
-
   const TournamentListWidget({super.key, required this.tournaments});
 
   @override
