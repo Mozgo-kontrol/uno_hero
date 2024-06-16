@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uno_notes/application/create_tournament_page/create_tournamet_bloc.dart';
 import 'package:uno_notes/application/tournament_page/tournament_bloc.dart';
+import 'domain/entities/player_entity.dart';
 import 'domain/entities/tournament_entity.dart';
 import 'domain/repositories/TournamentRepository.dart';
 import 'domain/usecases/manage_tournaments_usecases.dart';
@@ -28,6 +29,7 @@ Future<void>init() async {
   await Hive.initFlutter(appDocumentDirectory.path);
   /// Register Adapters (if you have custom objects)
   Hive.registerAdapter(TournamentEntityAdapter());
+  Hive.registerAdapter(PlayerEntityAdapter());
   /// Open Boxes and Register them with GetIt
   final tournamentBox = await Hive.openBox<TournamentEntity>('Tournaments');
   sl.registerSingleton<Box<TournamentEntity>>(tournamentBox);

@@ -1,44 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tournament_entity.dart';
+part of 'player_entity.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TournamentEntityAdapter extends TypeAdapter<TournamentEntity> {
+class PlayerEntityAdapter extends TypeAdapter<PlayerEntity> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  TournamentEntity read(BinaryReader reader) {
+  PlayerEntity read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TournamentEntity(
-      winner: fields[4] as PlayerEntity,
-      name: fields[1] as String,
-      status: fields[2] as bool,
+    return PlayerEntity(
       id: fields[0] as int,
-      players: (fields[3] as List).cast<PlayerEntity>(),
+      name: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, TournamentEntity obj) {
+  void write(BinaryWriter writer, PlayerEntity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.status)
-      ..writeByte(3)
-      ..write(obj.players)
-      ..writeByte(4)
-      ..write(obj.winner);
+      ..write(obj.name);
   }
 
   @override
@@ -47,7 +38,7 @@ class TournamentEntityAdapter extends TypeAdapter<TournamentEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TournamentEntityAdapter &&
+      other is PlayerEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

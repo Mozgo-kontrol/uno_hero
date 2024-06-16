@@ -10,14 +10,14 @@ class TournamentEntity{
   @HiveField(2)
   final bool status;
   @HiveField(3)
-  final List<Player> players;
+  final List<PlayerEntity> players;
   @HiveField(4)
-  final Player winner;
+  final PlayerEntity winner;
 
   @override
   String toString() {
     return 'TournamentEntity{id: $id, name: $name, status: $status, players: $players, winner: $winner}';
   }
 
-  TournamentEntity ({required this.winner, required this.name, required this.status,required this.id, required this.players});
+  TournamentEntity ({required this.winner,required this.name, required this.status,required this.id, required this.players});
 }

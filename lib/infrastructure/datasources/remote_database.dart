@@ -12,8 +12,9 @@ abstract class RemoteDataSource{
   ///request a random advice from free api
   ///throws a server-exception if response
   Future <List<TournamentEntity>>  getAllTournamentsFromApi();
-  void addTournamentToDB(TournamentEntity tournamentEntity);
+  Future<TournamentEntity> addTournamentToDB(TournamentEntity tournamentEntity);
   Future <TournamentEntity?> getTournamentById(int id);
+  Future <TournamentEntity> getLastAddedTournament();
 }
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -24,27 +25,31 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<List<TournamentEntity>> getAllTournamentsFromApi() {
     // TODO: implement getAllTournamentsFromApi
-    List<TournamentEntity> result =initMockTournaments();
+    List<TournamentEntity> result=[];
     for (var element in _box.values) { result.add(element);}
       return Future.value(result);
   }
 
   @override
-  void addTournamentToDB(TournamentEntity tournamentEntity) {
+  Future<TournamentEntity> addTournamentToDB(TournamentEntity tournamentEntity) {
     _box.add(tournamentEntity);
+    return  Future.value(_box.values.last);
   }
 
   @override
   Future<TournamentEntity?> getTournamentById(int id) {
     return Future.value(_box.getAt(id));
-
+  }
+  @override
+  Future<TournamentEntity> getLastAddedTournament() {
+    return  Future.value(_box.values.last);
   }
 
 
   List<TournamentEntity> initMockTournaments() {
-    List<Player> players = [
-      Player(id: 1, name: "Igor"),
-      Player(id: 2, name: "Hanna"),
+    List<PlayerEntity> players = [
+      PlayerEntity(id: 1, name: "Igor"),
+      PlayerEntity(id: 2, name: "Hanna"),
     ];
     return [TournamentEntity(
       name: "Tournament 1",

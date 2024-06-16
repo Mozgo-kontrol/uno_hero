@@ -10,7 +10,7 @@ class CreateTournamentLoading extends CreateTournamentState {}
 class CreateTournamentData extends CreateTournamentState {
   final int tournamentId;
   final String title;
-  final List<Player> players;
+  final List<PlayerEntity> players;
   CreateTournamentData(this.title, this.players, this.tournamentId);
 }
 

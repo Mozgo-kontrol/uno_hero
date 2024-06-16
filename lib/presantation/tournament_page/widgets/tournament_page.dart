@@ -13,6 +13,13 @@ class TournamentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
+
+    // 2. Extract the BlocProvider to a separate variable for better readability.
+    final createTournamentBloc = BlocProvider.of<TournamentBloc>(context);
+
+    void sendNewEvent(TournamentEvent newEvent) {
+      createTournamentBloc.add(newEvent);
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

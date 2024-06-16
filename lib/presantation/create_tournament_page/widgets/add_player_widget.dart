@@ -6,7 +6,7 @@ import 'add_player_card_widget.dart';
 
 // Improved AddPlayerWidget
 class AddPlayerWidget extends StatelessWidget {
-  final List<Player> players;
+  final List<PlayerEntity> players;
 
   const AddPlayerWidget({super.key, required this.players});
 
