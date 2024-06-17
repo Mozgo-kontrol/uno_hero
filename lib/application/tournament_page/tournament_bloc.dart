@@ -18,18 +18,9 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
     on<InitTournamentsEvent>((event, emit) async {
       emit(TournamentLoadingState());
       print("TournamentInitial");
-      //do something
-      //Either<Failure, AdviceEntity> adviceOrFailure =
-      //await usecases.getAdviceUsecase();
-
       final tournaments = await usecases.getAllTournamentsUsecase();
-
       await Future.delayed(const Duration(seconds: 1));
-
       emit(TournamentLoadedState(tournaments));
-      //get advice
-      //String adviceFromDataSource = advice.advice;
-
     });
     on<RefreshTournamentsEvent>(_onRefreshTournaments);
 

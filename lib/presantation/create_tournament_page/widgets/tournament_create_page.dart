@@ -12,7 +12,6 @@ import 'add_player_card_widget.dart';
 // 1. Rename the class to be more descriptive.
 class TournamentCreationPage extends StatelessWidget {
   const TournamentCreationPage({super.key});
-
   void _showTopPopup(BuildContext context) {
     showDialog(
       context: context,
@@ -24,6 +23,7 @@ class TournamentCreationPage extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery
@@ -32,6 +32,8 @@ class TournamentCreationPage extends StatelessWidget {
     final themeData = Theme.of(context);
     final titleController = TextEditingController();
     final playerNameController = TextEditingController();
+    bool isTitleEmpty = false;
+
 
     // 2. Extract the BlocProvider to a separate variable for better readability.
     final createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
@@ -44,9 +46,9 @@ class TournamentCreationPage extends StatelessWidget {
         bloc: createTournamentBloc..add(CreateTournamentInitEvent()),
         builder: (context, state) {
           if (state is CreateTournamentError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+           // ScaffoldMessenger.of(context).showSnackBar(
+           //   SnackBar(content: Text(state.message)),
+           // );
             return ErrorMessage(message: state.message);
 
           } else if (state is CreateTournamentData) {
@@ -92,30 +94,43 @@ class TournamentCreationPage extends StatelessWidget {
   // 7. Extract the title input section into a separate widget for better organization.
   Widget _buildTitleInput(ThemeData themeData,
       TextEditingController titleController, Size size, Function(UpdateTitleEvent) sendNewEvent) {
+    // Boolean variable to check for errors
+    bool isTextTitleError = false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Title", style: themeData.textTheme.headlineMedium),
-        ),
+          child: Text("Title*", style: themeData.textTheme.headlineMedium),
+        ), 
         SizedBox(
           width: size.width,
           child: TextField(
             style: themeData.textTheme.bodyMedium,
             controller: titleController,
             keyboardType: TextInputType.text,
-            onTapOutside:sendNewEvent(UpdateTitleEvent(titleController.value.text)),
+            onChanged: sendNewEvent(UpdateTitleEvent(titleController.value.text)),
             autofocus: false,
             maxLength: 25,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               hintText: 'Enter Title for your Tournament',
-              border: OutlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
+              errorText: isTextTitleError
+             ? "Title field cannot be left empty" // Error message
+             : null,
+              border: const OutlineInputBorder(),
+              focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
               ),
-              enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Colors.red, width: 2.0),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: Colors.red, width: 2.0),
               ),
             ),
           ),
@@ -132,7 +147,7 @@ class TournamentCreationPage extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Add Player", style: themeData.textTheme.headlineMedium),
+          child: Text("Add Player*", style: themeData.textTheme.headlineMedium),
         ),
         SizedBox(
           width: size.width,
@@ -153,11 +168,13 @@ class TournamentCreationPage extends StatelessWidget {
               ),
               suffixIcon: GestureDetector(
                 onTap: () {
-                  sendNewEvent(AddPlayerEvent(playerNameController.text));
-                  playerNameController.clear();
+                  if(playerNameController.text.trim().isNotEmpty) {
+                    sendNewEvent(AddPlayerEvent(playerNameController.text));
+                    playerNameController.clear();
+                  }
                 },
-                child: const Icon(
-                    Icons.add_circle, color: Colors.green, size: 35),
+                child: Icon(
+                    Icons.add_circle, color: playerNameController.text.trim().isNotEmpty? Colors.green:Colors.grey , size: 35),
               ),
             ),
           ),

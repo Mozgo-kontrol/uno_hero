@@ -51,8 +51,14 @@ class CreateTournamentBloc extends Bloc<CreateTournamentEvent, CreateTournamentS
   }
 
   void _onUpdateTitle(UpdateTitleEvent event, Emitter<CreateTournamentState> emit) {
-    _title = event.title;
-    emit(CreateTournamentData(_title, _players,tournamentId, false));
+    final title = event.title.trim();
+    if (title.isNotEmpty) {
+      _title = event.title;
+      emit(CreateTournamentData(_title, _players,tournamentId, false));
+    }
+    else{
+      emit(CreateTournamentData(_title, _players,tournamentId, true));
+    }
   }
 
   Future<void> _onStartTournament(

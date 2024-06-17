@@ -27,7 +27,7 @@ class TopPopupDialog extends StatelessWidget {
             backgroundColor: Colors.green,
             elevation: 0,
           ),
-          onPressed: () { Navigator.pop(context); },
+          onPressed: () => Navigator.pop(context),
           child: Text("Ok", style: themeData.textTheme.displayLarge,),
         ),
       ],
