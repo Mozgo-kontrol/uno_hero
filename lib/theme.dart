@@ -23,8 +23,8 @@ class AppTheme {
 
   static const TextStyle _lightHeadingText = TextStyle(
       color: _lightTextColorPrimary,
-      fontFamily: "Rubik",
-      fontSize: 20,
+      fontFamily:'Roboto',
+      fontSize: 32,
       fontWeight: FontWeight.bold);
 
   static const TextStyle _lightBodyText = TextStyle(
@@ -34,9 +34,18 @@ class AppTheme {
       fontWeight: FontWeight.bold,
       fontSize: 16);
 
+  static const TextStyle winnerBoldStyle = TextStyle(
+    fontFamily: 'Roboto',
+    fontSize: 32,// Example font family
+    color: Colors.lightGreen,
+    fontWeight: FontWeight.bold,
+  );
+
+
   static const TextTheme _lightTextTheme = TextTheme(
     displayLarge: _lightHeadingText,
     bodyLarge: _lightBodyText,
+
   );
 
   static final TextStyle _darkThemeHeadingTextStyle =

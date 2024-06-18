@@ -20,11 +20,11 @@ Future<void> _initScopes(LoadScopesEvent event, Emitter<ScopeState> emit) async 
   emit(OnLoadingDataState());
   int tournamentId = event.arguments.tournamentId;
   TournamentEntity tournament = await usecases.findTournamentById(tournamentId);
-  emit(LoadedDataState(scores: initScoresForPlayers(tournament)));
+  emit(LoadedDataState(scores: _initScoresForPlayers(tournament),tournamentName: tournament.name));
 }
-List<ScoreEntity> initScoresForPlayers(TournamentEntity tournament){
-  int position=1;
 
+  List<ScoreEntity> _initScoresForPlayers(TournamentEntity tournament){
+  int position=1;
   List<ScoreEntity> list = [];
   for (var element in tournament.players) {
     list.add(ScoreEntity(playerId: element.id, score: 0, playerName: element.name, currentPosition: position++));
