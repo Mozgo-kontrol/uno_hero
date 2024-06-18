@@ -25,9 +25,9 @@ class RepositoryImpl implements TournamentRepository{
   }
 
   @override
-  Future<TournamentEntity> findTournamentById(int id) {
-    // TODO: implement findTournamentById
-    return Future.value(null);
+  Future<TournamentEntity> findTournamentById(int id) async {
+    final getTournament = await remoteDataSource.findTournamentById(id);
+    return Future.value(getTournament);
   }
 
   @override

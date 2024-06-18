@@ -14,6 +14,7 @@ abstract class RemoteDataSource{
   ///throws a server-exception if response
   Future <List<TournamentEntity>>  getAllTournamentsFromApi();
   Future<TournamentEntity> addTournamentToDB(TournamentEntity tournamentEntity);
+  Future<TournamentEntity> findTournamentById(int id);
   Future <int> getNextTournamentId();
 }
 
@@ -78,5 +79,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         players: players,
       )
     ];
+  }
+
+  @override
+  Future<TournamentEntity> findTournamentById(int id) {
+    return Future.value(_box.values.firstWhere((element) => element.id==id));
   }
 }

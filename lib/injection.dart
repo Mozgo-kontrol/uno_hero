@@ -22,7 +22,7 @@ Future<void>init() async {
   sl.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(sl()));
   sl.registerLazySingleton<TournamentRepository>(() => RepositoryImpl(remoteDataSource: sl()));
 
-  sl.registerFactory(() => ScopeBloc());
+  sl.registerFactory(() => ScopeBloc(usecases: sl()));
 
   sl.registerFactory(() => CreateTournamentBloc(usecases: sl()));
 

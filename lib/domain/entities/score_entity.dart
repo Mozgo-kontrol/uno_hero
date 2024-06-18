@@ -8,9 +8,11 @@ class ScoreEntity{
   final int playerId;
   @HiveField(1)
   String playerName;
-  @HiveField(1)
+  @HiveField(2)
   final int score;
+  @HiveField(3)
+  final int currentPosition;
 
-  ScoreEntity({required this.playerId, required this.score,required this.playerName});
+  ScoreEntity({required this.playerId, required this.score,required this.playerName, required this.currentPosition});
 
 }
