@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uno_notes/presantation/create_tournament_page/widgets/pop_up_dialog.dart';
 import '../../../application/create_tournament_page/create_tournamet_bloc.dart';
-import '../../../application/create_tournament_page/error_message_widget.dart';
+import 'error_message_widget.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
 import '../scope_screen_arguments.dart';
 import 'add_player_card_widget.dart';
