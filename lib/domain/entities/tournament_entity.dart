@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:uno_notes/domain/entities/player_entity.dart';
+import 'package:uno_notes/domain/entities/score_entity.dart';
 part 'tournament_entity.g.dart';
 @HiveType(typeId: 0)
 class TournamentEntity{
@@ -13,11 +14,13 @@ class TournamentEntity{
   final List<PlayerEntity> players;
   @HiveField(4)
   final PlayerEntity winner;
+  @HiveField(5)
+  Map<int, ScoreEntity> mapOfScores;
 
   @override
   String toString() {
     return 'TournamentEntity{id: $id, name: $name, status: $status, players: $players, winner: $winner}';
   }
 
-  TournamentEntity ({required this.winner,required this.name, required this.status,required this.id, required this.players});
+  TournamentEntity ({required this.winner,required this.name, required this.status,required this.id, required this.players, required this.mapOfScores});
 }

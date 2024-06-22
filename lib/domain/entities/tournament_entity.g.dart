@@ -22,13 +22,14 @@ class TournamentEntityAdapter extends TypeAdapter<TournamentEntity> {
       status: fields[2] as bool,
       id: fields[0] as int,
       players: (fields[3] as List).cast<PlayerEntity>(),
+      mapOfScores: (fields[5] as Map).cast<int, ScoreEntity>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, TournamentEntity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class TournamentEntityAdapter extends TypeAdapter<TournamentEntity> {
       ..writeByte(3)
       ..write(obj.players)
       ..writeByte(4)
-      ..write(obj.winner);
+      ..write(obj.winner)
+      ..writeByte(5)
+      ..write(obj.mapOfScores);
   }
 
   @override

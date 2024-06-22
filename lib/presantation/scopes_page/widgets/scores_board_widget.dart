@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uno_notes/domain/entities/score_entity.dart';
-import 'package:uno_notes/presantation/scopes_page/scopes_board_item.dart';
+import 'package:uno_notes/presantation/scopes_page/widgets/scopes_board_item.dart';
+
+import '../../../domain/entities/score_board_item.dart';
 
 class ScoreBoardWidget extends StatelessWidget {
-  final List<ScoreEntity> scores;
+  final List<ScoreBoardItem> scores;
   const ScoreBoardWidget({super.key, required this.scores});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
     final themeData = Theme.of(context);
     return Expanded(
       child: Container(
@@ -22,9 +21,11 @@ class ScoreBoardWidget extends StatelessWidget {
           physics: (scores.length >=8)? null : const NeverScrollableScrollPhysics(),
           itemCount: scores.length,
             separatorBuilder: (context, index) => Divider(
-              color: Colors.grey[600],
+              color: Colors.grey[300],
               thickness: 1,
               height: 5,
+              indent: 16,
+              endIndent: 16,
             ),
           itemBuilder: (context, index) {
             return Padding(

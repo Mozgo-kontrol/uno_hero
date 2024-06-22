@@ -1,8 +1,10 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:uno_notes/application/tournament_page/tournament_bloc.dart';
+import 'package:uno_notes/domain/entities/score_entity.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
 import '../../domain/entities/player_entity.dart';
@@ -54,22 +56,29 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
 
   List<TournamentEntity> initMockTournaments() {
+    Map<int, ScoreEntity> mapOfScores = HashMap();
     List<PlayerEntity> players = [
       PlayerEntity(id: 1, name: "Igor"),
       PlayerEntity(id: 2, name: "Hanna"),
     ];
+    int scoreId = 1;
+    for (var player in players) {
+      mapOfScores.putIfAbsent(player.id, ()=> ScoreEntity(id: scoreId++, score: 0));
+    }
     return [TournamentEntity(
       name: "Tournament 1",
       winner: players[0],
       id: 1,
       status: false,
       players: players,
+      mapOfScores: mapOfScores
     ), TournamentEntity(
       name: "Tournament 2",
       winner: players[0],
       id: 2,
       status: true,
       players: players,
+      mapOfScores: mapOfScores
     ),
       TournamentEntity(
         name: "Tournament 3",
@@ -77,6 +86,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         id: 3,
         status: true,
         players: players,
+        mapOfScores: mapOfScores
       )
     ];
   }

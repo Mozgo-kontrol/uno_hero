@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uno_notes/presantation/scopes_page/scores_board_widget.dart';
-import '../../application/scope_page/scope_bloc.dart';
-import '../create_tournament_page/scope_screen_arguments.dart';
+import 'package:uno_notes/presantation/scopes_page/widgets/scores_board_widget.dart';
+import '../../../application/scope_page/scope_bloc.dart';
+import '../../create_tournament_page/scope_screen_arguments.dart';
+import '../manage_scores_screen_arguments.dart';
 
 class ScopesPage extends StatelessWidget {
   const ScopesPage({super.key});
@@ -14,7 +15,13 @@ class ScopesPage extends StatelessWidget {
         .of(context)
         ?.settings
         .arguments as ScopeScreenArguments;
+
+    // 2. Extract the BlocProvider to a separate variable for better readability.
     final scopesBloc = BlocProvider.of<ScopeBloc>(context);
+    void sendNewEvent(ScopeEvent newEvent) {
+      scopesBloc.add(newEvent);
+    }
+
     final size = MediaQuery
         .of(context)
         .size;
@@ -45,9 +52,9 @@ class ScopesPage extends StatelessWidget {
                 return SafeArea(
                   child: Column(
                     children: [
-                      ScoreBoardWidget(scores: state.scores,),
+                      ScoreBoardWidget(scores: state.listOfScoresBoardItems,),
                       AdPlaceholderWidget(),
-                      FinishTournamentButton(size: size,),
+                      FinishTournamentButton(size: size, args: args, state: state, sendNewEvent: sendNewEvent),
                     ],
                   ),
                 );
@@ -91,21 +98,30 @@ class AdPlaceholderWidget extends StatelessWidget {
 
 class FinishTournamentButton extends StatelessWidget {
   final Size size;
-  FinishTournamentButton({super.key, required this.size});
+  Function(RefreshScopesEvent) sendNewEvent;
+  ScopeScreenArguments args;
+  LoadedDataState state;
+
+  FinishTournamentButton({super.key, required this.size, required this.args,required this.state, required this.sendNewEvent});
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 80,
-      width: size.width*0.8,
+      width: size.width*0.93,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
-          onPressed: () {   },
+          onPressed: () {
+            print("press manage scores button");
+            sendNewEvent(RefreshScopesEvent());
+            Navigator.pushNamed(context, '/manage_scopes_screen',
+                arguments: ManageScreenArguments(tournamentId: args.tournamentId));
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.purple[300],
           ),
           child: const Text(
-            'Manage Scores',
+            'MANAGE SCORES',
             style: TextStyle(fontSize: 25),
           ),
         ),

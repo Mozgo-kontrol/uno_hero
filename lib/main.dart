@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:uno_notes/application/manage_players_core_page/manage_scores_bloc.dart';
 import 'package:uno_notes/presantation/create_tournament_page/widgets/tournament_create_page.dart';
 
 import 'package:uno_notes/presantation/manage_scopes_page/manage_scopes_page.dart';
 
-import 'package:uno_notes/presantation/scopes_page/scopes_page.dart';
+import 'package:uno_notes/presantation/scopes_page/widgets/scores_page.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_page.dart';
 import 'package:uno_notes/theme.dart';
 import 'application/create_tournament_page/create_tournamet_bloc.dart';
@@ -45,7 +46,9 @@ class MyApp extends StatelessWidget {
       "/scopes_screen": (BuildContext context) =>  BlocProvider(
           create: (BuildContext context) => sl<ScopeBloc>(),
           child: const ScopesPage()),
-      "/manage_scopes_screen": (BuildContext context) => const ManageScopesScreen(),
+      "/manage_scopes_screen": (BuildContext context) => BlocProvider(
+          create: (BuildContext context) => sl<ManageScoresBloc>(),
+          child:  const ManageScopesScreen(),),
     },
     );
   }

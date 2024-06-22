@@ -13,7 +13,6 @@ class RepositoryImpl implements TournamentRepository{
 
   @override
   Future<List<TournamentEntity>> getAllTournamentsFromApi() async {
-    // TODO: implement getAllTournamentsFromApi
     final listOfTournaments = await remoteDataSource.getAllTournamentsFromApi();
     return listOfTournaments;
   }

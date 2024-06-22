@@ -1,18 +1,11 @@
 
 import 'package:hive/hive.dart';
-
-@HiveType(typeId: 3)
+part 'score_entity.g.dart';
+@HiveType(typeId: 2)
 class ScoreEntity{
-
   @HiveField(0)
-  final int playerId;
+  final int id;
   @HiveField(1)
-  String playerName;
-  @HiveField(2)
-  final int score;
-  @HiveField(3)
-  final int currentPosition;
-
-  ScoreEntity({required this.playerId, required this.score,required this.playerName, required this.currentPosition});
-
+  int score;
+  ScoreEntity({required this.id, required this.score});
 }
