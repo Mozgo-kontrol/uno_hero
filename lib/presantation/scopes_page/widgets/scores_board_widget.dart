@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:uno_notes/domain/entities/score_entity.dart';
 import 'package:uno_notes/presantation/scopes_page/widgets/scopes_board_item.dart';
 
 import '../../../domain/entities/score_board_item.dart';

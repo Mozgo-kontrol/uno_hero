@@ -9,7 +9,7 @@ final class OnLoadingState extends ManageScoresState {
 }
 
 final class ShowScreenManageScoresState extends ManageScoresState{
-  final Map<PlayerEntity, ScoreEntity> mapOfScores;
-  ShowScreenManageScoresState({required this.mapOfScores});
+  final List<PlayerEntity> listOfPlayers;
+  ShowScreenManageScoresState({required this.listOfPlayers});
 
 }

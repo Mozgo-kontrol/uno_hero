@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
 import '../../domain/entities/player_entity.dart';
-import '../../domain/entities/score_entity.dart';
 import '../../domain/usecases/manage_tournaments_usecases.dart';
 
 part 'create_tournament_event.dart';
@@ -28,14 +27,13 @@ class CreateTournamentBloc
   late TournamentEntity tournament;
   List<PlayerEntity> _players = [];
   String _title = '';
-  int tournamentId = 0;
+  int _tournamentId = 0;
 
   Future<void> _onInitData(CreateTournamentInitEvent event,
       Emitter<CreateTournamentState> emit) async {
-    tournamentId = await usecases.tournamentRepository.getNextTournamentId();
+    _tournamentId = await usecases.tournamentRepository.getNextTournamentId();
     _players = [];
-    _title = '';
-    emit(CreateTournamentData(_title, _players, tournamentId, false));
+    emit(CreateTournamentData(_title, _players, _tournamentId, false));
   }
 
   void _onAddPlayer(AddPlayerEvent event, Emitter<CreateTournamentState> emit) {
@@ -44,8 +42,7 @@ class CreateTournamentBloc
       final newPlayer = PlayerEntity(
           id: _players.isEmpty ? 1 : _players.last.id + 1, name: playerName);
       _players.add(newPlayer);
-
-      emit(CreateTournamentData(_title, _players, tournamentId, false));
+      emit(CreateTournamentData(_title, _players, _tournamentId, false));
     } else {
       emit(CreateTournamentError("Enter player name"));
     }
@@ -54,7 +51,7 @@ class CreateTournamentBloc
   void _onRemovePlayer(
       RemovePlayerEvent event, Emitter<CreateTournamentState> emit) {
     _players.removeWhere((player) => player.id == event.playerId);
-    emit(CreateTournamentData(_title, _players, tournamentId, false));
+    emit(CreateTournamentData(_title, _players, _tournamentId, false));
   }
 
   void _onUpdateTitle(
@@ -62,29 +59,18 @@ class CreateTournamentBloc
     final title = event.title.trim();
     if (title.isNotEmpty) {
       _title = event.title;
-      emit(CreateTournamentData(_title, _players, tournamentId, false));
+      emit(CreateTournamentData(_title, _players, _tournamentId, false));
     } else {
-      emit(CreateTournamentData(_title, _players, tournamentId, true));
+      emit(CreateTournamentData(_title, _players, _tournamentId, true));
     }
   }
 
   Future<void> _onStartTournament(
       StartTournamentEvent event, Emitter<CreateTournamentState> emit) async {
-    Map<int, ScoreEntity> mapOfScores = HashMap();
-
-    int scoreId = 1;
-    _players.forEach((player) {
-      mapOfScores.putIfAbsent(
-          player.id, () => ScoreEntity(id: scoreId++, score: 0));
-    });
-
     TournamentEntity tournament = TournamentEntity(
-        winner: _players.first,
-        name: _title,
-        status: false,
-        id: tournamentId,
-        players: _players,
-        mapOfScores: mapOfScores);
+        id: _tournamentId,
+        title: _title,
+        players: _players);
 
     TournamentEntity result =
         await usecases.tournamentRepository.addNewTournamentToDB(tournament);

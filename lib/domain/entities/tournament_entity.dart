@@ -1,26 +1,22 @@
 import 'package:hive/hive.dart';
 import 'package:uno_notes/domain/entities/player_entity.dart';
-import 'package:uno_notes/domain/entities/score_entity.dart';
 part 'tournament_entity.g.dart';
 @HiveType(typeId: 0)
-class TournamentEntity{
+class TournamentEntity extends HiveObject {
   @HiveField(0)
   final int id;
   @HiveField(1)
-  final String name;
+  final String title;
   @HiveField(2)
-  final bool status;
+  bool isFinished = false;
   @HiveField(3)
-  final List<PlayerEntity> players;
+  List<PlayerEntity> players = [];
   @HiveField(4)
-  final PlayerEntity winner;
-  @HiveField(5)
-  Map<int, ScoreEntity> mapOfScores;
+  PlayerEntity winner = PlayerEntity(id: 0, name: "Waiting..");
 
   @override
   String toString() {
-    return 'TournamentEntity{id: $id, name: $name, status: $status, players: $players, winner: $winner}';
+    return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, winner: $winner}';
   }
-
-  TournamentEntity ({required this.winner,required this.name, required this.status,required this.id, required this.players, required this.mapOfScores});
+  TournamentEntity({ required this.id, required this.title, required this.players});
 }

@@ -6,8 +6,8 @@ class InitManageScoresEvent extends  ManageScoresEvent  {
   InitManageScoresEvent({required this.tournamentId});
 }
 
-class UpdatePlayerScoreEvent extends  ManageScoresEvent{
+class layerScoreEvent extends  ManageScoresEvent{
   final int playerId;
   final int score;
-  UpdatePlayerScoreEvent({required this.score, required this.playerId});
+  layerScoreEvent({required this.score, required this.playerId});
 }

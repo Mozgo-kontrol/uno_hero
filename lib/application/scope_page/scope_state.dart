@@ -8,8 +8,8 @@ final class ScopeInitialState extends ScopeState {
 final class OnLoadingDataState extends ScopeState {
 }
 final class LoadedDataState extends ScopeState {
-  final String tournamentName;
+  final String tournamentTitle;
   final List<ScoreBoardItem> listOfScoresBoardItems;
-  final Map<int, ScoreEntity> mapOfScoresPlayer;
-  LoadedDataState({required this.listOfScoresBoardItems, required this.mapOfScoresPlayer, required  this.tournamentName});
+  LoadedDataState({required this.listOfScoresBoardItems, required  this.tournamentTitle});
 }
+

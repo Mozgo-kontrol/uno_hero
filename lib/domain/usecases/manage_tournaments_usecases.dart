@@ -15,4 +15,7 @@ class ManageTournamentsUsecases {
   Future<TournamentEntity> findTournamentById(int id) async {
     return tournamentRepository.findTournamentById(id);
   }
+  Future<void> updateTournament(TournamentEntity tournamentEntity) async{
+    tournamentRepository.updateTournament(tournamentEntity);
+  }
 }

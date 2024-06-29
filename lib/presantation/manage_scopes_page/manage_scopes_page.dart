@@ -53,34 +53,11 @@ class ManageScopesScreen extends StatelessWidget {
             bloc: manageScores..add(InitManageScoresEvent(tournamentId: args.tournamentId)),
             builder: (context, state) {
 
-              if (state is ShowScreenManageScoresState) {
-                return SafeArea(
-                  child: Column(
-                    children: [
-                      Expanded(child: SingleChildScrollView(
-                          physics: state.mapOfScores.length-1 >= 6
-                              ? const ClampingScrollPhysics() // Enable scrolling if needed
-                              : const NeverScrollableScrollPhysics(), //
-                          child: EditPlayersScoreStepper(playerScores: state.mapOfScores, onUpdateScore: sendNewEvent,))),
-                      //ManageScoreBoardWidget(mapOfScores: state.mapOfScores, sendNewEvent: sendNewEvent,),
-                      AdPlaceholderWidget(),
-                      //FinishTournamentButton(size: size, args: args, sendNewEvent: sendNewEvent),
-                    ],
-                  ),
-                );
-              }
-              else if (state is OnLoadingState) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: themeData.colorScheme.background,
                   ),
                 );
-              }
-              else {
-                // Handle potential error states more explicitly.
-                // Consider displaying an error message to the user.
-                return const Center(child: Text("An error occurred."));
-              }
             })
     );
   }

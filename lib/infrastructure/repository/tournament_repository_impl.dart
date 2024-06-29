@@ -34,4 +34,9 @@ class RepositoryImpl implements TournamentRepository{
     final lastTournament = await remoteDataSource.getNextTournamentId();
     return Future.value(lastTournament);
   }
+
+  @override
+  Future<void> updateTournament(TournamentEntity tournamentEntity) async {
+    remoteDataSource.updateTournament(tournamentEntity);
+  }
 }

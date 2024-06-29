@@ -38,12 +38,17 @@ class _TournamentPageState extends State<TournamentPage> {
                 color: themeData.colorScheme.secondary,
               ),
             );
-          } else if (tournamentState is TournamentLoadedState) {
+
+          }
+          if (tournamentState is TournamentEmptyState) {
+            return const Center(child: Text("Create a new Tournament"));
+          }
+          else if (tournamentState is TournamentLoadedState) {
             return TournamentListWidget(tournaments: tournamentState.tournaments);
           } else {
             // Handle potential error states more explicitly.
             // Consider displaying an error message to the user.
-            return const Center(child: Text("An error occurred."));
+            return const Center(child: Text(" error occurred."));
           }
         },
       ),

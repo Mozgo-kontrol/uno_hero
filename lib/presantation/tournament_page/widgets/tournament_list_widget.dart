@@ -15,9 +15,9 @@ class TournamentListWidget extends StatelessWidget {
         itemCount: tournaments.length,
         itemBuilder: (BuildContext context, int index) {
           return TournamentCardWidget(
-            tournamentName: tournaments[index].name,
+            tournamentName: tournaments[index].title,
             playerCount: tournaments[index].players.length,
-            status: tournaments[index].status,
+            status: tournaments[index].isFinished,
             winnerName: tournaments[index].winner.name, onPressed: ()=>
           {
           Navigator.pushNamed(context, '/scopes_screen', arguments: ScopeScreenArguments(tournamentId: tournaments[index].id))

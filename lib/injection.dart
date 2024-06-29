@@ -2,7 +2,6 @@ import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uno_notes/application/create_tournament_page/create_tournamet_bloc.dart';
 import 'package:uno_notes/application/tournament_page/tournament_bloc.dart';
-import 'package:uno_notes/domain/entities/score_entity.dart';
 import 'application/manage_players_core_page/manage_scores_bloc.dart';
 import 'application/scope_page/scope_bloc.dart';
 import 'domain/entities/player_entity.dart';
@@ -34,7 +33,6 @@ Future<void>init() async {
   /// Register Adapters (if you have custom objects)
   Hive.registerAdapter(TournamentEntityAdapter());
   Hive.registerAdapter(PlayerEntityAdapter());
-  Hive.registerAdapter(ScoreEntityAdapter());
   /// Open Boxes and Register them with GetIt
   final tournamentBox = await Hive.openBox<TournamentEntity>('Tournaments');
   sl.registerSingleton<Box<TournamentEntity>>(tournamentBox);

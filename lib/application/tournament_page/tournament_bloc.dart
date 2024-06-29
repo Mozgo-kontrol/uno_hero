@@ -20,7 +20,12 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
       print("TournamentInitial");
       final tournaments = await usecases.getAllTournamentsUsecase();
       await Future.delayed(const Duration(seconds: 1));
-      emit(TournamentLoadedState(tournaments));
+      if(tournaments.isEmpty){
+        emit(TournamentEmptyState());
+      }
+      else {
+        emit(TournamentLoadedState(tournaments));
+      }
     });
     on<RefreshTournamentsEvent>(_onRefreshTournaments);
 

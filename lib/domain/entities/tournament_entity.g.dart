@@ -17,31 +17,28 @@ class TournamentEntityAdapter extends TypeAdapter<TournamentEntity> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TournamentEntity(
-      winner: fields[4] as PlayerEntity,
-      name: fields[1] as String,
-      status: fields[2] as bool,
       id: fields[0] as int,
+      title: fields[1] as String,
       players: (fields[3] as List).cast<PlayerEntity>(),
-      mapOfScores: (fields[5] as Map).cast<int, ScoreEntity>(),
-    );
+    )
+      ..isFinished = fields[2] as bool
+      ..winner = fields[4] as PlayerEntity;
   }
 
   @override
   void write(BinaryWriter writer, TournamentEntity obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.status)
+      ..write(obj.isFinished)
       ..writeByte(3)
       ..write(obj.players)
       ..writeByte(4)
-      ..write(obj.winner)
-      ..writeByte(5)
-      ..write(obj.mapOfScores);
+      ..write(obj.winner);
   }
 
   @override

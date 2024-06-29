@@ -11,3 +11,4 @@ class TournamentLoadedState extends TournamentState {
   final List<TournamentEntity> tournaments;
   TournamentLoadedState(this.tournaments);
 }
+class TournamentEmptyState extends TournamentState {}

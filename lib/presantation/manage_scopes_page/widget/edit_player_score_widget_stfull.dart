@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../application/manage_players_core_page/manage_scores_bloc.dart';
+import '../../../application/scope_page/scope_bloc.dart';
 
 class EditPlayerStateWidget extends StatefulWidget {
-  final Function(UpdatePlayerScoreEvent) onUpdateScore;
+  final Function(UpdateOnePlayerScoreEvent) onUpdateScore;
   final int playerId;
 
   const EditPlayerStateWidget({
@@ -43,8 +44,8 @@ class _EditPlayerStateWidgetState extends State<EditPlayerStateWidget> {
         // Handle the exception, e.g., display an error message to the user
       }
       widget.onUpdateScore(
-        UpdatePlayerScoreEvent(
-          score: changedScore,
+        UpdateOnePlayerScoreEvent(
+          updatedScore: changedScore,
           playerId: widget.playerId,
         ),
       );
@@ -65,8 +66,8 @@ class _EditPlayerStateWidgetState extends State<EditPlayerStateWidget> {
       changedScore = changedScore + 5;
       _scoreTextFieldController.text = changedScore.toString();
       widget.onUpdateScore(
-        UpdatePlayerScoreEvent(
-          score: changedScore,
+        UpdateOnePlayerScoreEvent(
+          updatedScore: changedScore,
           playerId: widget.playerId,
         ),
       );
@@ -92,8 +93,8 @@ class _EditPlayerStateWidgetState extends State<EditPlayerStateWidget> {
 
       _scoreTextFieldController.text = changedScore.toString();
       widget.onUpdateScore(
-        UpdatePlayerScoreEvent(
-          score: changedScore,
+        UpdateOnePlayerScoreEvent(
+          updatedScore: changedScore,
           playerId: widget.playerId,
         ),
       );

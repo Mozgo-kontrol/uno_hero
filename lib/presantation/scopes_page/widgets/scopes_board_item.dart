@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../domain/entities/score_board_item.dart';
-import '../../../domain/entities/score_entity.dart';
 
 class ScoreBoardItemWidget extends StatelessWidget {
   final ScoreBoardItem score;
