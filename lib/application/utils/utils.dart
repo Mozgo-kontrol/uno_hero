@@ -1,11 +1,21 @@
+import 'package:uno_notes/domain/entities/tournament_entity.dart';
+
 import '../../domain/entities/player_entity.dart';
 
-class Utils{
-  static void sortPlayersByScore(List<PlayerEntity> list){
+class Utils {
+  static void sortPlayersByScore(List<PlayerEntity> list) {
     list.sort((a, b) => a.score.compareTo(b.score));
   }
 
-  static String convertPlayerName(String name){
-    return name.length<=9 ? name : "${name.substring(0, 9)}..";
+  static void sortTournamentsByScore(List<TournamentEntity> list) {
+    list.sort((a, b) => b.id.compareTo(a.id));
+  }
+
+  static String makeStringShorter(String name, int? stringLength) {
+    int cutTo = 9;
+    if (stringLength != null) {
+      cutTo = stringLength;
+    }
+    return name.length <= cutTo ? name : "${name.substring(0, cutTo)}..";
   }
 }

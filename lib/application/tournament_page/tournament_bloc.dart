@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:uno_notes/application/utils/utils.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
 import '../../domain/usecases/manage_tournaments_usecases.dart';
@@ -18,12 +19,13 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
     on<InitTournamentsEvent>((event, emit) async {
       emit(TournamentLoadingState());
       print("TournamentInitial");
-      final tournaments = await usecases.getAllTournamentsUsecase();
+      List<TournamentEntity> tournaments = await usecases.getAllTournamentsUsecase();
       await Future.delayed(const Duration(seconds: 1));
       if(tournaments.isEmpty){
         emit(TournamentEmptyState());
       }
       else {
+        Utils.sortTournamentsByScore(tournaments);
         emit(TournamentLoadedState(tournaments));
       }
     });
@@ -34,7 +36,7 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
     // Fetch the updated list of tournaments
     emit(TournamentLoadingState());
     //await Future.delayed(const Duration(seconds: 1));
-    final tournaments = await usecases.getAllTournamentsUsecase();;
+    final tournaments = await usecases.getAllTournamentsUsecase();
     // Emit a new state with the updated list
     emit(TournamentLoadedState(tournaments)); // Assuming you have a state like this
   }

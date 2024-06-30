@@ -19,10 +19,10 @@ class TournamentListView extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final tournament = allTournaments[index]; // Store a reference for readability.
 
-          return TournamentCardWidget(
+          return TournamentOverviewCard(
               tournamentName: tournament.title,
               playerCount: tournament.players.length,
-              status: tournament.isFinished,
+              isFinished: tournament.isFinished,
               winnerName: tournament.winner.name,
               onPressed: () {
                 // 3. Navigate and then refresh.

@@ -80,7 +80,7 @@ class ScopeBloc extends Bloc<ScopeEvent, ScopeState> {
       list.add(ScoreBoardItem(
           playerId: player.id,
           score: player.score,
-          playerName: Utils.convertPlayerName(player.name),
+          playerName: Utils.makeStringShorter(player.name, null),
           currentPosition: position++));
     }
     print("initScoresForPlayers $list");
