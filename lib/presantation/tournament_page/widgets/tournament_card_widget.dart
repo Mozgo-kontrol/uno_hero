@@ -56,6 +56,8 @@ class TournamentCardWidget extends StatelessWidget {
                         Text(
                           tournamentName,
                           style: themeData.textTheme.displayLarge,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(
@@ -82,11 +84,14 @@ class TournamentCardWidget extends StatelessWidget {
                           height: 5,
                         ),
                           FittedBox(
+
                     // TRY THIS: Try changing the fit types to see how they change the way
                     // the placeholder fits into the container.
                     fit: BoxFit.fill,
                     child: Text(
                       "winner: $winnerName",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: themeData.textTheme.displayLarge,
                       textAlign: TextAlign.center,
                     ),

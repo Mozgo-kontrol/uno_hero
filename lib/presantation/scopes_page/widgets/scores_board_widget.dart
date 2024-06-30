@@ -5,8 +5,8 @@ import 'package:uno_notes/presantation/scopes_page/widgets/scopes_board_item.dar
 import '../../../domain/entities/score_board_item.dart';
 
 class ScoreBoardWidget extends StatelessWidget {
-  final List<ScoreBoardItem> scores;
-  const ScoreBoardWidget({super.key, required this.scores});
+  final List<ScoreBoardItem> listOfScoresItems;
+  const ScoreBoardWidget({super.key, required this.listOfScoresItems});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,9 @@ class ScoreBoardWidget extends StatelessWidget {
         color: themeData.cardColor,
         padding: const EdgeInsets.all(8.0),
         child: ListView.separated(
-          shrinkWrap:(scores.length>=8)? false : true,
-          physics: (scores.length >=8)? null : const NeverScrollableScrollPhysics(),
-          itemCount: scores.length,
+          shrinkWrap:(listOfScoresItems.length>=8)? false : true,
+          physics: (listOfScoresItems.length >=8)? null : const NeverScrollableScrollPhysics(),
+          itemCount: listOfScoresItems.length,
             separatorBuilder: (context, index) => Divider(
               color: Colors.grey[300],
               thickness: 1,
@@ -29,7 +29,7 @@ class ScoreBoardWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-              child: ScoreBoardItemWidget(score: scores[index],)
+              child: ScoreBoardItemWidget(score: listOfScoresItems[index],)
             );
           },
         ),

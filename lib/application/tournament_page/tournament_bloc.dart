@@ -32,7 +32,8 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
   }
   Future<void> _onRefreshTournaments(RefreshTournamentsEvent event, Emitter<TournamentState> emit) async {
     // Fetch the updated list of tournaments
-    print("RefreshTournamentsEvent");
+    emit(TournamentLoadingState());
+    //await Future.delayed(const Duration(seconds: 1));
     final tournaments = await usecases.getAllTournamentsUsecase();;
     // Emit a new state with the updated list
     emit(TournamentLoadedState(tournaments)); // Assuming you have a state like this

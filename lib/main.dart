@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:uno_notes/application/manage_players_core_page/manage_scores_bloc.dart';
 import 'package:uno_notes/presantation/create_tournament_page/widgets/tournament_create_page.dart';
-
-import 'package:uno_notes/presantation/manage_scopes_page/manage_scopes_page.dart';
 
 import 'package:uno_notes/presantation/scopes_page/widgets/scores_page.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_page.dart';
@@ -12,9 +9,12 @@ import 'package:uno_notes/theme.dart';
 import 'application/create_tournament_page/create_tournamet_bloc.dart';
 import 'application/scope_page/scope_bloc.dart';
 import 'application/tournament_page/tournament_bloc.dart';
+import 'domain/navigation/navigation.dart';
 import 'injection.dart' as di;
 import 'injection.dart';
+
 GetIt getIt = GetIt.instance;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
@@ -36,20 +36,19 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       home: BlocProvider(
           create: (BuildContext context) => sl<TournamentBloc>(),
-          child: const TournamentPage()
-      ),
+          child: const TournamentPage()),
       routes: <String, WidgetBuilder>{
-      "/root": (BuildContext context) => const TournamentPage(),
-      "/create_tournament_screen": (BuildContext context) =>  BlocProvider(
-          create: (BuildContext context) => sl<CreateTournamentBloc>(),
-          child: const TournamentCreationPage()),
-      "/scopes_screen": (BuildContext context) =>  BlocProvider(
-          create: (BuildContext context) => sl<ScopeBloc>(),
-          child: const ScopesPage()),
-      "/manage_scopes_screen": (BuildContext context) => BlocProvider(
-          create: (BuildContext context) => sl<ManageScoresBloc>(),
-          child:  const ManageScopesScreen(),),
-    },
+        NavigationRoute.mainScreen: (BuildContext context) => BlocProvider(
+            create: (BuildContext context) => sl<TournamentBloc>(),
+            child: const TournamentPage()),
+        NavigationRoute.createTournamentScreen: (BuildContext context) =>
+            BlocProvider(
+                create: (BuildContext context) => sl<CreateTournamentBloc>(),
+                child: const TournamentCreationPage()),
+        NavigationRoute.scopesScreen: (BuildContext context) => BlocProvider(
+            create: (BuildContext context) => sl<ScopeBloc>(),
+            child: const ScopesPage()),
+      },
     );
   }
 }

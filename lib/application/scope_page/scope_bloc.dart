@@ -8,6 +8,7 @@ import 'package:uno_notes/domain/entities/tournament_entity.dart';
 import '../../domain/entities/score_board_item.dart';
 import '../../domain/usecases/manage_tournaments_usecases.dart';
 import '../../presantation/create_tournament_page/scope_screen_arguments.dart';
+import '../utils/utils.dart';
 
 part 'scope_event.dart';
 
@@ -20,6 +21,9 @@ class ScopeBloc extends Bloc<ScopeEvent, ScopeState> {
   ScopeBloc({required this.usecases}) : super(ScopeInitialState()) {
     on<LoadScopesEvent>(_initScopes);
     on<UpdatePlayerScoreEvent>(_updatePlayerScores);
+
+
+    on<FinishTournamentEvent>(_finishTournament);
   }
 
   Future<void> _initScopes(
@@ -29,7 +33,20 @@ class ScopeBloc extends Bloc<ScopeEvent, ScopeState> {
       tournament = await usecases.findTournamentById(tournamentId);
     emit(LoadedDataState(
         listOfScoresBoardItems: _initScoresBoardItems(tournament),
-        tournamentTitle: tournament.title));
+        tournamentTitle: tournament.title,
+        isFinished: tournament.isFinished
+    ));
+  }
+
+  Future<void> _finishTournament(
+      FinishTournamentEvent event, Emitter<ScopeState> emit) async {
+      await usecases.finishTournament(tournament.id);
+      tournament = await usecases.findTournamentById(tournament.id);
+      emit(LoadedDataState(
+          listOfScoresBoardItems: _initScoresBoardItems(tournament),
+          tournamentTitle: tournament.title,
+          isFinished: tournament.isFinished
+      ));
   }
 
 
@@ -50,30 +67,23 @@ class ScopeBloc extends Bloc<ScopeEvent, ScopeState> {
 
     emit(LoadedDataState(
         listOfScoresBoardItems: _initScoresBoardItems(tournament),
-        tournamentTitle: tournament.title));
+        tournamentTitle: tournament.title,
+        isFinished: tournament.isFinished));
   }
 
   List<ScoreBoardItem> _initScoresBoardItems(TournamentEntity tournament) {
     int position = 1;
     List<ScoreBoardItem> list = [];
     List<PlayerEntity> sortedData = tournament.players;
-    sortPlayersByScore(sortedData);
+    Utils.sortPlayersByScore(sortedData);
     for (var player in sortedData) {
       list.add(ScoreBoardItem(
           playerId: player.id,
           score: player.score,
-          playerName: convertPlayerName(player.name),
+          playerName: Utils.convertPlayerName(player.name),
           currentPosition: position++));
     }
     print("initScoresForPlayers $list");
     return list;
-  }
-
-  void sortPlayersByScore(List<PlayerEntity> list){
-    list.sort((a, b) => a.score.compareTo(b.score));
-  }
-
-  String convertPlayerName(String name){
-    return name.length<=9 ? name : "${name.substring(0, 9)}..";
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uno_notes/presantation/tournament_page/widgets/tournament_list_widget.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
-import 'Tournament_list_widget.dart';
+import '../../create_tournament_page/scope_screen_arguments.dart';
 
 class TournamentPage extends StatefulWidget {
   const TournamentPage({super.key});
@@ -17,6 +18,12 @@ class _TournamentPageState extends State<TournamentPage> {
     final tournamentBloc = BlocProvider.of<TournamentBloc>(context);
     void sendNewEvent(TournamentEvent newEvent) {
       tournamentBloc.add(newEvent);
+    }
+    //Navigation
+    void goToPageAndRefreshState(String route,  ScopeScreenArguments? args){
+      Navigator.pushNamed(context, route, arguments: args).then((value) async => setState(() {
+        sendNewEvent(RefreshTournamentsEvent());
+      }));
     }
 
     final themeData = Theme.of(context);
@@ -44,7 +51,9 @@ class _TournamentPageState extends State<TournamentPage> {
             return const Center(child: Text("Create a new Tournament"));
           }
           else if (tournamentState is TournamentLoadedState) {
-            return TournamentListWidget(tournaments: tournamentState.tournaments);
+           return TournamentListView(allTournaments: tournamentState.tournaments, updateState: (scopeScreenArgs ) {
+             goToPageAndRefreshState('/scopes_screen',scopeScreenArgs);
+           },);
           } else {
             // Handle potential error states more explicitly.
             // Consider displaying an error message to the user.
@@ -58,9 +67,7 @@ class _TournamentPageState extends State<TournamentPage> {
         onPressed: () {
           // Use a more descriptive message for logging.
           print("Navigating to create tournament screen");
-          Navigator.of(context).pushNamed('/create_tournament_screen').then((value) async => setState(() {
-            sendNewEvent(InitTournamentsEvent());
-          }));
+          goToPageAndRefreshState('/create_tournament_screen', null);
         },
         child: const Icon(
           Icons.add,

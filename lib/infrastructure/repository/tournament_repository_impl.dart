@@ -7,7 +7,7 @@ import '../datasources/remote_database.dart';
 
 class RepositoryImpl implements TournamentRepository{
 
-  final RemoteDataSource remoteDataSource;
+  final LocalDataSource remoteDataSource;
 
   RepositoryImpl({required this.remoteDataSource});
 
@@ -38,5 +38,10 @@ class RepositoryImpl implements TournamentRepository{
   @override
   Future<void> updateTournament(TournamentEntity tournamentEntity) async {
     remoteDataSource.updateTournament(tournamentEntity);
+  }
+
+  @override
+  Future<void> finishTournament(int id) async {
+    remoteDataSource.finishTournament(id);
   }
 }

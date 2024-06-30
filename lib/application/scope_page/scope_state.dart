@@ -10,6 +10,7 @@ final class OnLoadingDataState extends ScopeState {
 final class LoadedDataState extends ScopeState {
   final String tournamentTitle;
   final List<ScoreBoardItem> listOfScoresBoardItems;
-  LoadedDataState({required this.listOfScoresBoardItems, required  this.tournamentTitle});
+  final bool isFinished;
+  LoadedDataState({required this.listOfScoresBoardItems, required  this.tournamentTitle, required this.isFinished});
 }
 

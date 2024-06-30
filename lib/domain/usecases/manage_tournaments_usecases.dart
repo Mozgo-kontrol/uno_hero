@@ -5,8 +5,6 @@ import '../repositories/TournamentRepository.dart';
 class ManageTournamentsUsecases {
 
   final TournamentRepository tournamentRepository;
-
-
   ManageTournamentsUsecases({required this.tournamentRepository});
 
   Future<List<TournamentEntity>> getAllTournamentsUsecase() async {
@@ -17,5 +15,8 @@ class ManageTournamentsUsecases {
   }
   Future<void> updateTournament(TournamentEntity tournamentEntity) async{
     tournamentRepository.updateTournament(tournamentEntity);
+  }
+  Future<void> finishTournament(int id) async{
+    tournamentRepository.finishTournament(id);
   }
 }

@@ -80,8 +80,5 @@ class CreateTournamentBloc
     } else {
       print('Error tournament with title: $_title and players: $_players');
     }
-
-    // Here you would typically handle navigation to the next screen
-    // and potentially pass the tournament data (title and players)
   }
 }

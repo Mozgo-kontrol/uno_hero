@@ -1,16 +1,10 @@
 import 'dart:collection';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:uno_notes/presantation/manage_scopes_page/widget/spinner_widget.dart';
-import 'package:wheel_spinner/wheel_spinner.dart';
-import 'package:wheel_spinner/wheel_spinner_theme.dart';
 
 import '../../../application/scope_page/scope_bloc.dart';
 import '../../../domain/entities/score_board_item.dart';
-import 'edit_player_score_widget_stfull.dart';
 
 class EditPlayersScoreStepper extends StatefulWidget {
   final List<ScoreBoardItem> listOfScoresBoardItems;
@@ -73,10 +67,6 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
     if (_currentStep > 0) {
       setState(() => _currentStep--);
     }
-  }
-
-  bool _canFinish() {
-    return _currentStep == widget.listOfScoresBoardItems.length - 1;
   }
 
   @override

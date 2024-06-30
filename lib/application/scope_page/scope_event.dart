@@ -21,3 +21,5 @@ class UpdateOnePlayerScoreEvent{
  final int updatedScore;
  UpdateOnePlayerScoreEvent({required this.playerId,required this.updatedScore});
 }
+
+class FinishTournamentEvent extends  ScopeEvent {}

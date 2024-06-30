@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uno_notes/presantation/create_tournament_page/widgets/pop_up_dialog.dart';
+import '../../../application/common_widgets/pop_up_dialog.dart';
 import '../../../application/create_tournament_page/create_tournamet_bloc.dart';
 import 'error_message_widget.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
@@ -16,10 +16,10 @@ class TournamentCreationPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const Align(
+        return Align(
           alignment: Alignment.topCenter, // Position the popup at the top
-          child: TopPopupDialog(),
-        );
+          child: TopPopupDialog(errorType: 'Error',message: "The title cannot be empty and you need at least two players.", onAgree: () { Navigator.pop(context); }, onCancel: () { Navigator.pop(context); },
+        ));
       },
     );
   }

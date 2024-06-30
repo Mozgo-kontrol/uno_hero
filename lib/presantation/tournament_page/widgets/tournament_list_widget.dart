@@ -3,25 +3,31 @@ import 'package:uno_notes/domain/entities/tournament_entity.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_card_widget.dart';
 
 import '../../create_tournament_page/scope_screen_arguments.dart';
-class TournamentListWidget extends StatelessWidget {
 
-  final List<TournamentEntity> tournaments;
-  const TournamentListWidget({super.key, required this.tournaments});
+class TournamentListView extends StatelessWidget {
+  final List<TournamentEntity> allTournaments;
+  final Function(ScopeScreenArguments) updateState;
+
+  const TournamentListView({super.key, required this.allTournaments, required this.updateState});
 
   @override
   Widget build(BuildContext context) {
+
     return ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: tournaments.length,
+        itemCount: allTournaments.length,
         itemBuilder: (BuildContext context, int index) {
+          final tournament = allTournaments[index]; // Store a reference for readability.
+
           return TournamentCardWidget(
-            tournamentName: tournaments[index].title,
-            playerCount: tournaments[index].players.length,
-            status: tournaments[index].isFinished,
-            winnerName: tournaments[index].winner.name, onPressed: ()=>
-          {
-          Navigator.pushNamed(context, '/scopes_screen', arguments: ScopeScreenArguments(tournamentId: tournaments[index].id))
-          }
+              tournamentName: tournament.title,
+              playerCount: tournament.players.length,
+              status: tournament.isFinished,
+              winnerName: tournament.winner.name,
+              onPressed: () {
+                // 3. Navigate and then refresh.
+                updateState(ScopeScreenArguments(tournamentId: tournament.id));
+              }
           );
         }
     );

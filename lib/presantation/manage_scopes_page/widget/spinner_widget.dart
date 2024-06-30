@@ -1,9 +1,6 @@
-import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_spinner/wheel_spinner.dart';
-import 'package:wheel_spinner/wheel_spinner_theme.dart';
 
 import '../../create_tournament_page/widgets/CustomCardShape.dart';
 
