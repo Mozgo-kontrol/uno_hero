@@ -26,22 +26,22 @@ class TopPopupDialog extends StatelessWidget {
       contentPadding: const EdgeInsets.all(16.0),
       title: Text(
         errorType,
-        style: themeData.textTheme.headlineMedium, // More suitable text style
+        style: themeData.textTheme.bodyLarge, // More suitable text style
       ),
       content: Text(message,
-        style: themeData.textTheme.bodyLarge, // More suitable text style
+        style: themeData.textTheme.bodyMedium, // More suitable text style
       ),
       actions: [
         TextButton( // Use TextButton for a cancel action
           onPressed: onCancel,
-          child: Text("Cancel", style: themeData.textTheme.labelLarge),
+          child: Text("Cancel", style: themeData.textTheme.bodyMedium),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.green,
           ),
           onPressed: onAgree,
-          child: Text("Ok", style: themeData.textTheme.labelLarge),
+          child: Text("Ok", style: themeData.textTheme.bodyMedium),
         ),
       ],
     );

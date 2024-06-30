@@ -27,7 +27,7 @@ class AddPlayerCardWidget extends StatelessWidget {
         child: SizedBox(
           height: 50,
           child: Center( // Center the text horizontally
-            child: Text(name, style: themeData.textTheme.headlineMedium,),
+            child: Text(name, style: themeData.textTheme.bodyLarge,),
           ),
         ),
       ),

@@ -210,22 +210,19 @@ class TournamentOverviewCard extends StatelessWidget {
   // Example of extracted sub-widget:
   Widget _buildTournamentInfo(ThemeData themeData) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      padding: const EdgeInsets.all(8.0),
+      child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           tournamentName,
-          style: themeData.textTheme.displayLarge,
+          style: themeData.textTheme.bodyLarge,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, left: 8.0),
-          child: Text(
-            "players : $playerCount",
-            style: themeData.textTheme.displayLarge,
-            textAlign: TextAlign.left,
-          ),
+        Text(
+          "players : $playerCount",
+          style: themeData.textTheme.bodyMedium,
+          textAlign: TextAlign.left,
         )
       ]),
     );
@@ -247,7 +244,7 @@ class TournamentOverviewCard extends StatelessWidget {
           maxLines: 1,
           softWrap: true,
           overflow: TextOverflow.ellipsis,
-          style: themeData.textTheme.displayLarge,
+          style: themeData.textTheme.bodyMedium,
           textAlign: TextAlign.center,
         ),
       ]),
@@ -269,7 +266,7 @@ class TournamentOverviewCard extends StatelessWidget {
                 fit: BoxFit.contain,
                 child: Text(
                   isFinished ? "finished" : "active", // Inlined getStatus
-                  style: themeData.textTheme.bodyLarge,
+                  style: themeData.textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
               )),

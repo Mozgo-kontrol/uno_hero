@@ -67,6 +67,9 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
     if (_currentStep > 0) {
       setState(() => _currentStep--);
     }
+    else{
+      setState(() => _currentStep = widget.listOfScoresBoardItems.length - 1);
+    }
   }
 
   @override
@@ -87,11 +90,11 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
               const SizedBox(
                 height: 50,
               ),
-              if (_currentStep > 0)
-                ElevatedButton(
+             // if (_currentStep > 0)
+              ElevatedButton(
                   onPressed: details.onStepCancel,
                   child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black,),
-                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: ElevatedButton(
@@ -110,10 +113,10 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(scoresBoardItem.playerName),
+              Text(scoresBoardItem.playerName, style: themeData.textTheme.bodyLarge,),
               Padding(
                 padding: const EdgeInsets.only(right: 16.0, left: 8),
-                child: Text(getPlayerScore(scoresBoardItem.playerId)),
+                child: Text(getPlayerScore(scoresBoardItem.playerId), style: themeData.textTheme.bodyLarge),
               ),
             ],
           ),

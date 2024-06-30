@@ -32,8 +32,6 @@ class TournamentCreationPage extends StatelessWidget {
     final themeData = Theme.of(context);
     final titleController = TextEditingController();
     final playerNameController = TextEditingController();
-    bool isTitleEmpty = false;
-
 
     // 2. Extract the BlocProvider to a separate variable for better readability.
     final createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
@@ -56,11 +54,10 @@ class TournamentCreationPage extends StatelessWidget {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title: Text("New Tournament",
-                    style: themeData.textTheme.headlineLarge),
+                    style: themeData.textTheme.displayLarge),
                 centerTitle: true,
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back_ios_new_rounded,
-                      color: themeData.appBarTheme.foregroundColor),
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
                   onPressed: () => Navigator.pop(context, (){
                     context.read<TournamentBloc>().add(RefreshTournamentsEvent());
                   })
@@ -101,7 +98,7 @@ class TournamentCreationPage extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Title*", style: themeData.textTheme.headlineMedium),
+          child: Text("Title*", style: themeData.textTheme.bodyMedium),
         ), 
         SizedBox(
           width: size.width,
@@ -147,7 +144,7 @@ class TournamentCreationPage extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Add Player*", style: themeData.textTheme.headlineMedium),
+          child: Text("Add Player*", style: themeData.textTheme.bodyMedium),
         ),
         SizedBox(
           width: size.width,
@@ -231,6 +228,7 @@ class TournamentCreationPage extends StatelessWidget {
   }
   Widget _buildActionButtons(BuildContext context, CreateTournamentData state,
   Function(CreateTournamentEvent) sendNewEvent) {
+    final themeData = Theme.of(context);
     return Expanded(
       flex: 1,
       child: Row(
@@ -240,12 +238,12 @@ class TournamentCreationPage extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.of(context).pop(), // Handle cancel (e.g., pop the screen)
             style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
-            child: const Text("Cancel"),
+            child: Text("Cancel", style: themeData.textTheme.bodyMedium,),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              elevation: 0,
+              backgroundColor: themeData.buttonTheme.colorScheme?.background,
+              elevation: 8,
             ),
             onPressed: () {
               // Handle start tournament (e.g., navigate to the next screen)
@@ -259,7 +257,7 @@ class TournamentCreationPage extends StatelessWidget {
               }
             },
 
-            child: const Text("Start"),
+            child: Text("Start", style: themeData.textTheme.bodyMedium,),
           ),
         ],
       ),

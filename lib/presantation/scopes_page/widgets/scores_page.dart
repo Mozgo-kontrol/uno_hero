@@ -63,7 +63,7 @@ class _ScopesPageState extends State<ScopesPage> {
             centerTitle: true,
             title: Text(
               "Scores", // Pluralized for clarity.
-              style: themeData.textTheme.headlineLarge,
+              style: themeData.textTheme.displayLarge,
             ),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new), // Use a different icon// Change the color
@@ -139,6 +139,7 @@ class ManageTournamentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
     void shoBottomSheet(List<ScoreBoardItem> listOfScoresBoardItems) {
       showModalBottomSheet(
         isScrollControlled: true,
@@ -158,7 +159,7 @@ class ManageTournamentSection extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           onPressed: () {
-            print("press manage scores button");
+            debugPrint("press manage scores button");
             shoBottomSheet(state.listOfScoresBoardItems);
             // Navigator.pushNamed(context, '/manage_scopes_screen',
             //    arguments: ManageScreenArguments(tournamentId: args.tournamentId));
@@ -171,12 +172,13 @@ class ManageTournamentSection extends StatelessWidget {
                   topRight: Radius.circular(49.0)),
             ),
           ),
-          child: const Text(
+          child: Text(
             'MANAGE SCORES',
-            style: TextStyle(fontSize: 25),
+            style: themeData.textTheme.labelMedium,
           ),
         ),
       ),
     );
   }
 }
+
