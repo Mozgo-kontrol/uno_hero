@@ -1,38 +1,67 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../application/common_widgets/pop_up_dialog.dart';
+import '../../../application/create_tournament_page/Error.dart';
 import '../../../application/create_tournament_page/create_tournamet_bloc.dart';
 import 'error_message_widget.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
 import '../scope_screen_arguments.dart';
 import 'add_player_card_widget.dart';
 
-
 // 1. Rename the class to be more descriptive.
-class TournamentCreationPage extends StatelessWidget {
+class TournamentCreationPage extends StatefulWidget {
   const TournamentCreationPage({super.key});
+
+  @override
+  State<TournamentCreationPage> createState() => _TournamentCreationPageState();
+}
+
+class _TournamentCreationPageState extends State<TournamentCreationPage> {
+  final titleController = TextEditingController();
+  final playerNameController = TextEditingController();
+  final _playerNameFocusNode = FocusNode();
+  final _titleFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    playerNameController.dispose();
+    _playerNameFocusNode.dispose();
+    _titleFocusNode.dispose();
+    super.dispose();
+  }
+
   void _showTopPopup(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Align(
-          alignment: Alignment.topCenter, // Position the popup at the top
-          child: TopPopupDialog(errorType: 'Error',message: "The title cannot be empty and you need at least two players.", onAgree: () { Navigator.pop(context); }, onCancel: () { Navigator.pop(context); },
-        ));
+            alignment: Alignment.topCenter, // Position the popup at the top
+            child: TopPopupDialog(
+              errorType: 'Error',
+              message:
+                  "The title cannot be empty and you need at least two players.",
+              onAgree: () {
+                Navigator.pop(context);
+              },
+              onCancel: () {
+                Navigator.pop(context);
+              },
+            ));
       },
     );
   }
 
+  Color setColorIconAddPlayer() {
+    return (playerNameController.text.trim().isNotEmpty)
+        ? Colors.green
+        : Colors.grey;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final themeData = Theme.of(context);
-    final titleController = TextEditingController();
-    final playerNameController = TextEditingController();
-
     // 2. Extract the BlocProvider to a separate variable for better readability.
     final createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
 
@@ -44,11 +73,10 @@ class TournamentCreationPage extends StatelessWidget {
         bloc: createTournamentBloc..add(CreateTournamentInitEvent()),
         builder: (context, state) {
           if (state is CreateTournamentError) {
-           // ScaffoldMessenger.of(context).showSnackBar(
-           //   SnackBar(content: Text(state.message)),
-           // );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text(state.message)),
+            // );
             return ErrorMessage(message: state.message);
-
           } else if (state is CreateTournamentData) {
             return Scaffold(
               resizeToAvoidBottomInset: true,
@@ -57,11 +85,12 @@ class TournamentCreationPage extends StatelessWidget {
                     style: themeData.textTheme.displayLarge),
                 centerTitle: true,
                 leading: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  onPressed: () => Navigator.pop(context, (){
-                    context.read<TournamentBloc>().add(RefreshTournamentsEvent());
-                  })
-                ),
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                    onPressed: () => Navigator.pop(context, () {
+                          context
+                              .read<TournamentBloc>()
+                              .add(RefreshTournamentsEvent());
+                        })),
               ),
               body: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -70,10 +99,22 @@ class TournamentCreationPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // 3. Use a more descriptive widget name for the title section.
-                    _buildTitleInput(themeData, titleController, size, sendNewEvent),
+                    _buildTitleInput(
+                        themeData,
+                        state,
+                        titleController,
+                        _titleFocusNode,
+                        _playerNameFocusNode,
+                        size,
+                        sendNewEvent),
                     // 4. Use a more descriptive widget name for the player addition section.
                     _buildAddPlayerInput(
-                        themeData, playerNameController, size, sendNewEvent),
+                        themeData,
+                        playerNameController,
+                        _playerNameFocusNode,
+                        _titleFocusNode,
+                        size,
+                        sendNewEvent),
                     // 5. Use a more descriptive widget name for the player list section.
                     _buildPlayerList(state, sendNewEvent),
                     // 6. Use a more descriptive widget name for the action buttons section.
@@ -89,31 +130,51 @@ class TournamentCreationPage extends StatelessWidget {
   }
 
   // 7. Extract the title input section into a separate widget for better organization.
-  Widget _buildTitleInput(ThemeData themeData,
-      TextEditingController titleController, Size size, Function(UpdateTitleEvent) sendNewEvent) {
+  Widget _buildTitleInput(
+      ThemeData themeData,
+      CreateTournamentData state,
+      TextEditingController titleController,
+      FocusNode thisFocusNode,
+      FocusNode nextFocusNode,
+      Size size,
+      Function(UpdateTitleEvent) sendNewEvent) {
+    FocusNode textFieldFocusNode = FocusNode();
     // Boolean variable to check for errors
-    bool isTextTitleError = false;
+    bool isTextTitleEmpty = state.errors.isNotEmpty &&
+        state.errors.contains(CustomInputError.titleEmpty);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8),
           child: Text("Title*", style: themeData.textTheme.bodyMedium),
-        ), 
+        ),
         SizedBox(
           width: size.width,
           child: TextField(
             style: themeData.textTheme.bodyMedium,
             controller: titleController,
+            focusNode: thisFocusNode,
             keyboardType: TextInputType.text,
-            onChanged: sendNewEvent(UpdateTitleEvent(titleController.value.text)),
+            onChanged: (value) {
+              if (isTextTitleEmpty = true) {
+                sendNewEvent(UpdateTitleEvent(value));
+              }
+            },
+            onSubmitted: (value) {
+              nextFocusNode.requestFocus();
+            },
+            onTap: () {
+              thisFocusNode.requestFocus();
+            },
             autofocus: false,
             maxLength: 25,
+            cursorColor: Colors.grey,
             decoration: InputDecoration(
-              hintText: 'Enter Title for your Tournament',
-              errorText: isTextTitleError
-             ? "Title field cannot be left empty" // Error message
-             : null,
+              hintText: 'Enter title',
+              errorText: isTextTitleEmpty
+                  ? "Title field cannot be empty" // Error message
+                  : null,
               border: const OutlineInputBorder(),
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
@@ -136,8 +197,12 @@ class TournamentCreationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildAddPlayerInput(ThemeData themeData,
-      TextEditingController playerNameController, Size size,
+  Widget _buildAddPlayerInput(
+      ThemeData themeData,
+      TextEditingController playerNameController,
+      FocusNode thisFocusNode,
+      FocusNode nextFocusNode,
+      Size size,
       Function(CreateTournamentEvent) sendNewEvent) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,6 +217,13 @@ class TournamentCreationPage extends StatelessWidget {
             style: themeData.textTheme.bodyMedium,
             controller: playerNameController,
             autofocus: false,
+            focusNode: thisFocusNode,
+            cursorColor: Colors.grey,
+            onSubmitted: (value) =>
+                {print(value), nextFocusNode.requestFocus()},
+            onTap: () {
+              thisFocusNode.requestFocus(); // Request focus when tapped
+            },
             keyboardType: TextInputType.text,
             maxLength: 25,
             decoration: InputDecoration(
@@ -165,13 +237,22 @@ class TournamentCreationPage extends StatelessWidget {
               ),
               suffixIcon: GestureDetector(
                 onTap: () {
-                  if(playerNameController.text.trim().isNotEmpty) {
+                  if (playerNameController.text.trim().isNotEmpty) {
                     sendNewEvent(AddPlayerEvent(playerNameController.text));
                     playerNameController.clear();
                   }
                 },
-                child: Icon(
-                    Icons.add_circle, color: playerNameController.text.trim().isNotEmpty? Colors.green:Colors.grey , size: 35),
+                child: ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: playerNameController,
+                    builder: (context, value, child) {
+                      return Icon(
+                        Icons.add_circle,
+                        color: value.text.trim().isNotEmpty
+                            ? Colors.green
+                            : Colors.grey,
+                        size: 35,
+                      );
+                    }),
               ),
             ),
           ),
@@ -209,7 +290,8 @@ class TournamentCreationPage extends StatelessWidget {
                 }
                 return null;
               },
-              child: AddPlayerCardWidget( // Assuming you have a custom widget for displaying player cards
+              child: AddPlayerCardWidget(
+                // Assuming you have a custom widget for displaying player cards
                 id: player.id,
                 name: player.name,
                 onPressed: () {
@@ -226,8 +308,9 @@ class TournamentCreationPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildActionButtons(BuildContext context, CreateTournamentData state,
-  Function(CreateTournamentEvent) sendNewEvent) {
+      Function(CreateTournamentEvent) sendNewEvent) {
     final themeData = Theme.of(context);
     return Expanded(
       flex: 1,
@@ -236,9 +319,13 @@ class TournamentCreationPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(), // Handle cancel (e.g., pop the screen)
+            onPressed: () => Navigator.of(context).pop(),
+            // Handle cancel (e.g., pop the screen)
             style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
-            child: Text("Cancel", style: themeData.textTheme.bodyMedium,),
+            child: Text(
+              "Cancel",
+              style: themeData.textTheme.bodyMedium,
+            ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -246,18 +333,21 @@ class TournamentCreationPage extends StatelessWidget {
               elevation: 8,
             ),
             onPressed: () {
+              sendNewEvent(UpdateTitleEvent(titleController.value.text));
               // Handle start tournament (e.g., navigate to the next screen)
-              if(state.title.isNotEmpty&&state.players.isNotEmpty){
+              if (state.title.isNotEmpty && state.players.isNotEmpty) {
                 sendNewEvent(StartTournamentEvent());
                 Navigator.popAndPushNamed(context, '/scopes_screen',
-                    arguments: ScopeScreenArguments(tournamentId: state.tournamentId));
-              }
-              else{
-                _showTopPopup(context);
+                    arguments:
+                        ScopeScreenArguments(tournamentId: state.tournamentId));
+              } else {
+                //_showTopPopup(context);
               }
             },
-
-            child: Text("Start", style: themeData.textTheme.bodyMedium,),
+            child: Text(
+              "Start",
+              style: themeData.textTheme.bodyMedium,
+            ),
           ),
         ],
       ),

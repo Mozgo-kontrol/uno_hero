@@ -1,0 +1,4 @@
+enum CustomInputError {
+  titleEmpty,
+  playerEmpty,
+}

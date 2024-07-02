@@ -1,11 +1,10 @@
-import 'dart:collection';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
 import '../../domain/entities/player_entity.dart';
 import '../../domain/usecases/manage_tournaments_usecases.dart';
+import 'Error.dart';
 
 part 'create_tournament_event.dart';
 
@@ -27,13 +26,20 @@ class CreateTournamentBloc
   late TournamentEntity tournament;
   List<PlayerEntity> _players = [];
   String _title = '';
-  int _tournamentId = 0;
+  late int _tournamentId = 0; //default value
+  Set<CustomInputError> errors = {}; // Initialize an empty set
 
   Future<void> _onInitData(CreateTournamentInitEvent event,
       Emitter<CreateTournamentState> emit) async {
-    _tournamentId = await usecases.tournamentRepository.getNextTournamentId();
-    _players = [];
-    emit(CreateTournamentData(_title, _players, _tournamentId, false));
+    print("onInitData");
+    if(_tournamentId!=0){
+      emit(CreateTournamentData(_title, _players, _tournamentId, false));
+    }
+    else{
+      _tournamentId = await usecases.tournamentRepository.getNextTournamentId();
+      _players = [];
+      emit(CreateTournamentData(_title, _players, _tournamentId, false));
+    }
   }
 
   void _onAddPlayer(AddPlayerEvent event, Emitter<CreateTournamentState> emit) {
@@ -42,7 +48,8 @@ class CreateTournamentBloc
       final newPlayer = PlayerEntity(
           id: _players.isEmpty ? 1 : _players.last.id + 1, name: playerName);
       _players.add(newPlayer);
-      emit(CreateTournamentData(_title, _players, _tournamentId, false));
+      print("onAddPlayer");
+      emit(CreateTournamentData(_title, _players, _tournamentId, false,));
     } else {
       emit(CreateTournamentError("Enter player name"));
     }
@@ -51,18 +58,26 @@ class CreateTournamentBloc
   void _onRemovePlayer(
       RemovePlayerEvent event, Emitter<CreateTournamentState> emit) {
     _players.removeWhere((player) => player.id == event.playerId);
-    emit(CreateTournamentData(_title, _players, _tournamentId, false));
+    print("onRemovePlayer");
+    emit(CreateTournamentData(_title, _players, _tournamentId, false, ));
   }
-
+   //TODO title update very frequently
   void _onUpdateTitle(
       UpdateTitleEvent event, Emitter<CreateTournamentState> emit) {
+    print("onUpdateTitle");
     final title = event.title.trim();
     if (title.isNotEmpty) {
       _title = event.title;
       emit(CreateTournamentData(_title, _players, _tournamentId, false));
+      errors ={};
     } else {
-      emit(CreateTournamentData(_title, _players, _tournamentId, true));
+      error(CustomInputError.titleEmpty);
+      emit(CreateTournamentData(_title, _players, _tournamentId, true, errors));
     }
+  }
+
+  void error(CustomInputError error){
+    errors.add(error);
   }
 
   Future<void> _onStartTournament(
