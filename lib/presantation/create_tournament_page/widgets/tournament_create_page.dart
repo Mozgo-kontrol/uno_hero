@@ -21,7 +21,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
   final playerNameController = TextEditingController();
   final _playerNameFocusNode = FocusNode();
   final _titleFocusNode = FocusNode();
-
+  late final createTournamentBloc;
   @override
   void dispose() {
     titleController.dispose();
@@ -29,6 +29,13 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
     _playerNameFocusNode.dispose();
     _titleFocusNode.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
+    createTournamentBloc.add(CreateTournamentInitEvent());
+    super.initState();
   }
 
   void _showTopPopup(BuildContext context) {
@@ -52,6 +59,12 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
     );
   }
 
+  void sendNewEvent(CreateTournamentEvent newEvent) {
+    setState(() {
+      createTournamentBloc.add(newEvent);
+    });
+  }
+
   Color setColorIconAddPlayer() {
     return (playerNameController.text.trim().isNotEmpty)
         ? Colors.green
@@ -63,19 +76,12 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
     final size = MediaQuery.of(context).size;
     final themeData = Theme.of(context);
     // 2. Extract the BlocProvider to a separate variable for better readability.
-    final createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
-
-    void sendNewEvent(CreateTournamentEvent newEvent) {
-      createTournamentBloc.add(newEvent);
-    }
+    //createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
 
     return BlocBuilder<CreateTournamentBloc, CreateTournamentState>(
-        bloc: createTournamentBloc..add(CreateTournamentInitEvent()),
+        bloc: createTournamentBloc,
         builder: (context, state) {
           if (state is CreateTournamentError) {
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //   SnackBar(content: Text(state.message)),
-            // );
             return ErrorMessage(message: state.message);
           } else if (state is CreateTournamentData) {
             return Scaffold(
@@ -138,7 +144,6 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
       FocusNode nextFocusNode,
       Size size,
       Function(UpdateTitleEvent) sendNewEvent) {
-    FocusNode textFieldFocusNode = FocusNode();
     // Boolean variable to check for errors
     bool isTextTitleEmpty = state.errors.isNotEmpty &&
         state.errors.contains(CustomInputError.titleEmpty);
@@ -157,9 +162,8 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             focusNode: thisFocusNode,
             keyboardType: TextInputType.text,
             onChanged: (value) {
-              if (isTextTitleEmpty = true) {
-                sendNewEvent(UpdateTitleEvent(value));
-              }
+              isTextTitleEmpty = value.trim().isEmpty;
+              sendNewEvent(UpdateTitleEvent(value));
             },
             onSubmitted: (value) {
               nextFocusNode.requestFocus();
@@ -220,10 +224,11 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             focusNode: thisFocusNode,
             cursorColor: Colors.grey,
             onSubmitted: (value) =>
-                {print(value), nextFocusNode.requestFocus()},
+                {print(value), thisFocusNode.unfocus()},
             onTap: () {
               thisFocusNode.requestFocus(); // Request focus when tapped
             },
+            //onEditingComplete:() => thisFocusNode.unfocus(),
             keyboardType: TextInputType.text,
             maxLength: 25,
             decoration: InputDecoration(
@@ -333,15 +338,13 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
               elevation: 8,
             ),
             onPressed: () {
-              sendNewEvent(UpdateTitleEvent(titleController.value.text));
-              // Handle start tournament (e.g., navigate to the next screen)
-              if (state.title.isNotEmpty && state.players.isNotEmpty) {
+              if (state.isReadyToStart) {
                 sendNewEvent(StartTournamentEvent());
                 Navigator.popAndPushNamed(context, '/scopes_screen',
                     arguments:
                         ScopeScreenArguments(tournamentId: state.tournamentId));
               } else {
-                //_showTopPopup(context);
+                _showTopPopup(context);
               }
             },
             child: Text(

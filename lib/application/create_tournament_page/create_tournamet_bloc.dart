@@ -13,6 +13,11 @@ part 'create_tournament_state.dart';
 class CreateTournamentBloc
     extends Bloc<CreateTournamentEvent, CreateTournamentState> {
   final ManageTournamentsUsecases usecases;
+  late TournamentEntity tournament;
+  late List<PlayerEntity> _players;
+  late String _title;
+  late int _tournamentId;
+  late Set<CustomInputError> errors; // Initialize an empty set
 
   CreateTournamentBloc({required this.usecases})
       : super(CreateTournamentInitialState()) {
@@ -23,23 +28,16 @@ class CreateTournamentBloc
     on<StartTournamentEvent>(_onStartTournament);
   }
 
-  late TournamentEntity tournament;
-  List<PlayerEntity> _players = [];
-  String _title = '';
-  late int _tournamentId = 0; //default value
-  Set<CustomInputError> errors = {}; // Initialize an empty set
 
   Future<void> _onInitData(CreateTournamentInitEvent event,
       Emitter<CreateTournamentState> emit) async {
-    print("onInitData");
-    if(_tournamentId!=0){
-      emit(CreateTournamentData(_title, _players, _tournamentId, false));
-    }
-    else{
+      print("onInitData");
       _tournamentId = await usecases.tournamentRepository.getNextTournamentId();
       _players = [];
-      emit(CreateTournamentData(_title, _players, _tournamentId, false));
-    }
+      _title = '';
+      errors = {};
+      emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
+    //}
   }
 
   void _onAddPlayer(AddPlayerEvent event, Emitter<CreateTournamentState> emit) {
@@ -49,7 +47,7 @@ class CreateTournamentBloc
           id: _players.isEmpty ? 1 : _players.last.id + 1, name: playerName);
       _players.add(newPlayer);
       print("onAddPlayer");
-      emit(CreateTournamentData(_title, _players, _tournamentId, false,));
+      emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
     } else {
       emit(CreateTournamentError("Enter player name"));
     }
@@ -59,25 +57,18 @@ class CreateTournamentBloc
       RemovePlayerEvent event, Emitter<CreateTournamentState> emit) {
     _players.removeWhere((player) => player.id == event.playerId);
     print("onRemovePlayer");
-    emit(CreateTournamentData(_title, _players, _tournamentId, false, ));
+    emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
   }
-   //TODO title update very frequently
   void _onUpdateTitle(
       UpdateTitleEvent event, Emitter<CreateTournamentState> emit) {
-    print("onUpdateTitle");
-    final title = event.title.trim();
-    if (title.isNotEmpty) {
-      _title = event.title;
-      emit(CreateTournamentData(_title, _players, _tournamentId, false));
-      errors ={};
+    String changedValue = event.title.trim();
+    _title = changedValue;
+    if (changedValue.isNotEmpty) {
+      errors = {};
     } else {
       error(CustomInputError.titleEmpty);
-      emit(CreateTournamentData(_title, _players, _tournamentId, true, errors));
     }
-  }
-
-  void error(CustomInputError error){
-    errors.add(error);
+    emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
   }
 
   Future<void> _onStartTournament(
@@ -96,4 +87,13 @@ class CreateTournamentBloc
       print('Error tournament with title: $_title and players: $_players');
     }
   }
+
+  bool checkIfCanStart(){
+    return _title.isNotEmpty&&_players.length>1;
+  }
+
+  void error(CustomInputError error){
+    errors.add(error);
+  }
+
 }
