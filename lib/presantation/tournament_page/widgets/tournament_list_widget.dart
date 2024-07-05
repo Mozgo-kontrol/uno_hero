@@ -7,8 +7,9 @@ import '../../create_tournament_page/scope_screen_arguments.dart';
 class TournamentListView extends StatelessWidget {
   final List<TournamentEntity> allTournaments;
   final Function(ScopeScreenArguments) updateState;
+  final Function(String, int) onLongPressed;
 
-  const TournamentListView({super.key, required this.allTournaments, required this.updateState});
+  const TournamentListView({super.key, required this.allTournaments, required this.updateState, required this.onLongPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,8 @@ class TournamentListView extends StatelessWidget {
               onPressed: () {
                 // 3. Navigate and then refresh.
                 updateState(ScopeScreenArguments(tournamentId: tournament.id));
-              }
+              },
+            onLongPressed: (){ onLongPressed(tournament.title, tournament.id);},
           );
         }
     );

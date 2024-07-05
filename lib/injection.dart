@@ -20,7 +20,7 @@ Future<void>init() async {
   sl.registerFactory(() => TournamentBloc(usecases: sl()));
   sl.registerLazySingleton(() => ManageTournamentsUsecases(tournamentRepository: sl()));
   sl.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImpl(sl()));
-  sl.registerLazySingleton<TournamentRepository>(() => RepositoryImpl(remoteDataSource: sl()));
+  sl.registerLazySingleton<TournamentRepository>(() => RepositoryImpl(localDataSource: sl()));
 
   sl.registerFactory(() => ScopeBloc(usecases: sl()));
 

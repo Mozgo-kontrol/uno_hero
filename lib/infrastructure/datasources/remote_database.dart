@@ -12,6 +12,7 @@ abstract class LocalDataSource{
   Future <int> getNextTournamentId();
   Future<void> updateTournament(TournamentEntity tournamentEntity);
   Future<void> finishTournament(int id);
+  Future<void> removeTournamentById(int id) async {}
 }
 
 class LocalDataSourceImpl implements LocalDataSource {
@@ -73,5 +74,11 @@ class LocalDataSourceImpl implements LocalDataSource {
       await _box.put(id, tournament);
       await _box.flush();
     }
+  }
+
+  @override
+  Future<void> removeTournamentById(int id) async {
+    await _box.delete(id);
+    await _box.flush();
   }
 }

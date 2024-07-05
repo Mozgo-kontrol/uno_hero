@@ -9,4 +9,5 @@ abstract class TournamentRepository{
   Future<int>getNextTournamentId();
   Future<void> updateTournament(TournamentEntity tournamentEntity);
   Future<void> finishTournament(int id);
+  Future<void> removeTournamentById(int id);
 }

@@ -7,7 +7,7 @@ class Utils {
     list.sort((a, b) => a.score.compareTo(b.score));
   }
 
-  static void sortTournamentsByScore(List<TournamentEntity> list) {
+  static void sortTournamentsById(List<TournamentEntity> list) {
     list.sort((a, b) => b.id.compareTo(a.id));
   }
 

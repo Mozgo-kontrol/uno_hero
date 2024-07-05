@@ -14,7 +14,6 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
 
   final ManageTournamentsUsecases usecases;
 
-
   TournamentBloc({required this.usecases}) : super(TournamentInitial()) {
     on<InitTournamentsEvent>((event, emit) async {
       emit(TournamentLoadingState());
@@ -25,18 +24,31 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
         emit(TournamentEmptyState());
       }
       else {
-        Utils.sortTournamentsByScore(tournaments);
+        Utils.sortTournamentsById(tournaments);
         emit(TournamentLoadedState(tournaments));
       }
     });
     on<RefreshTournamentsEvent>(_onRefreshTournaments);
 
+    on<RemoveTournamentEvent>(_onRemoveTournaments);
+
   }
+
+  Future<void> _onRemoveTournaments(RemoveTournamentEvent event, Emitter<TournamentState> emit) async {
+
+    await usecases.removeTournamentById(event.tournamentId);
+    List<TournamentEntity> tournaments = await usecases.getAllTournamentsUsecase();
+    Utils.sortTournamentsById(tournaments);
+    // Emit a new state with the updated list
+    emit(TournamentLoadedState(tournaments)); // Assuming you have a state like this
+  }
+
   Future<void> _onRefreshTournaments(RefreshTournamentsEvent event, Emitter<TournamentState> emit) async {
     // Fetch the updated list of tournaments
     emit(TournamentLoadingState());
     //await Future.delayed(const Duration(seconds: 1));
-    final tournaments = await usecases.getAllTournamentsUsecase();
+    List<TournamentEntity> tournaments = await usecases.getAllTournamentsUsecase();
+    Utils.sortTournamentsById(tournaments);
     // Emit a new state with the updated list
     emit(TournamentLoadedState(tournaments)); // Assuming you have a state like this
   }

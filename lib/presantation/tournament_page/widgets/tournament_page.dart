@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_list_widget.dart';
+import '../../../application/common_widgets/pop_up_dialog.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
 import '../../create_tournament_page/scope_screen_arguments.dart';
 
@@ -29,6 +30,34 @@ class _TournamentPageState extends State<TournamentPage> {
           _tournamentBloc.add(RefreshTournamentsEvent());
         });
       }
+    });
+  }
+
+  void _showTopPopup(BuildContext context, int id, String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Align(
+            alignment: Alignment.topCenter, // Position the popup at the top
+            child: TopPopupDialog(
+              errorType: 'Warning',
+              message:
+              'Do you want remove tournament $title?',
+              onAgree: () {
+                sendEvent(RemoveTournamentEvent(tournamentId: id));
+                Navigator.pop(context);
+              },
+              onCancel: () {
+                Navigator.pop(context);
+              },
+            ));
+      },
+    );
+  }
+
+  void sendEvent(TournamentEvent event){
+    _tournamentBloc.add(event);
+    setState(() {
     });
   }
 
@@ -74,6 +103,8 @@ class _TournamentPageState extends State<TournamentPage> {
               updateState: (scopeScreenArgs) {
                 _goToPageAndRefreshState('/scopes_screen', scopeScreenArgs);
               },
+              onLongPressed:(id, title) { print("long click") ; _showTopPopup(context, title, id);
+              }
             );
           } else {
             return const Center(child: Text("Unknown state encountered."));

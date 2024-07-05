@@ -19,4 +19,8 @@ class ManageTournamentsUsecases {
   Future<void> finishTournament(int id) async{
     tournamentRepository.finishTournament(id);
   }
+
+  Future<void> removeTournamentById(int id) async{
+    tournamentRepository.removeTournamentById(id);
+  }
 }
