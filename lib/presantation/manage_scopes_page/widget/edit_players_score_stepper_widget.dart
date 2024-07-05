@@ -24,15 +24,20 @@ class EditPlayersScoreStepper extends StatefulWidget {
 class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
   late int _currentStep;
   late Map<int, int> _manageScores;
+  late Map<int, bool> _stepperState;
 
   @override
   void initState() {
     super.initState();
     _currentStep = 0;
     _manageScores = HashMap();
+    _stepperState = HashMap();
+    int stepNumber = _currentStep;
     for (var item in widget.listOfScoresBoardItems) {
       _manageScores.putIfAbsent(item.playerId, () => 0);
+      _stepperState.putIfAbsent(stepNumber++, () => false);
     }
+
   }
 
   @override
@@ -44,11 +49,31 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
 
   void _nextStep() {
     if (_currentStep < widget.listOfScoresBoardItems.length - 1) {
-      setState(() => _currentStep++);
+      setState(() {
+        _stepperState.update(_currentStep, (value) => true);
+        _currentStep++;
+      }
+      );
     }
     else if (_currentStep == widget.listOfScoresBoardItems.length - 1) {
-      setState(() => _currentStep = 0);
+      setState(() {
+      _stepperState.update(_currentStep, (value) => true);
+      _currentStep = 0;
+      });
     }
+  }
+
+  StepState setStateIfCompleted(int index){
+    if(_stepperState[index]==null){
+      return StepState.indexed;
+    }
+    else if (index==0){
+      return StepState.complete;
+    }
+    else {
+      return _stepperState[index]! ? StepState.complete : StepState.indexed;
+    }
+
   }
 
   void updatePlayerScore(int playerId, int newScore) {
@@ -71,16 +96,26 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
       setState(() => _currentStep = widget.listOfScoresBoardItems.length - 1);
     }
   }
+  void _onStepTapped(int step){
+    setState(() { _currentStep = step;
+    _stepperState.update(step, (value) => true);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     return Stepper(
       currentStep: _currentStep,
-      onStepTapped: (int step) => setState(() => _currentStep = step),
+      onStepTapped: (int step) => _onStepTapped(step),
       onStepContinue: _nextStep,
       onStepCancel: _previousStep,
-
+      connectorColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      if (states.contains(MaterialState.hovered)) {
+        return Colors.grey; // Color when the step is disabled
+      } else {
+        return Colors.blue; // Default color for the connector}
+      }}),
       controlsBuilder: (BuildContext context, ControlsDetails details) {
         return Padding(
           padding: const EdgeInsets.only(top: 16.0, right: 16),
@@ -110,6 +145,7 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
         final scoresBoardItem = widget.listOfScoresBoardItems[index];
 
         return Step(
+          state: setStateIfCompleted(index),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

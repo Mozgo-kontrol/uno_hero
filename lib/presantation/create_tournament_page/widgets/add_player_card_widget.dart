@@ -21,7 +21,7 @@ class AddPlayerCardWidget extends StatelessWidget {
     // final size = MediaQuery.of(context).size; // Not used, can be removed
 
     return Card(
-      shape: const CustomCardShape(),// Wrap the content in a Card widget for a more polished look
+      shape: const CustomCardShape(shapeColor: Colors.blue),// Wrap the content in a Card widget for a more polished look
       child: InkWell( // Make the entire card tappable
         onTap: onPressed,
         child: SizedBox(

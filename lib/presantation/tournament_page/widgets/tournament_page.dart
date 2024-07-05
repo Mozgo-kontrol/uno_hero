@@ -65,11 +65,11 @@ class _TournamentPageState extends State<TournamentPage> {
   Widget build(BuildContext context) {
     final themeData =Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Tournaments",
+          "Games",
           style: themeData.textTheme.displayLarge,
         ),
         actions: [

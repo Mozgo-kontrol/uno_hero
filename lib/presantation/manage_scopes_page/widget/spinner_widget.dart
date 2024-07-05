@@ -57,7 +57,7 @@ class _SpinnerWidgetState extends State<SpinnerWidget> {
             Expanded(
               child: Card(
                 elevation: 10,
-                shape: const CustomCardShape(),
+                shape: const CustomCardShape(shapeColor: Colors.blue),
                 child: Center(child: Text(value.toInt().toString(),style: themeData.textTheme.headlineLarge,)),
               ),
             ),

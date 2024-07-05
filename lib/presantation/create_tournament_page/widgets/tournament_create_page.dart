@@ -75,8 +75,6 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final themeData = Theme.of(context);
-    // 2. Extract the BlocProvider to a separate variable for better readability.
-    //createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
 
     return BlocBuilder<CreateTournamentBloc, CreateTournamentState>(
         bloc: createTournamentBloc,
@@ -87,7 +85,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             return Scaffold(
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
-                title: Text("New Tournament",
+                title: Text("New Game",
                     style: themeData.textTheme.displayLarge),
                 centerTitle: true,
                 leading: IconButton(
@@ -253,7 +251,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
                       return Icon(
                         Icons.add_circle,
                         color: value.text.trim().isNotEmpty
-                            ? Colors.green
+                            ? Colors.blue
                             : Colors.grey,
                         size: 35,
                       );
@@ -334,8 +332,9 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: themeData.buttonTheme.colorScheme?.background,
-              elevation: 8,
+              //backgroundColor: themeData.buttonTheme.colorScheme?.background,
+              backgroundColor: Colors.blue,
+              elevation: 4,
             ),
             onPressed: () {
               if (state.isReadyToStart) {
@@ -349,7 +348,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             },
             child: Text(
               "Start",
-              style: themeData.textTheme.bodyMedium,
+              style: themeData.textTheme.bodyMedium?.copyWith(color: Colors.white),
             ),
           ),
         ],

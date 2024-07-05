@@ -83,7 +83,7 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
                   //    arguments: ManageScreenArguments(tournamentId: args.tournamentId));
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple[300],
+                  backgroundColor: Colors.blue,
                 ),
                 child: Center(
                   child: Text(

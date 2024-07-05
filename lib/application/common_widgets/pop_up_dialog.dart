@@ -38,10 +38,10 @@ class TopPopupDialog extends StatelessWidget {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue,
           ),
           onPressed: onAgree,
-          child: Text("Ok", style: themeData.textTheme.bodyMedium),
+          child: Text("Ok", style: themeData.textTheme.bodyMedium?.copyWith(color: Colors.white)),
         ),
       ],
     );

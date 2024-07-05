@@ -38,7 +38,7 @@ class _ScopesPageState extends State<ScopesPage> {
             alignment: Alignment.topCenter,
             child: TopPopupDialog(
               errorType: 'Alert',
-              message: "Do you want to Finish Tournament?",
+              message: "Do you want to finish Game?",
               onAgree: () {
                 sendNewEvent(FinishTournamentEvent());
                 Navigator.pop(context);
@@ -165,7 +165,7 @@ class ManageTournamentSection extends StatelessWidget {
             //    arguments: ManageScreenArguments(tournamentId: args.tournamentId));
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.purple[300],
+            backgroundColor: Colors.blue,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(49.0),

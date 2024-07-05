@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class CustomCardShape extends ShapeBorder {
   final double borderWidth;
+  final Color shapeColor;
 
-  const CustomCardShape({this.borderWidth = 1.0});
+  const CustomCardShape({this.shapeColor = Colors.green, this.borderWidth = 1.0});
 
   @override
   EdgeInsetsGeometry get dimensions => EdgeInsets.all(borderWidth);
@@ -24,7 +25,7 @@ class CustomCardShape extends ShapeBorder {
   @override
   void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
     final paint = Paint()
-      ..color = Colors.green // Set the desired gray color
+      ..color = shapeColor // Set the desired gray color
       ..style = PaintingStyle.stroke
       ..strokeWidth = borderWidth;
 
