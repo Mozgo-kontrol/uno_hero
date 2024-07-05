@@ -45,9 +45,9 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
         return Align(
             alignment: Alignment.topCenter, // Position the popup at the top
             child: TopPopupDialog(
-              errorType: 'Error',
+              errorType: 'Alert',
               message:
-                  "The title cannot be empty and you need at least two players.",
+                  "You need at least two players to start the game!",
               onAgree: () {
                 Navigator.pop(context);
               },
