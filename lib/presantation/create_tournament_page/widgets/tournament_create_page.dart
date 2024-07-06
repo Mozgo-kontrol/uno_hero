@@ -18,16 +18,16 @@ class TournamentCreationPage extends StatefulWidget {
 }
 
 class _TournamentCreationPageState extends State<TournamentCreationPage> {
-  final titleController = TextEditingController();
-  final playerNameController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _playerNameController = TextEditingController();
   final _playerNameFocusNode = FocusNode();
   final _titleFocusNode = FocusNode();
   late final createTournamentBloc;
-  late final localizations;
+
   @override
   void dispose() {
-    titleController.dispose();
-    playerNameController.dispose();
+    _titleController.dispose();
+    _playerNameController.dispose();
     _playerNameFocusNode.dispose();
     _titleFocusNode.dispose();
     super.dispose();
@@ -35,7 +35,6 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
 
   @override
   void initState() {
-    localizations = AppLocalizations.fromContext(context);
     createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
     createTournamentBloc.add(CreateTournamentInitEvent());
     super.initState();
@@ -45,6 +44,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final localizations = AppLocalizations.fromContext(context);
         return Align(
             alignment: Alignment.topCenter, // Position the popup at the top
             child: TopPopupDialog(
@@ -68,7 +68,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
   }
 
   Color setColorIconAddPlayer() {
-    return (playerNameController.text.trim().isNotEmpty)
+    return (_playerNameController.text.trim().isNotEmpty)
         ? Colors.green
         : Colors.grey;
   }
@@ -77,7 +77,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final themeData = Theme.of(context);
-
+    final localizations = AppLocalizations.fromContext(context);
     return BlocBuilder<CreateTournamentBloc, CreateTournamentState>(
         bloc: createTournamentBloc,
         builder: (context, state) {
@@ -106,17 +106,19 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
                   children: [
                     // 3. Use a more descriptive widget name for the title section.
                     _buildTitleInput(
+                        localizations,
                         themeData,
                         state,
-                        titleController,
+                        _titleController,
                         _titleFocusNode,
                         _playerNameFocusNode,
                         size,
                         sendNewEvent),
                     // 4. Use a more descriptive widget name for the player addition section.
                     _buildAddPlayerInput(
+                        localizations,
                         themeData,
-                        playerNameController,
+                        _playerNameController,
                         _playerNameFocusNode,
                         _titleFocusNode,
                         size,
@@ -124,7 +126,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
                     // 5. Use a more descriptive widget name for the player list section.
                     _buildPlayerList(state, sendNewEvent),
                     // 6. Use a more descriptive widget name for the action buttons section.
-                    _buildActionButtons(context, state, sendNewEvent),
+                    _buildActionButtons(localizations, context, state, sendNewEvent),
                   ],
                 ),
               ),
@@ -137,6 +139,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
 
   // 7. Extract the title input section into a separate widget for better organization.
   Widget _buildTitleInput(
+      AppLocalizations? localizations,
       ThemeData themeData,
       CreateTournamentData state,
       TextEditingController titleController,
@@ -202,6 +205,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
   }
 
   Widget _buildAddPlayerInput(
+      AppLocalizations? localizations,
       ThemeData themeData,
       TextEditingController playerNameController,
       FocusNode thisFocusNode,
@@ -313,7 +317,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context, CreateTournamentData state,
+  Widget _buildActionButtons( AppLocalizations? localizations, BuildContext context, CreateTournamentData state,
       Function(CreateTournamentEvent) sendNewEvent) {
     final themeData = Theme.of(context);
     return Expanded(

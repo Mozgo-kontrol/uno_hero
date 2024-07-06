@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:wheel_spinner/wheel_spinner.dart';
 
+import '../../../application/services/app_localizations.dart';
 import '../../create_tournament_page/widgets/CustomCardShape.dart';
 
 class SpinnerWidget extends StatefulWidget {

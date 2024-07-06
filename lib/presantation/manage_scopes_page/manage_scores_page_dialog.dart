@@ -6,9 +6,9 @@ import 'package:flutter/widgets.dart';
 
 import 'package:uno_notes/presantation/manage_scopes_page/widget/edit_players_score_stepper_widget.dart';
 
-import '../../application/common_widgets/ads_place_holder_widget.dart';
 import '../../application/scope_page/scope_bloc.dart';
 
+import '../../application/services/app_localizations.dart';
 import '../../domain/entities/score_board_item.dart';
 
 class BottomScreenDialogScreen extends StatefulWidget {
@@ -49,11 +49,12 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final size = MediaQuery.of(context).size;
+    final localizations = AppLocalizations.fromContext(context);
 
     if (widget.scoresBoardItems.isEmpty) {
       return Center(
           child: Text(
-        "No data available",
+            localizations?.get("no_data_available_bsd") ?? "No data available",
         style: themeData.textTheme.bodyMedium,
       ));
     }
@@ -66,7 +67,7 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
           children: [
             Center(
               child: Text(
-                'Manager',
+                localizations?.get("title_bsd") ?? "Manager",
                 style: themeData.textTheme.displayLarge,
               ),
             ),
@@ -90,8 +91,8 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
                   Navigator.pop(context);
                   //    arguments: ManageScreenArguments(tournamentId: args.tournamentId));
                 },
-                child: const Center(
-                  child: Text('SAVE AND BACK'),
+                child: Center(
+                  child: Text(localizations?.get("save_back_btn_bsd") ?? "SAVE AND BACK"),
                 ),
               ),
             ),

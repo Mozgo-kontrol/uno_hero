@@ -15,5 +15,13 @@
   "hint_add_player_c_g":  "Enter player name and click --> ",
   "cancel_bnt_c_g": "Cancel",
   "start_bnt_c_g": "Start",
-
+  "alert_finish_game": "Do you want to finish game?",
+  "title_s": "Scores",
+  "error_massage_s": "An error occurred. Please try again later..",
+  "manage_btn_s": "MANAGER",
+  "no_data_available_bsd": "No data available",
+  "title_bsd": "Manager",
+  "save_back_btn_bsd": "SAVE AND BACK",
+  "back_btn_sp": "back",
+  "next_btn_sp": "next"
 }

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:uno_notes/presantation/manage_scopes_page/widget/spinner_widget.dart';
 
 import '../../../application/scope_page/scope_bloc.dart';
+import '../../../application/services/app_localizations.dart';
 import '../../../domain/entities/score_board_item.dart';
 
 class EditPlayersScoreStepper extends StatefulWidget {
   final List<ScoreBoardItem> listOfScoresBoardItems;
   final Function(UpdateOnePlayerScoreEvent) onUpdateScore;
-
   const EditPlayersScoreStepper({
     super.key,
     required this.onUpdateScore,
@@ -100,6 +100,7 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.fromContext(context)!;
     final themeData = Theme.of(context);
     return Stepper(
       currentStep: _currentStep,
@@ -130,7 +131,7 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                   ),
-                  child: const Text("back")
+                  child: Text(localizations.get("back_btn_sp") ?? "back")
                   // const Icon(Icons.arrow_back_ios_new_rounded),
                   ),
               Padding(
@@ -141,7 +142,7 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
                           horizontal: 24, vertical: 8),
                     ),
                     onPressed: details.onStepContinue,
-                    child: const Text("next"),
+                    child: Text(localizations.get("next_btn_sp") ?? "next"),
                   )
                   //const Icon(Icons.arrow_forward_ios_rounded)),
                   ),

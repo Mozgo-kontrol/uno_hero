@@ -6,6 +6,7 @@ import 'package:uno_notes/presantation/scopes_page/widgets/scores_board_widget.d
 import '../../../application/common_widgets/ads_place_holder_widget.dart';
 import '../../../application/common_widgets/pop_up_dialog.dart';
 import '../../../application/scope_page/scope_bloc.dart';
+import '../../../application/services/app_localizations.dart';
 import '../../../domain/entities/score_board_item.dart';
 import '../../create_tournament_page/scope_screen_arguments.dart';
 import '../../manage_scopes_page/manage_scores_page_dialog.dart';
@@ -18,43 +19,48 @@ class ScopesPage extends StatefulWidget {
 }
 
 class _ScopesPageState extends State<ScopesPage> {
+  late final ScopeBloc scopesBloc;
+  late final args;
+
+  @override
+  void initState() {
+    scopesBloc = BlocProvider.of<ScopeBloc>(context);
+    super.initState();
+  }
+
+  void sendNewEvent(ScopeEvent newEvent) {
+    scopesBloc.add(newEvent);
+  }
+
+  void showFinishTournamentConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final localizations = AppLocalizations.fromContext(context);
+        return Align(
+          alignment: Alignment.topCenter,
+          child: TopPopupDialog(
+            errorType: localizations?.get("alert_warning") ?? 'Alert',
+            message: localizations?.get("alert_finish_game") ?? "Do you want to finish game?",
+            onAgree: () {
+              sendNewEvent(FinishTournamentEvent());
+              Navigator.pop(context);
+            },
+            onCancel: () {
+              Navigator.pop(context);
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as ScopeScreenArguments;
-
-    // Improved: Extract BlocProvider for betterreadability and maintainability.
-    final ScopeBloc scopesBloc = BlocProvider.of<ScopeBloc>(context);
-    void sendNewEvent(ScopeEvent newEvent) {
-      scopesBloc.add(newEvent);
-    }
-
-    // Improved: Renamed to be more descriptive.
-    void showFinishTournamentConfirmation(BuildContext context) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Align(
-            alignment: Alignment.topCenter,
-            child: TopPopupDialog(
-              errorType: 'Alert',
-              message: "Do you want to finish game?",
-              onAgree: () {
-                sendNewEvent(FinishTournamentEvent());
-                Navigator.pop(context);
-              },
-              onCancel: () {
-                Navigator.pop(context);
-              },
-            ),
-          );
-        },
-      );
-    }
-
+    final args = ModalRoute.of(context)!.settings.arguments as ScopeScreenArguments;
     final size = MediaQuery.of(context).size;
     final themeData = Theme.of(context);
-
+    final localizations = AppLocalizations.fromContext(context);
     return BlocBuilder<ScopeBloc, ScopeState>(
       bloc: scopesBloc..add(LoadScopesEvent(arguments: args)),
       builder: (context, state) {
@@ -62,7 +68,7 @@ class _ScopesPageState extends State<ScopesPage> {
           appBar: AppBar(
             centerTitle: true,
             title: Text(
-              "Scores", // Pluralized for clarity.
+              localizations?.get("title_s") ?? "Scores", // Pluralized for clarity.
               style: themeData.textTheme.displayLarge,
             ),
             leading: IconButton(
@@ -85,7 +91,7 @@ class _ScopesPageState extends State<ScopesPage> {
               ),
             ],
           ),
-          body: _buildBody(state, size, themeData,
+          body: _buildBody(localizations, state, size, themeData,
               sendNewEvent), // Extract body building logic.
         );
       },
@@ -93,7 +99,7 @@ class _ScopesPageState extends State<ScopesPage> {
   }
 
   // Improved: Extracted body building logic for better organization and readability.
-  Widget _buildBody(ScopeState state, Size size, ThemeData themeData,
+  Widget _buildBody( AppLocalizations? localizations, ScopeState state, Size size, ThemeData themeData,
       Function(ScopeEvent) sendNewEvent) {
     if (state is LoadedDataState) {
       return SafeArea(
@@ -120,8 +126,8 @@ class _ScopesPageState extends State<ScopesPage> {
       );
     } else {
       // Improved: Handle potential error states more explicitly.
-      return const Center(
-          child: Text("An error occurred. Please try again later."));
+      return Center(
+          child: Text(localizations?.get("error_massage_s") ?? "An error occurred. Please try again later."));
     }
   }
 }
@@ -131,7 +137,7 @@ class ManageTournamentSection extends StatelessWidget {
   final Function(UpdatePlayerScoreEvent) sendNewEvent;
   final LoadedDataState state;
 
-  const ManageTournamentSection(
+   const ManageTournamentSection(
       {super.key,
       required this.size,
       required this.state,
@@ -139,7 +145,7 @@ class ManageTournamentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
+    final localizations = AppLocalizations.fromContext(context);
     void shoBottomSheet(List<ScoreBoardItem> listOfScoresBoardItems) {
       showModalBottomSheet(
         isScrollControlled: true,
@@ -151,7 +157,6 @@ class ManageTournamentSection extends StatelessWidget {
         ),
       );
     }
-
     return SizedBox(
       height: 76,
       width: size.width,
@@ -169,7 +174,7 @@ class ManageTournamentSection extends StatelessWidget {
                   topRight: Radius.circular(49.0)),
             ),
           ),
-          child: const Text('MANAGER'),
+          child: Text(localizations?.get("manage_btn_s") ?? "MANAGER"),
         ),
       ),
     );
