@@ -24,5 +24,6 @@ class Utils {
   static List<Locale> supportedLocals =  [
     const Locale('en', 'US'),
     const Locale('ru', 'RU'),
+    const Locale('de', 'DE'),
   ];
 }

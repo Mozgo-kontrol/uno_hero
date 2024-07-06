@@ -152,10 +152,13 @@ class TournamentOverviewCard extends StatelessWidget {
               quarterTurns: 3,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Text(
-                  isFinished ? localizations?.get('finished') ?? "finished" : localizations?.get('active') ?? "active", // Inlined getStatus
-                  style: themeData.textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                    isFinished ? localizations?.get('finished') ?? "finished" : localizations?.get('active') ?? "active", // Inlined getStatus
+                    style: themeData.textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               )),
         ),

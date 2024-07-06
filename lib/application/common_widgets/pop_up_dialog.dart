@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../services/app_localizations.dart';
+
 // Improved version of the code
 class TopPopupDialog extends StatelessWidget {
   final String errorType; // Renamed for clarity
@@ -19,6 +21,7 @@ class TopPopupDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
+    final localizations = AppLocalizations.fromContext(context);
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -34,11 +37,11 @@ class TopPopupDialog extends StatelessWidget {
       actions: [
         TextButton( // Use TextButton for a cancel action
           onPressed: onCancel,
-          child: Text("Cancel", style: themeData.textTheme.bodyMedium),
+          child: Text(localizations?.get("cancel_btn_ad")?? "Cancel", style: themeData.textTheme.bodyMedium),
         ),
         ElevatedButton(
           onPressed: onAgree,
-          child: const Text("Ok"),
+          child: Text(localizations?.get("ok_btn_ad")?? "Ok"),
         ),
       ],
     );

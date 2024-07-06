@@ -23,5 +23,7 @@
   "title_bsd": "Manager",
   "save_back_btn_bsd": "SAVE AND BACK",
   "back_btn_sp": "back",
-  "next_btn_sp": "next"
+  "next_btn_sp": "next",
+  "cancel_btn_ad": "Cancel",
+  "ok_btn_ad": "Ok"
 }
