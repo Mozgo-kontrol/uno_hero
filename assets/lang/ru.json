@@ -23,5 +23,7 @@
   "title_bsd": "Управление",
   "save_back_btn_bsd": "СОХРАНИТЬ И ВЕРНУТЬСЯ",
   "back_btn_sp": "назад",
-  "next_btn_sp": "далее"
+  "next_btn_sp": "далее",
+  "cancel_btn_ad": "Отмена",
+  "ok_btn_ad": "Ок"
 }
