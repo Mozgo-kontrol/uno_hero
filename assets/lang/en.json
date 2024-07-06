@@ -4,5 +4,16 @@
   "unknown_error": "Unknown error!",
   "players": "players",
   "finished": "finished",
-  "active": "active"
+  "active": "active",
+  "alert_warning": "Alert",
+  "alert_min_player_count": "You need at least two players to start the game!",
+  "new_game": "New game",
+  "title_c_g": "Title*",
+  "hint_add_title_c_g": "Add title",
+  "error_text_title_c_g": "Title field cannot be empty",
+  "add_player_c_g": "Add Player*",
+  "hint_add_player_c_g":  "Enter player name and click --> ",
+  "cancel_bnt_c_g": "Cancel",
+  "start_bnt_c_g": "Start",
+
 }

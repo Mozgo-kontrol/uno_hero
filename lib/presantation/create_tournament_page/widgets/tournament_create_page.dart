@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../application/common_widgets/pop_up_dialog.dart';
 import '../../../application/create_tournament_page/Error.dart';
 import '../../../application/create_tournament_page/create_tournamet_bloc.dart';
+import '../../../application/services/app_localizations.dart';
 import 'error_message_widget.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
 import '../scope_screen_arguments.dart';
@@ -22,7 +23,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
   final _playerNameFocusNode = FocusNode();
   final _titleFocusNode = FocusNode();
   late final createTournamentBloc;
-
+  late final localizations;
   @override
   void dispose() {
     titleController.dispose();
@@ -34,6 +35,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
 
   @override
   void initState() {
+    localizations = AppLocalizations.fromContext(context);
     createTournamentBloc = BlocProvider.of<CreateTournamentBloc>(context);
     createTournamentBloc.add(CreateTournamentInitEvent());
     super.initState();
@@ -46,8 +48,8 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
         return Align(
             alignment: Alignment.topCenter, // Position the popup at the top
             child: TopPopupDialog(
-              errorType: 'Alert',
-              message: "You need at least two players to start the game!",
+              errorType:  localizations?.get("alert_warning") ?? 'Alert',
+              message:   localizations?.get('alert_min_player_count') ?? "You need at least two players to start the game!",
               onAgree: () {
                 Navigator.pop(context);
               },
@@ -86,7 +88,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 title:
-                    Text("New Game", style: themeData.textTheme.displayLarge),
+                    Text(localizations?.get("new_game") ?? "New game", style: themeData.textTheme.displayLarge),
                 centerTitle: true,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -150,7 +152,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Title*", style: themeData.textTheme.bodyMedium),
+          child: Text(localizations?.get("title_c_g") ?? "Title*", style: themeData.textTheme.bodyMedium),
         ),
         SizedBox(
           width: size.width,
@@ -173,9 +175,9 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             maxLength: 25,
             cursorColor: Colors.grey,
             decoration: InputDecoration(
-              hintText: 'Enter title',
+              hintText: localizations?.get("hint_add_title_c_g") ?? 'Add title',
               errorText: isTextTitleEmpty
-                  ? "Title field cannot be empty" // Error message
+                  ? localizations?.get("error_text_title_c_g") ?? "Title field cannot be empty" // Error message
                   : null,
               border: const OutlineInputBorder(),
               focusedBorder: const OutlineInputBorder(
@@ -211,7 +213,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("Add Player*", style: themeData.textTheme.bodyMedium),
+          child: Text(localizations?.get("add_player_c_g") ?? "Add Player*", style: themeData.textTheme.bodyMedium),
         ),
         SizedBox(
           width: size.width,
@@ -229,7 +231,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             keyboardType: TextInputType.text,
             maxLength: 25,
             decoration: InputDecoration(
-              hintText: 'Enter player name',
+              hintText: localizations?.get("hint_add_player_c_g") ?? "Enter player name and --> ",
               border: const OutlineInputBorder(),
               focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey, width: 2.0),
@@ -325,7 +327,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             // Handle cancel (e.g., pop the screen)
             style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
             child: Text(
-              "Cancel",
+              localizations?.get("cancel_bnt_c_g") ?? "Cancel",
               style: themeData.textTheme.bodyMedium,
             ),
           ),
@@ -341,7 +343,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
               }
             },
             child: Text(
-              "Start",
+              localizations?.get("start_bnt_c_g") ?? "Start",
               style:
                   themeData.textTheme.bodyMedium?.copyWith(color: Colors.white),
             ),
