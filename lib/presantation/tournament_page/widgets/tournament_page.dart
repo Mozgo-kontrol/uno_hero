@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_list_widget.dart';
 import '../../../application/common_widgets/pop_up_dialog.dart';
+import '../../../application/services/app_localizations.dart';
 import '../../../application/tournament_page/tournament_bloc.dart';
 import '../../create_tournament_page/scope_screen_arguments.dart';
 
@@ -64,11 +65,12 @@ class _TournamentPageState extends State<TournamentPage> {
   @override
   Widget build(BuildContext context) {
     final themeData =Theme.of(context);
+    final localizations = AppLocalizations.fromContext(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Games",
+          localizations?.get('game') ?? "Game",
           style: themeData.textTheme.displayLarge,
         ),
         actions: [
@@ -95,7 +97,7 @@ class _TournamentPageState extends State<TournamentPage> {
               ),
             );
           } else if (tournamentState is TournamentEmptyState) {
-            return const Center(child: Text("Create a new Tournament"));
+            return Center(child: Text( localizations?.get('create_game') ?? "Create a new game"));
           } else if (tournamentState is TournamentLoadedState) {
             return TournamentListView(
               allTournaments: tournamentState.tournaments,
@@ -106,7 +108,7 @@ class _TournamentPageState extends State<TournamentPage> {
               }
             );
           } else {
-            return const Center(child: Text("Unknown state encountered."));
+            return Center(child: Text(localizations?.get('unknown_error') ?? "Unknown error!"));
           }
         },
       )

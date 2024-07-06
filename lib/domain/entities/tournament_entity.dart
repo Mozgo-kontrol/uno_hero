@@ -12,7 +12,7 @@ class TournamentEntity extends HiveObject {
   @HiveField(3)
   List<PlayerEntity> players = [];
   @HiveField(4)
-  PlayerEntity winner = PlayerEntity(id: 0, name: "Waiting..");
+  PlayerEntity winner = PlayerEntity(id: 0, name: "...");
 
   @override
   String toString() {

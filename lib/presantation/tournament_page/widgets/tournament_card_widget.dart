@@ -4,6 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../application/services/app_localizations.dart';
+
 class TournamentOverviewCard extends StatelessWidget {
   // 2. Use Named Parameters for Readability:
   // While not strictly necessary, using named parameters when calling the constructor
@@ -33,6 +35,7 @@ class TournamentOverviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final size = MediaQuery.of(context).size;
+    final localizations = AppLocalizations.fromContext(context);
 
     return InkWell(
       borderRadius: BorderRadius.circular(8),
@@ -68,7 +71,7 @@ class TournamentOverviewCard extends StatelessWidget {
                           // Wrap _buildTournamentInfo in Expanded
                           child: IntrinsicWidth(
                             // Use IntrinsicWidth to constrain width
-                            child: _buildTournamentInfo(themeData),
+                            child: _buildTournamentInfo(themeData, localizations),
                           ),
                         ),
                         Expanded(
@@ -82,7 +85,7 @@ class TournamentOverviewCard extends StatelessWidget {
                     // ),
                   ),
                 ),
-                _buildStatusIndicator(themeData, size),
+                _buildStatusIndicator(themeData, localizations, size),
               ],
             ),
           ),
@@ -92,7 +95,8 @@ class TournamentOverviewCard extends StatelessWidget {
   }
 
   // Example of extracted sub-widget:
-  Widget _buildTournamentInfo(ThemeData themeData) {
+  Widget _buildTournamentInfo(ThemeData themeData, AppLocalizations? localizations) {
+    final String pl = localizations?.get('players') ?? "players";
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -104,7 +108,7 @@ class TournamentOverviewCard extends StatelessWidget {
           textAlign: TextAlign.left,
         ),
         Text(
-          "players : $playerCount",
+          "$pl : $playerCount",
           style: themeData.textTheme.bodyMedium,
           textAlign: TextAlign.left,
         )
@@ -135,7 +139,7 @@ class TournamentOverviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusIndicator(ThemeData themeData, Size size) {
+  Widget _buildStatusIndicator(ThemeData themeData, AppLocalizations? localizations, Size size) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -149,7 +153,7 @@ class TournamentOverviewCard extends StatelessWidget {
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  isFinished ? "finished" : "active", // Inlined getStatus
+                  isFinished ? localizations?.get('finished') ?? "finished" : localizations?.get('active') ?? "active", // Inlined getStatus
                   style: themeData.textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
