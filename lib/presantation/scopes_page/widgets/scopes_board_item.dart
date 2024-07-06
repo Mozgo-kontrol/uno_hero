@@ -12,7 +12,7 @@ class ScoreBoardItemWidget extends StatelessWidget {
       const myMap = {
       1: Colors.lightGreen,
       2: Colors.orange,
-      3: Colors.black};
+      3: null};
 
     Color? chooseColor(int place, int currentScore) {
       Color? result;

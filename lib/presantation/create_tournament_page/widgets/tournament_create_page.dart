@@ -22,6 +22,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
   final _playerNameFocusNode = FocusNode();
   final _titleFocusNode = FocusNode();
   late final createTournamentBloc;
+
   @override
   void dispose() {
     titleController.dispose();
@@ -46,8 +47,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             alignment: Alignment.topCenter, // Position the popup at the top
             child: TopPopupDialog(
               errorType: 'Alert',
-              message:
-                  "You need at least two players to start the game!",
+              message: "You need at least two players to start the game!",
               onAgree: () {
                 Navigator.pop(context);
               },
@@ -85,8 +85,8 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             return Scaffold(
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
-                title: Text("New Game",
-                    style: themeData.textTheme.displayLarge),
+                title:
+                    Text("New Game", style: themeData.textTheme.displayLarge),
                 centerTitle: true,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -221,8 +221,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             autofocus: false,
             focusNode: thisFocusNode,
             cursorColor: Colors.grey,
-            onSubmitted: (value) =>
-                {print(value), thisFocusNode.unfocus()},
+            onSubmitted: (value) => {print(value), thisFocusNode.unfocus()},
             onTap: () {
               thisFocusNode.requestFocus(); // Request focus when tapped
             },
@@ -331,11 +330,6 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             ),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              //backgroundColor: themeData.buttonTheme.colorScheme?.background,
-              backgroundColor: Colors.blue,
-              elevation: 4,
-            ),
             onPressed: () {
               if (state.isReadyToStart) {
                 sendNewEvent(StartTournamentEvent());
@@ -348,7 +342,8 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
             },
             child: Text(
               "Start",
-              style: themeData.textTheme.bodyMedium?.copyWith(color: Colors.white),
+              style:
+                  themeData.textTheme.bodyMedium?.copyWith(color: Colors.white),
             ),
           ),
         ],

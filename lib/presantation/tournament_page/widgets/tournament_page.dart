@@ -65,7 +65,6 @@ class _TournamentPageState extends State<TournamentPage> {
   Widget build(BuildContext context) {
     final themeData =Theme.of(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -74,7 +73,7 @@ class _TournamentPageState extends State<TournamentPage> {
         ),
         actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 4.0, bottom: 8),
               child: IconButton(
                 icon: const Icon(Icons.add_circle),
                 iconSize: 45,

@@ -24,15 +24,15 @@ class BottomScreenDialogScreen extends StatefulWidget {
 }
 
 class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
-
   late Map<int, int> mapPlayerScores;
+
   @override
   void initState() {
-  super.initState();
-  mapPlayerScores = HashMap();
-  for (var item in widget.scoresBoardItems) {
-    mapPlayerScores.putIfAbsent(item.playerId, () => 0);
-  }
+    super.initState();
+    mapPlayerScores = HashMap();
+    for (var item in widget.scoresBoardItems) {
+      mapPlayerScores.putIfAbsent(item.playerId, () => 0);
+    }
   }
 
   void updateOnePlayerScoreEvent(UpdateOnePlayerScoreEvent newEvent) {
@@ -51,7 +51,11 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
     final size = MediaQuery.of(context).size;
 
     if (widget.scoresBoardItems.isEmpty) {
-      return Center(child: Text("No data available", style: themeData.textTheme.bodyMedium,));
+      return Center(
+          child: Text(
+        "No data available",
+        style: themeData.textTheme.bodyMedium,
+      ));
     }
     return Padding(
       padding: EdgeInsets.fromLTRB(16, size.height * 0.08, 16, 32),
@@ -62,7 +66,7 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
           children: [
             Center(
               child: Text(
-                'Manage Scores',
+                'Manager',
                 style: themeData.textTheme.displayLarge,
               ),
             ),
@@ -75,6 +79,10 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
               height: 70,
               width: size.width,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(49.0)),
+                )),
                 onPressed: () {
                   print("press manage scores back button");
                   widget.onUpdateScore(UpdatePlayerScoreEvent(
@@ -82,14 +90,8 @@ class _BottomScreenDialogScreenState extends State<BottomScreenDialogScreen> {
                   Navigator.pop(context);
                   //    arguments: ManageScreenArguments(tournamentId: args.tournamentId));
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
-                child: Center(
-                  child: Text(
-                    'SAVE AND BACK',
-                     style: themeData.textTheme.labelMedium,
-                  ),
+                child: const Center(
+                  child: Text('SAVE AND BACK'),
                 ),
               ),
             ),

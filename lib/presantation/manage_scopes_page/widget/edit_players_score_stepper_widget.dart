@@ -37,7 +37,6 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
       _manageScores.putIfAbsent(item.playerId, () => 0);
       _stepperState.putIfAbsent(stepNumber++, () => false);
     }
-
   }
 
   @override
@@ -52,33 +51,29 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
       setState(() {
         _stepperState.update(_currentStep, (value) => true);
         _currentStep++;
-      }
-      );
-    }
-    else if (_currentStep == widget.listOfScoresBoardItems.length - 1) {
+      });
+    } else if (_currentStep == widget.listOfScoresBoardItems.length - 1) {
       setState(() {
-      _stepperState.update(_currentStep, (value) => true);
-      _currentStep = 0;
+        _stepperState.update(_currentStep, (value) => true);
+        _currentStep = 0;
       });
     }
   }
 
-  StepState setStateIfCompleted(int index){
-    if(_stepperState[index]==null){
+  StepState setStateIfCompleted(int index) {
+    if (_stepperState[index] == null) {
       return StepState.indexed;
-    }
-    else if (index==0){
+    } else if (index == 0) {
       return StepState.complete;
-    }
-    else {
+    } else {
       return _stepperState[index]! ? StepState.complete : StepState.indexed;
     }
-
   }
 
   void updatePlayerScore(int playerId, int newScore) {
     print("update playerId = $playerId and score $newScore");
-    widget.onUpdateScore(UpdateOnePlayerScoreEvent(playerId: playerId, updatedScore: newScore));
+    widget.onUpdateScore(
+        UpdateOnePlayerScoreEvent(playerId: playerId, updatedScore: newScore));
     setState(() => _manageScores.update(playerId, (value) => newScore));
   }
 
@@ -91,14 +86,15 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
   void _previousStep() {
     if (_currentStep > 0) {
       setState(() => _currentStep--);
-    }
-    else{
+    } else {
       setState(() => _currentStep = widget.listOfScoresBoardItems.length - 1);
     }
   }
-  void _onStepTapped(int step){
-    setState(() { _currentStep = step;
-    _stepperState.update(step, (value) => true);
+
+  void _onStepTapped(int step) {
+    setState(() {
+      _currentStep = step;
+      _stepperState.update(step, (value) => true);
     });
   }
 
@@ -110,12 +106,14 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
       onStepTapped: (int step) => _onStepTapped(step),
       onStepContinue: _nextStep,
       onStepCancel: _previousStep,
-      connectorColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-      if (states.contains(MaterialState.hovered)) {
-        return Colors.grey; // Color when the step is disabled
-      } else {
-        return Colors.blue; // Default color for the connector}
-      }}),
+      connectorColor:
+          MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Colors.grey; // Color when the step is disabled
+        } else {
+          return Colors.blue; // Default color for the connector}
+        }
+      }),
       controlsBuilder: (BuildContext context, ControlsDetails details) {
         return Padding(
           padding: const EdgeInsets.only(top: 16.0, right: 16),
@@ -125,18 +123,28 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
               const SizedBox(
                 height: 50,
               ),
-             // if (_currentStep > 0)
+              // if (_currentStep > 0)
               ElevatedButton(
                   onPressed: details.onStepCancel,
-                  child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black,),
-              ),
+                  style: ElevatedButton.styleFrom(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  ),
+                  child: const Text("back")
+                  // const Icon(Icons.arrow_back_ios_new_rounded),
+                  ),
               Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: ElevatedButton(
-                  onPressed: details.onStepContinue,
-                  child: const Icon(Icons.arrow_forward_ios_rounded, color: Colors.black,)
-                ),
-              ),
+                  padding: const EdgeInsets.only(left: 24),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 8),
+                    ),
+                    onPressed: details.onStepContinue,
+                    child: const Text("next"),
+                  )
+                  //const Icon(Icons.arrow_forward_ios_rounded)),
+                  ),
             ],
           ),
         );
@@ -149,10 +157,14 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(scoresBoardItem.playerName, style: themeData.textTheme.bodyLarge,),
+              Text(
+                scoresBoardItem.playerName,
+                style: themeData.textTheme.bodyLarge,
+              ),
               Padding(
                 padding: const EdgeInsets.only(right: 16.0, left: 8),
-                child: Text(getPlayerScore(scoresBoardItem.playerId), style: themeData.textTheme.bodyLarge),
+                child: Text(getPlayerScore(scoresBoardItem.playerId),
+                    style: themeData.textTheme.bodyLarge),
               ),
             ],
           ),
@@ -166,14 +178,3 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
     );
   }
 }
-
-/*
-SizedBox(
-height: 80,
-child: Center(
-child: EditPlayerStateWidget(
-playerId: scoresBoardItem.playerId,
-onUpdateScore: widget.onUpdateScore,
-),
-),
-),*/

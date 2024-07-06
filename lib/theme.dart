@@ -50,17 +50,17 @@ class AppTheme {
       fontSize: 16);
 
   static final TextStyle _darkButtonMediumStyle =
-  _lightButtonMediumStyle.copyWith(color: Colors.blue);
+      _lightButtonMediumStyle.copyWith(color: Colors.blue);
 
 //Button text style
   static final TextStyle _darkThemeHeadingTextStyle =
-  _lightHeadingTextStyle.copyWith(color: _darkTextColorPrimary);
+      _lightHeadingTextStyle.copyWith(color: _darkTextColorPrimary);
 
   static final TextStyle _darkThemeBodyTextStyle =
-  _lightBodyTextStyle.copyWith(color: _darkTextColorPrimary);
+      _lightBodyTextStyle.copyWith(color: _darkTextColorPrimary);
 
   static final TextStyle _darkThemeBodyMediumTextStyle =
-  _lightBodyMediumTextStyle.copyWith(color: _darkTextColorPrimary);
+      _lightBodyMediumTextStyle.copyWith(color: _darkTextColorPrimary);
 
   static const TextTheme _lightTextTheme = TextTheme(
     displayLarge: _lightHeadingTextStyle,
@@ -81,7 +81,6 @@ class AppTheme {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
     ),
-
     // Button padding
     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
 
@@ -92,7 +91,8 @@ class AppTheme {
     disabledColor: Colors.grey,
 
     // Button's text color
-    textTheme: ButtonTextTheme.primary, // Use predefined text theme for primary buttons
+    textTheme: ButtonTextTheme.primary,
+    // Use predefined text theme for primary buttons
 
     // Button's elevation
     height: 48.0,
@@ -104,12 +104,37 @@ class AppTheme {
     materialTapTargetSize: MaterialTapTargetSize.padded,
   );
 
+  static final ElevatedButtonThemeData _lightElevatedButtonTheme =
+      ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              // Button background color
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+              // Text and icon color
+              textStyle: _lightBodyMediumTextStyle,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(49.0)),
+              )));
+  static final ElevatedButtonThemeData _darkElevatedButtonTheme =
+  ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        // Button background color
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          // Text and icon color
+          textStyle: _lightBodyMediumTextStyle,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10))));
+
   static final ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: _lightPrimaryColor,
     appBarTheme: const AppBarTheme(
         color: _appbarColorLight,
         iconTheme: IconThemeData(color: _lightIconColor)),
     bottomAppBarTheme: const BottomAppBarTheme(color: _appbarColorLight),
+    elevatedButtonTheme: _lightElevatedButtonTheme,
     colorScheme: ColorScheme.light(
         primary: _lightPrimaryColor,
         onPrimary: _lightOnPrimaryColor,
@@ -117,9 +142,7 @@ class AppTheme {
         primaryContainer: _lightPrimaryVariantColor),
     textTheme: _lightTextTheme,
     buttonTheme: _buttonTheme,
-
   );
-
 
   static final ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: _darkPrimaryColor,
@@ -127,6 +150,7 @@ class AppTheme {
         color: _appbarColorDark,
         iconTheme: const IconThemeData(color: _darkIconColor)),
     bottomAppBarTheme: BottomAppBarTheme(color: _appbarColorDark),
+    elevatedButtonTheme: _darkElevatedButtonTheme,
     colorScheme: ColorScheme.dark(
       primary: _darkPrimaryColor,
       secondary: _accentColorDark,

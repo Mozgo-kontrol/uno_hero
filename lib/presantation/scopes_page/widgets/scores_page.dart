@@ -38,7 +38,7 @@ class _ScopesPageState extends State<ScopesPage> {
             alignment: Alignment.topCenter,
             child: TopPopupDialog(
               errorType: 'Alert',
-              message: "Do you want to finish Game?",
+              message: "Do you want to finish game?",
               onAgree: () {
                 sendNewEvent(FinishTournamentEvent());
                 Navigator.pop(context);
@@ -153,7 +153,7 @@ class ManageTournamentSection extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 80,
+      height: 76,
       width: size.width,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -161,21 +161,15 @@ class ManageTournamentSection extends StatelessWidget {
           onPressed: () {
             debugPrint("press manage scores button");
             shoBottomSheet(state.listOfScoresBoardItems);
-            // Navigator.pushNamed(context, '/manage_scopes_screen',
-            //    arguments: ManageScreenArguments(tournamentId: args.tournamentId));
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(49.0),
                   topRight: Radius.circular(49.0)),
             ),
           ),
-          child: Text(
-            'MANAGE SCORES',
-            style: themeData.textTheme.labelMedium,
-          ),
+          child: const Text('MANAGER'),
         ),
       ),
     );
