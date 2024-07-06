@@ -163,16 +163,14 @@ class _EditPlayersScoreStepperState extends State<EditPlayersScoreStepper> {
                 style: themeData.textTheme.bodyLarge,
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 16.0, left: 8),
+                padding: const EdgeInsets.only(right: 16.0),
                 child: Text(getPlayerScore(scoresBoardItem.playerId),
                     style: themeData.textTheme.bodyLarge),
               ),
             ],
           ),
-          content: SpinnerWidget(
-            onUpdateScorePlayer: (newScore) {
-              updatePlayerScore(scoresBoardItem.playerId, newScore);
-            },
+          content: ScoreSpinner(
+            onScoreChange: (newScore) { updatePlayerScore(scoresBoardItem.playerId, newScore); },
           ),
         );
       }),
