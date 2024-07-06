@@ -38,12 +38,14 @@ class _TournamentPageState extends State<TournamentPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final localizations = AppLocalizations.fromContext(context);
+        final String message =  localizations?.get("alert_remove_game_message") ?? "Do you want remove game :";
         return Align(
             alignment: Alignment.topCenter, // Position the popup at the top
             child: TopPopupDialog(
-              errorType: 'Warning',
+              errorType: localizations?.get("alert_warning")??'Warning',
               message:
-              'Do you want remove tournament $title?',
+              "$message $title?",
               onAgree: () {
                 sendEvent(RemoveTournamentEvent(tournamentId: id));
                 Navigator.pop(context);

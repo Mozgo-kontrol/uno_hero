@@ -40,7 +40,7 @@ class _AppLocalizationsDelegate
   const _AppLocalizationsDelegate();
 
   // Store supported locales in a Set for efficient lookup
-  static final Set<String> _supportedLocales = {'en', 'ru', 'de'}.toSet();
+  static final Set<String> _supportedLocales = {'en', 'ru', 'de', 'ua'}.toSet();
 
   @override
   bool isSupported(Locale locale) {

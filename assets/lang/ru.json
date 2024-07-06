@@ -25,5 +25,6 @@
   "back_btn_sp": "назад",
   "next_btn_sp": "далее",
   "cancel_btn_ad": "Отмена",
-  "ok_btn_ad": "Ок"
+  "ok_btn_ad": "Ок",
+  "alert_remove_game_message": "Вы хотите удалить игру :"
 }

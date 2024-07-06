@@ -25,5 +25,6 @@
   "back_btn_sp": "back",
   "next_btn_sp": "next",
   "cancel_btn_ad": "Cancel",
-  "ok_btn_ad": "Ok"
+  "ok_btn_ad": "Ok",
+  "alert_remove_game_message": "Do you want remove game :"
 }

@@ -25,5 +25,6 @@ class Utils {
     const Locale('en', 'US'),
     const Locale('ru', 'RU'),
     const Locale('de', 'DE'),
+    const Locale('ua', 'UA'),
   ];
 }
