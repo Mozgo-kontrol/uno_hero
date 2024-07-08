@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../application/common_widgets/anim_icon.dart';
 import '../../../application/services/app_localizations.dart';
 
 class TournamentOverviewCard extends StatelessWidget {
@@ -77,7 +78,7 @@ class TournamentOverviewCard extends StatelessWidget {
                         Expanded(
                           // Wrap _buildWinnerInfo in Expanded
                           child: IntrinsicWidth(
-                            child: _buildWinnerInfo(themeData),
+                            child: _buildWinnerInfo(themeData, isFinished),
                           ),
                         ),
                       ],
@@ -116,16 +117,15 @@ class TournamentOverviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildWinnerInfo(ThemeData themeData) {
+  Widget _buildWinnerInfo(ThemeData themeData, bool isFinished) {
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Center(
-          child: SvgPicture.asset(
-            'assets/icons/csv_crown_icon.svg',
-            height: 50,
+         Center(
+          child: isFinished ? SvgPicture.asset(
+            'assets/icons/csv_crown_icon.svg', height: 50,
             width: 70,
-          ),
+          ) : const AnimatedCrown()
         ),
         Text(
           winnerName,

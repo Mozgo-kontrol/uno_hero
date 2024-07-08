@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .crown {
+        fill: yellow;
+        stroke: black;
+        stroke-width: 2;
+        transform-origin: center;
+        animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-10px); }
+        }
+    </style>
+    <polygon class="crown" points="50,150 75,50 100,150 125,50 150,150" />
+</svg>

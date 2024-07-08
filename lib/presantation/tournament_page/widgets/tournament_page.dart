@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_list_widget.dart';
 import '../../../application/common_widgets/pop_up_dialog.dart';
 import '../../../application/services/app_localizations.dart';
@@ -21,6 +22,7 @@ class _TournamentPageState extends State<TournamentPage> {
     super.initState();
     _tournamentBloc = BlocProvider.of<TournamentBloc>(context);
     _tournamentBloc.add(InitTournamentsEvent()); // Fetch tournaments on init.
+    FlutterNativeSplash.remove();
   }
 
   // Navigation
@@ -39,13 +41,13 @@ class _TournamentPageState extends State<TournamentPage> {
       context: context,
       builder: (BuildContext context) {
         final localizations = AppLocalizations.fromContext(context);
-        final String message =  localizations?.get("alert_remove_game_message") ?? "Do you want remove game :";
+        final String message =  localizations?.get("alert_remove_game_message") ?? "Do you want remove game : ";
         return Align(
             alignment: Alignment.topCenter, // Position the popup at the top
             child: TopPopupDialog(
               errorType: localizations?.get("alert_warning")??'Warning',
               message:
-              "$message $title?",
+              "$message${title.toUpperCase()}?",
               onAgree: () {
                 sendEvent(RemoveTournamentEvent(tournamentId: id));
                 Navigator.pop(context);

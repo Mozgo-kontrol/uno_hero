@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.4.0
 
   cupertino_icons: ^1.0.6
   bloc: ^8.1.4
@@ -45,9 +46,11 @@ dependencies:
   flutter_svg: ^1.1.6 # icons
   google_fonts: ^2.1.0 #font family
   provider: ^6.1.2 #Provider for theme_service
+  permission_handler: ^10.2.0
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,11 +71,16 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/icons/csv_crown_icon.svg
-  #   - images/a_dot_ham.jpeg
+     - assets/icons/anim_crown.svg
      - assets/lang/en.json
      - assets/lang/ru.json
      - assets/lang/de.json
      - assets/lang/ua.json
+     - assets/images/logo.png
+     - assets/images/logo_v2.png
+     - assets/images/logo_dark.png
+     - assets/images/an12_logo_dark.png
+     - assets/images/an12_logo_tr.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
