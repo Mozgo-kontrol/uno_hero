@@ -50,8 +50,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.1
-
 dev_dependencies:
+
+  flutter_launcher_icons: "^0.13.1"
   flutter_test:
     sdk: flutter
 
@@ -72,6 +73,7 @@ flutter:
   assets:
      - assets/icons/csv_crown_icon.svg
      - assets/icons/anim_crown.svg
+     - assets/icons/logo_icon.svg
      - assets/lang/en.json
      - assets/lang/ru.json
      - assets/lang/de.json
@@ -81,6 +83,7 @@ flutter:
      - assets/images/logo_dark.png
      - assets/images/an12_logo_dark.png
      - assets/images/an12_logo_tr.png
+     - assets/images/logo_260_231.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

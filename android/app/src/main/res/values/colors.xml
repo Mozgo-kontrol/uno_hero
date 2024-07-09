@@ -5,6 +5,8 @@
     <color name="gray">#808080</color>
     <color name="bgColor">#F5429E</color>
     <color name="blue">#052BFF</color>
+    <color name="green">#46EF4D</color>
+    <color name="red">#FF0000</color>
     <color name="splashScreenBackground">#034565</color>
     <color name="logo_background">#121212</color>
 
