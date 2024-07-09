@@ -1,13 +1,13 @@
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/images/logo_v2.png
+  image: assets/images/logo_tr_500_500.png
   color_dark: "#121212"
-  image_dark: assets/images/logo_dark.png
-  android: true
+  image_dark: assets/images/logo_tr_500_500.png
   android_12:
     color: "#FFFFFF"
     color_dark: "#121212"
-    image: assets/images/an12_logo_tr.png
+    image: assets/images/logo_1152_1152_tr.png
+    image_dark: assets/images/logo_1152_1152_dark.png
     icon_background_color: "#FFFFFF"
     icon_background_color_dark: "#121212"
   web: false

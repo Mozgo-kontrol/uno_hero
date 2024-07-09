@@ -78,12 +78,14 @@ flutter:
      - assets/lang/ru.json
      - assets/lang/de.json
      - assets/lang/ua.json
-     - assets/images/logo.png
-     - assets/images/logo_v2.png
-     - assets/images/logo_dark.png
-     - assets/images/an12_logo_dark.png
-     - assets/images/an12_logo_tr.png
-     - assets/images/logo_260_231.png
+     - assets/images/logo_tr_500_500.png
+     - assets/images/logo_tr_200_200.png
+     - assets/images/logo_tr_250_250.png
+     - assets/images/logo_tr_300_300.png
+     - assets/images/logo_250_250_white.png
+     - assets/images/logo_500_500_white.png
+     - assets/images/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           debugShowMaterialGrid: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: themeService.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
+          //themeMode: (themeService.isDarkModeOn) ? ThemeMode.dark : ThemeMode.light, //TODO implement theme switch
           // Define home route separately for clarity
           home: BlocProvider(
             create: (context) => getIt<TournamentBloc>(), // Use getIt directly
