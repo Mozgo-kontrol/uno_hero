@@ -74,7 +74,7 @@ class _TournamentPageState extends State<TournamentPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          localizations?.get('game') ?? "Game",
+          localizations?.get('game') ?? "Games",
           style: themeData.textTheme.displayLarge,
         ),
         actions: [

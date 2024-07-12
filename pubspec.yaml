@@ -73,17 +73,10 @@ flutter:
   assets:
      - assets/icons/csv_crown_icon.svg
      - assets/icons/anim_crown.svg
-     - assets/icons/logo_icon.svg
      - assets/lang/en.json
      - assets/lang/ru.json
      - assets/lang/de.json
      - assets/lang/ua.json
-     - assets/images/logo_tr_500_500.png
-     - assets/images/logo_tr_200_200.png
-     - assets/images/logo_tr_250_250.png
-     - assets/images/logo_tr_300_300.png
-     - assets/images/logo_250_250_white.png
-     - assets/images/logo_500_500_white.png
      - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see

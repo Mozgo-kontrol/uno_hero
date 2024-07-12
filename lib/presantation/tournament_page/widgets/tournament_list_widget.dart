@@ -19,12 +19,12 @@ class TournamentListView extends StatelessWidget {
         itemCount: allTournaments.length,
         itemBuilder: (BuildContext context, int index) {
           final tournament = allTournaments[index]; // Store a reference for readability.
-
+          final winnerName = (tournament.listOfWinners.isNotEmpty)? tournament.listOfWinners.first.name : "...";
           return TournamentOverviewCard(
               tournamentName: tournament.title,
               playerCount: tournament.players.length,
-              isFinished: tournament.isFinished,
-              winnerName: tournament.winner.name,
+              createdAt: tournament.getFormatedCreateAt(),
+              winnerName: winnerName,
               onPressed: () {
                 // 3. Navigate and then refresh.
                 updateState(ScopeScreenArguments(tournamentId: tournament.id));

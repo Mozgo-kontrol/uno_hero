@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
@@ -23,7 +24,6 @@ class LocalDataSourceImpl implements LocalDataSource {
   @override
   Future<List<TournamentEntity>> getAllTournamentsFromApi() {
     List<TournamentEntity> result=[];
-
     for (var element in _box.values) { result.add(element);}
      print("getAllTournaments $result");
       return Future.value(result);
@@ -68,11 +68,12 @@ class LocalDataSourceImpl implements LocalDataSource {
   Future<void> finishTournament(int id) async {
     TournamentEntity? tournament = _box.get(id);
     if (tournament != null) {
-      tournament.isFinished = true;   //finish tournament
-      tournament.winner = tournament.players.first; //find winner
-      print("Tournament finished ${tournament.isFinished} and winner ${ tournament.winner.name}");
+      tournament.finishGame();
       await _box.put(id, tournament);
       await _box.flush();
+
+      debugPrint("Tournament id ${tournament.id} is finished : ${tournament.isFinished}");
+      for (var player in tournament.listOfWinners) { debugPrint("WINNER : ${player.name}");}
     }
   }
 

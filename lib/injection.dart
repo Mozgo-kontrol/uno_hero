@@ -7,7 +7,7 @@ import 'domain/entities/player_entity.dart';
 import 'domain/entities/tournament_entity.dart';
 import 'domain/repositories/TournamentRepository.dart';
 import 'domain/usecases/manage_tournaments_usecases.dart';
-import 'infrastructure/datasources/remote_database.dart';
+import 'infrastructure/datasources/local_database.dart';
 import 'infrastructure/repository/tournament_repository_impl.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 final sl = GetIt.I; // service locator

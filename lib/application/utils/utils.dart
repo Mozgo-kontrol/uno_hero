@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:intl/intl.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
 import '../../domain/entities/player_entity.dart';
@@ -27,4 +28,10 @@ class Utils {
     const Locale('de', 'DE'),
     const Locale('ua', 'UA'),
   ];
+
+  static String dateFormatter(DateTime date){
+    // Format the date as "yyyy-MM-dd"
+    var formatter = DateFormat('dd-MM-yyyy');
+    return formatter.format(date);
+  }
 }

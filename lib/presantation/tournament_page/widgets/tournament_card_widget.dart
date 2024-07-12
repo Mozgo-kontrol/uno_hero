@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 import '../../../application/common_widgets/anim_icon.dart';
 import '../../../application/services/app_localizations.dart';
@@ -13,7 +14,7 @@ class TournamentOverviewCard extends StatelessWidget {
   // makes the code more self-documenting.final VoidCallback onPressed; // Use VoidCallback for callbacks without parameters
   final String tournamentName;
   final int playerCount;
-  final bool isFinished; // Rename 'status' to be more descriptive
+  final String createdAt; // Formated date in format String
   final String winnerName;
   final VoidCallback onPressed;
   final VoidCallback onLongPressed;
@@ -22,10 +23,10 @@ class TournamentOverviewCard extends StatelessWidget {
     super.key,
     required this.tournamentName,
     required this.playerCount,
-    required this.isFinished,
     required this.winnerName,
     required this.onPressed,
     required this.onLongPressed,
+    required this.createdAt,
   });
 
   // 3. Inline Simple Getter:
@@ -78,7 +79,7 @@ class TournamentOverviewCard extends StatelessWidget {
                         Expanded(
                           // Wrap _buildWinnerInfo in Expanded
                           child: IntrinsicWidth(
-                            child: _buildWinnerInfo(themeData, isFinished),
+                            child: _buildWinnerInfo(themeData),
                           ),
                         ),
                       ],
@@ -86,7 +87,7 @@ class TournamentOverviewCard extends StatelessWidget {
                     // ),
                   ),
                 ),
-                _buildStatusIndicator(themeData, localizations, size),
+                _buildStatusIndicator(themeData, localizations, size, createdAt),
               ],
             ),
           ),
@@ -101,12 +102,16 @@ class TournamentOverviewCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-          tournamentName,
-          style: themeData.textTheme.bodyLarge,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.left,
+        FittedBox(
+          fit: BoxFit.fill,
+          child: Text(
+            tournamentName,
+            style: themeData.textTheme.bodyLarge,
+            maxLines: 1,
+
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.left,
+          ),
         ),
         Text(
           "$pl : $playerCount",
@@ -117,15 +122,12 @@ class TournamentOverviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildWinnerInfo(ThemeData themeData, bool isFinished) {
+  Widget _buildWinnerInfo(ThemeData themeData) {
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-         Center(
-          child: isFinished ? SvgPicture.asset(
-            'assets/icons/csv_crown_icon.svg', height: 50,
-            width: 70,
-          ) : const AnimatedCrown()
+         const Center(
+          child: AnimatedCrown()
         ),
         Text(
           winnerName,
@@ -139,7 +141,7 @@ class TournamentOverviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusIndicator(ThemeData themeData, AppLocalizations? localizations, Size size) {
+  Widget _buildStatusIndicator(ThemeData themeData, AppLocalizations? localizations, Size size, String createdAt) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,7 +149,7 @@ class TournamentOverviewCard extends StatelessWidget {
         Container(
           height: 100,
           width: size.width * 0.07,
-          color: isFinished ? Colors.deepOrangeAccent : Colors.green,
+          color: Colors.green,
           child: RotatedBox(
               quarterTurns: 3,
               child: FittedBox(
@@ -155,7 +157,7 @@ class TournamentOverviewCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text(
-                    isFinished ? localizations?.get('finished') ?? "finished" : localizations?.get('active') ?? "active", // Inlined getStatus
+                    createdAt, // Inlined getStatus
                     style: themeData.textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
