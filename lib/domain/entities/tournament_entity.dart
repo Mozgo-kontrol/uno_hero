@@ -14,7 +14,6 @@ class TournamentEntity extends HiveObject {
   @HiveField(4)
   PlayerEntity winner = PlayerEntity(id: 0, name: "...");
 
-
   @override
   String toString() {
     return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, winner: $winner}';
