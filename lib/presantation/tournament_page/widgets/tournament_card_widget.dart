@@ -15,6 +15,7 @@ class TournamentOverviewCard extends StatelessWidget {
   final String tournamentName;
   final int playerCount;
   final String createdAt; // Formated date in format String
+  final bool isFinished;
   final String winnerName;
   final VoidCallback onPressed;
   final VoidCallback onLongPressed;
@@ -27,6 +28,7 @@ class TournamentOverviewCard extends StatelessWidget {
     required this.onPressed,
     required this.onLongPressed,
     required this.createdAt,
+    required this.isFinished,
   });
 
   // 3. Inline Simple Getter:
@@ -79,7 +81,7 @@ class TournamentOverviewCard extends StatelessWidget {
                         Expanded(
                           // Wrap _buildWinnerInfo in Expanded
                           child: IntrinsicWidth(
-                            child: _buildWinnerInfo(themeData),
+                            child: _buildWinnerInfo(themeData, isFinished),
                           ),
                         ),
                       ],
@@ -122,12 +124,15 @@ class TournamentOverviewCard extends StatelessWidget {
     );
   }
 
-  Widget _buildWinnerInfo(ThemeData themeData) {
+  Widget _buildWinnerInfo(ThemeData themeData, bool isFinished) {
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-         const Center(
-          child: AnimatedCrown()
+          Center(
+          child: isFinished ? SvgPicture.asset(
+            'assets/icons/csv_crown_icon.svg', height: 40,
+            width: 60,
+          ) : const AnimatedCrown(),
         ),
         Text(
           winnerName,

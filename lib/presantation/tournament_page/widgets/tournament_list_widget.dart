@@ -30,6 +30,7 @@ class TournamentListView extends StatelessWidget {
                 updateState(ScopeScreenArguments(tournamentId: tournament.id));
               },
             onLongPressed: (){ onLongPressed(tournament.title, tournament.id);},
+            isFinished: tournament.isFinished,
           );
         }
     );
