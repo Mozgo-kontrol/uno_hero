@@ -175,7 +175,7 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
               thisFocusNode.requestFocus();
             },
             autofocus: false,
-            maxLength: 25,
+            maxLength: 16,
             cursorColor: Colors.grey,
             decoration: InputDecoration(
               hintText: localizations?.get("hint_add_title_c_g") ?? 'Add title',

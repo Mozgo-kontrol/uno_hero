@@ -25,6 +25,7 @@ class TournamentEntity extends HiveObject {
   @HiveField(6)
   DateTime? finishedAt;
 
+
   @override
   String toString() {
     return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, listOfWinners: ${listOfWinners.toString()}';

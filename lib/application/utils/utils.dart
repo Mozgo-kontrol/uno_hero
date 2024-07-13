@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
@@ -33,5 +34,11 @@ class Utils {
     // Format the date as "yyyy-MM-dd"
     var formatter = DateFormat('dd-MM-yyyy');
     return formatter.format(date);
+  }
+
+  static Color getRandomColors() {
+    List<Color> colors = [Colors.red, Colors.blue, Colors.green];
+    colors.shuffle();
+    return colors.last;
   }
 }
