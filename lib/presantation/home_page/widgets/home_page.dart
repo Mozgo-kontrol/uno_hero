@@ -42,7 +42,7 @@ class Homepage extends StatelessWidget {
                     screenNavigation(NavigationRoute.createTournamentScreen);
                   }),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: 200,
                   height: 50,
@@ -50,7 +50,7 @@ class Homepage extends StatelessWidget {
                     screenNavigation(NavigationRoute.tournamentsScreen);
                   }),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 SizedBox(
                   width: 200,
                   height: 50,
