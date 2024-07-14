@@ -21,6 +21,7 @@ class GamesScreen extends StatelessWidget {
     // Use a Map constructor for more concise initialization
     Map<String, List<TournamentEntity>> groupedTournaments = {};
     for (var tournament in tournaments) {
+      print(tournament.toString());
       String formattedDate = Utils.dateFormatter(tournament.createdAt);
       (groupedTournaments[formattedDate] ??= [])
           .add(tournament); // Use null-aware operator for brevity

@@ -21,17 +21,19 @@ class TournamentEntity extends HiveObject {
   @HiveField(4)
   List<PlayerEntity> listOfWinners = [];
   @HiveField(5)
-  final DateTime createdAt = DateTime.now();
+  late final DateTime createdAt;
   @HiveField(6)
   DateTime? finishedAt;
 
 
   @override
   String toString() {
-    return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, listOfWinners: ${listOfWinners.toString()}';
+    return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, listOfWinners: ${listOfWinners.toString()}, createdAt: $createdAt';
   }
 
-  TournamentEntity({required this.id, required this.title, required this.players});
+  TournamentEntity({required this.id, required this.title, required this.players}){
+    createdAt = DateTime.now();
+  }
 
   void finishGame() {
     listOfWinners = findFirstThreeWinners(players);
