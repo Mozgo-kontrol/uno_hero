@@ -2,7 +2,7 @@
 
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
-import '../../domain/repositories/TournamentRepository.dart';
+import '../../domain/repositories/tournament_repository.dart';
 import '../datasources/local_database.dart';
 
 class RepositoryImpl implements TournamentRepository{

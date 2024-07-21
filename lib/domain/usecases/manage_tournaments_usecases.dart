@@ -1,6 +1,6 @@
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
-import '../repositories/TournamentRepository.dart';
+import '../repositories/tournament_repository.dart';
 
 class ManageTournamentsUsecases {
 
