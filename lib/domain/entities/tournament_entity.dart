@@ -21,7 +21,7 @@ class TournamentEntity extends HiveObject {
   @HiveField(4)
   List<PlayerEntity> listOfWinners = [];
   @HiveField(5)
-  late final DateTime createdAt;
+  final DateTime createdAt;
   @HiveField(6)
   DateTime? finishedAt;
 
@@ -31,8 +31,11 @@ class TournamentEntity extends HiveObject {
     return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, listOfWinners: ${listOfWinners.toString()}, createdAt: $createdAt';
   }
 
-  TournamentEntity({required this.id, required this.title, required this.players}){
-    createdAt = DateTime.now();
+  TournamentEntity({required this.id, required this.title, required this.players, required this.createdAt});
+
+  // Setter for createdAt
+  set createdAt(DateTime newCreatedAt) {
+    createdAt = newCreatedAt;
   }
 
   void finishGame() {

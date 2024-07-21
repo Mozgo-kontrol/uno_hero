@@ -28,7 +28,7 @@ Future<void>init() async {
   sl.registerLazySingleton<PlayerRepository>(() => PlayerRepositoryImpl(localDataSource: sl()));
   sl.registerFactory(() => ScopeBloc(usecases: sl()));
 
-  sl.registerFactory(() => CreateTournamentBloc(usecases: sl()));
+  sl.registerFactory(() => CreateTournamentBloc(tournamentsUseCases: sl(), playersUseCases: sl()));
   /// Initialize Hive
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
   await Hive.initFlutter(appDocumentDirectory.path);
