@@ -44,7 +44,7 @@ class CreateTournamentBloc
     final playerName = event.playerName.trim();
     if (playerName.isNotEmpty) {
       final newPlayer = PlayerEntity(
-          id: _players.isEmpty ? 1 : _players.last.id + 1, name: playerName);
+          id: _players.isEmpty ? 1 : _players.last.id + 1, name: playerName, iconId: event.playerIconId);
       _players.add(newPlayer);
       print("onAddPlayer");
       emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));

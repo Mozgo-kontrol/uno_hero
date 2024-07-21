@@ -8,5 +8,7 @@ class PlayerEntity extends HiveObject{
   final String name;
   @HiveField(2)
   int score;
-  PlayerEntity({required this.id, required this.name, this.score = 0});
+  @HiveField(3)
+  int iconId;
+  PlayerEntity({required this.id, required this.name, this.score = 0, required this.iconId});
 }

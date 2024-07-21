@@ -23,6 +23,7 @@ class TournamentEntityAdapter extends TypeAdapter<TournamentEntity> {
     )
       ..isFinished = fields[3] as bool
       ..listOfWinners = (fields[4] as List).cast<PlayerEntity>()
+      ..createdAt = fields[5] as DateTime
       ..finishedAt = fields[6] as DateTime?;
   }
 
