@@ -119,15 +119,6 @@ class _TournamentPageState extends State<TournamentPage> {
                   onLongPressed:(id, title) { print("long click") ; _showTopPopup(context, title, id);
                   }
               );
-            /*
-                TournamentListView(
-                allTournaments: tournamentState.tournaments,
-                updateState: (scopeScreenArgs) {
-                  _goToPageAndRefreshState('/scopes_screen', scopeScreenArgs);
-                },
-                onLongPressed:(id, title) { print("long click") ; _showTopPopup(context, title, id);
-                }
-              );*/
             } else {
               return Center(child: Text(localizations?.get('unknown_error') ?? "Unknown error!"));
             }

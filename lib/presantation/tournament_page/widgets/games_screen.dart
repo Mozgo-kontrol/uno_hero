@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:uno_notes/application/utils/utils.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
@@ -10,7 +8,7 @@ class GamesScreen extends StatelessWidget {
   final Function(ScopeScreenArguments) updateState;
   final Function(String, int) onLongPressed;
   final List<TournamentEntity>
-      tournaments; // Rename 'games' to 'tournaments' for clarityconst GamesScreen({super.key, required this.tournaments});
+      tournaments;
   const GamesScreen(
       {super.key,
       required this.tournaments,
@@ -102,22 +100,28 @@ class TournamentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color generalColor = Utils.getRandomColors();
     return Card(
-      margin: const EdgeInsets.only(top: 5, bottom: 5),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal:  8),
       child: ListTile(
         onTap:  onPressed,
         onLongPress: onLongPressed,
-        title: Text(
-          tournament.title,
-          style: TextStyle(
-            color: generalColor,
-            fontWeight: FontWeight.bold,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: Text(
+            tournament.title,
+            style: TextStyle(
+              color: generalColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        subtitle: Text(
-          'players: ${tournament.players.length}    rounds: 1',
-          style: TextStyle(
-            color: generalColor,
-            fontWeight: FontWeight.bold,
+        subtitle: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            'players: ${tournament.players.length}    rounds: 1',
+            style: TextStyle(
+              color: generalColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         //TODO rounds,
