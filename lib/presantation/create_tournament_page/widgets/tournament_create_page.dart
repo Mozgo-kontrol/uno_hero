@@ -152,6 +152,15 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
               appBar: AppBar(
                 title: Text(localizations?.get("new_game") ?? "New game",
                     style: themeData.textTheme.displayLarge),
+                flexibleSpace: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.cyanAccent, Colors.lightBlueAccent, Colors.lightBlue], //Customize the colors as needed
+                    ),
+                  ),
+                ),
                 centerTitle: true,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new_rounded),
