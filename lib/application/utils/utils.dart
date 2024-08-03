@@ -45,7 +45,7 @@ class Utils {
   }
 
   static String getIconById(int id) {
-    int iconId = id % 5;
+    int iconId = id % 11;
     String defaultIcon = 'assets/icons/persons/Astronaut.svg';
     return iconsList[iconId] ?? defaultIcon;
   }
@@ -55,6 +55,16 @@ class Utils {
     2: 'assets/icons/persons/Maid.svg',
     3: 'assets/icons/persons/Artist.svg',
     4: 'assets/icons/persons/Woman-3.svg',
+    5: 'assets/icons/persons/Rasta.svg',
+    6: 'assets/icons/persons/Surfer.svg',
+    7: 'assets/icons/persons/Woman-1.svg',
+    8: 'assets/icons/persons/Scientist.svg',
+    9: 'assets/icons/persons/Woman-2.svg',
+   // 7: 'assets/icons/persons/Thief.svg',
+    10: 'assets/icons/persons/Soldier.svg',
+   // 12: 'assets/icons/persons/Pilot-1.svg',
+    //13: 'assets/icons/persons/Ninja.svg',
+   // 14: 'assets/icons/persons/Man-7.svg'
   };
 
   static int getNextIconId(int currentId) {

@@ -82,7 +82,17 @@ flutter:
      - assets/icons/persons/Astronaut.svg
      - assets/icons/persons/Fashionista.svg
      - assets/icons/persons/Maid.svg
+     - assets/icons/persons/Woman-1.svg
+     - assets/icons/persons/Woman-2.svg
      - assets/icons/persons/Woman-3.svg
+     - assets/icons/persons/Thief.svg
+     - assets/icons/persons/Surfer.svg
+     - assets/icons/persons/Soldier.svg
+     - assets/icons/persons/Scientist.svg
+     - assets/icons/persons/Rasta.svg
+     - assets/icons/persons/Pilot-1.svg
+     - assets/icons/persons/Ninja.svg
+     - assets/icons/persons/Man-7.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
