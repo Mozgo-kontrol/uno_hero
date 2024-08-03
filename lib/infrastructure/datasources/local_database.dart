@@ -17,6 +17,8 @@ abstract class LocalDataSource{
   Future<void> updateTournament(TournamentEntity tournamentEntity);
   Future<void> finishTournament(int id);
   Future<void> removeTournamentById(int id) async {}
+  Future<List<TournamentEntity>> getAllActiveTournaments();
+  Future<List<TournamentEntity>> getAllFinishedTournaments();
 
   ///PlayerMethods
   Future<List<PlayerEntity>> getAllPlayers();
@@ -122,5 +124,15 @@ class LocalDataSourceImpl implements LocalDataSource {
       await _playerBox.flush();
       print("updated player in db: $player");
     }
+  }
+
+  @override
+  Future<List<TournamentEntity>> getAllActiveTournaments() {
+    return Future.value(_tournamentBox.values.where((element) => !element.isFinished).toList());
+  }
+
+  @override
+  Future<List<TournamentEntity>> getAllFinishedTournaments() {
+    return Future.value(_tournamentBox.values.where((element) => element.isFinished).toList());
   }
 }

@@ -17,9 +17,9 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
   TournamentBloc({required this.usecases}) : super(TournamentInitial()) {
     on<InitTournamentsEvent>((event, emit) async {
       emit(TournamentLoadingState());
-      print("TournamentInitial");
+      print("Tournament Initial get all active tournaments");
       List<TournamentEntity> tournaments =
-          await usecases.getAllTournamentsUsecase();
+          await usecases.getAllActiveTournaments();
       await Future.delayed(const Duration(seconds: 1));
       if (tournaments.isEmpty) {
         emit(TournamentEmptyState());
@@ -37,7 +37,7 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
       RemoveTournamentEvent event, Emitter<TournamentState> emit) async {
     await usecases.removeTournamentById(event.tournamentId);
     List<TournamentEntity> tournaments =
-        await usecases.getAllTournamentsUsecase();
+        await usecases.getAllActiveTournaments();
 
     if (tournaments.isEmpty) {
       emit(TournamentEmptyState());
@@ -54,7 +54,7 @@ class TournamentBloc extends Bloc<TournamentEvent, TournamentState> {
     emit(TournamentLoadingState());
     //await Future.delayed(const Duration(seconds: 1));
     List<TournamentEntity> tournaments =
-        await usecases.getAllTournamentsUsecase();
+    await usecases.getAllActiveTournaments();
     Utils.sortTournamentsById(tournaments);
     // Emit a new state with the updated list
     emit(TournamentLoadedState(

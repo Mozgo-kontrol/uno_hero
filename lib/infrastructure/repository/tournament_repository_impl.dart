@@ -49,4 +49,14 @@ class RepositoryImpl implements TournamentRepository{
   Future<void> removeTournamentById(int id) async {
     localDataSource.removeTournamentById(id);
   }
+
+  @override
+  Future<List<TournamentEntity>> getAllActiveTournaments() async {
+    return await localDataSource.getAllActiveTournaments();
+  }
+
+  @override
+  Future<List<TournamentEntity>> getAllFinishedTournaments() async {
+    return await localDataSource.getAllFinishedTournaments();
+  }
 }

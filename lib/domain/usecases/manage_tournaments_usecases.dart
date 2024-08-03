@@ -10,6 +10,12 @@ class ManageTournamentsUsecases {
   Future<List<TournamentEntity>> getAllTournamentsUsecase() async {
     return tournamentRepository.getAllTournamentsFromApi();
   }
+  Future<List<TournamentEntity>> getAllActiveTournaments() async {
+    return tournamentRepository.getAllActiveTournaments();
+  }
+  Future<List<TournamentEntity>> getAllFinishedTournaments() async {
+    return tournamentRepository.getAllFinishedTournaments();
+  }
   Future<TournamentEntity> findTournamentById(int id) async {
     return tournamentRepository.findTournamentById(id);
   }
