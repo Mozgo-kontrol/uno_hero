@@ -19,26 +19,32 @@ class TournamentEntityAdapter extends TypeAdapter<TournamentEntity> {
     return TournamentEntity(
       id: fields[0] as int,
       title: fields[1] as String,
-      players: (fields[3] as List).cast<PlayerEntity>(),
+      players: (fields[2] as List).cast<PlayerEntity>(),
+      createdAt: fields[5] as DateTime,
     )
-      ..isFinished = fields[2] as bool
-      ..winner = fields[4] as PlayerEntity;
+      ..isFinished = fields[3] as bool
+      ..listOfWinners = (fields[4] as List).cast<PlayerEntity>()
+      ..finishedAt = fields[6] as DateTime?;
   }
 
   @override
   void write(BinaryWriter writer, TournamentEntity obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.isFinished)
-      ..writeByte(3)
       ..write(obj.players)
+      ..writeByte(3)
+      ..write(obj.isFinished)
       ..writeByte(4)
-      ..write(obj.winner);
+      ..write(obj.listOfWinners)
+      ..writeByte(5)
+      ..write(obj.createdAt)
+      ..writeByte(6)
+      ..write(obj.finishedAt);
   }
 
   @override

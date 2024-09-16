@@ -10,4 +10,6 @@ abstract class TournamentRepository{
   Future<void> updateTournament(TournamentEntity tournamentEntity);
   Future<void> finishTournament(int id);
   Future<void> removeTournamentById(int id);
+  Future<List<TournamentEntity>> getAllActiveTournaments();
+  Future<List<TournamentEntity>> getAllFinishedTournaments();
 }

@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:uno_notes/presantation/create_tournament_page/widgets/tournament_create_page.dart';
+import 'package:uno_notes/presantation/home_page/widgets/home_page.dart';
 
 import 'package:uno_notes/presantation/scopes_page/widgets/scores_page.dart';
 import 'package:uno_notes/presantation/tournament_page/widgets/tournament_page.dart';
@@ -21,6 +22,7 @@ import 'injection.dart' as di;
 GetIt getIt = GetIt.instance;
 
 Future<void> main() async {
+
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await di.init();
@@ -28,6 +30,7 @@ Future<void> main() async {
     create: (context) => ThemeService(),
     child: const MyApp(),
   ));
+  FlutterNativeSplash.remove();
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -44,12 +47,10 @@ class MyApp extends StatelessWidget {
           darkTheme: AppTheme.darkTheme,
           //themeMode: (themeService.isDarkModeOn) ? ThemeMode.dark : ThemeMode.light, //TODO implement theme switch
           // Define home route separately for clarity
-          home: BlocProvider(
-            create: (context) => getIt<TournamentBloc>(), // Use getIt directly
-            child: const TournamentPage(),
-          ),
+          home: const Homepage(),
           routes: {
-            NavigationRoute.mainScreen: (context) => BlocProvider(
+            NavigationRoute.mainScreen: (context) => const Homepage(),
+            NavigationRoute.tournamentsScreen: (context) => BlocProvider(
               create: (context) => getIt<TournamentBloc>(),
               child: const TournamentPage(),
             ),

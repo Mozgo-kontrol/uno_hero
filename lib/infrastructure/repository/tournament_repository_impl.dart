@@ -2,8 +2,8 @@
 
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
-import '../../domain/repositories/TournamentRepository.dart';
-import '../datasources/remote_database.dart';
+import '../../domain/repositories/tournament_repository.dart';
+import '../datasources/local_database.dart';
 
 class RepositoryImpl implements TournamentRepository{
 
@@ -48,5 +48,15 @@ class RepositoryImpl implements TournamentRepository{
   @override
   Future<void> removeTournamentById(int id) async {
     localDataSource.removeTournamentById(id);
+  }
+
+  @override
+  Future<List<TournamentEntity>> getAllActiveTournaments() async {
+    return await localDataSource.getAllActiveTournaments();
+  }
+
+  @override
+  Future<List<TournamentEntity>> getAllFinishedTournaments() async {
+    return await localDataSource.getAllFinishedTournaments();
   }
 }

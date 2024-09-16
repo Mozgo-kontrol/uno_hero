@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
 import '../../domain/entities/player_entity.dart';
+import '../../domain/usecases/manage_players_use_cases.dart';
 import '../../domain/usecases/manage_tournaments_usecases.dart';
 import 'Error.dart';
 
@@ -12,14 +13,16 @@ part 'create_tournament_state.dart';
 
 class CreateTournamentBloc
     extends Bloc<CreateTournamentEvent, CreateTournamentState> {
-  final ManageTournamentsUsecases usecases;
+  final ManageTournamentsUsecases tournamentsUseCases;
+  final ManagePlayersUseCases playersUseCases;
   late TournamentEntity tournament;
   late List<PlayerEntity> _players;
   late String _title;
   late int _tournamentId;
   late Set<CustomInputError> errors; // Initialize an empty set
 
-  CreateTournamentBloc({required this.usecases})
+  CreateTournamentBloc(
+      {required this.playersUseCases, required this.tournamentsUseCases})
       : super(CreateTournamentInitialState()) {
     on<CreateTournamentInitEvent>(_onInitData);
     on<AddPlayerEvent>(_onAddPlayer);
@@ -28,37 +31,47 @@ class CreateTournamentBloc
     on<StartTournamentEvent>(_onStartTournament);
   }
 
-
   Future<void> _onInitData(CreateTournamentInitEvent event,
       Emitter<CreateTournamentState> emit) async {
-      print("onInitData");
-      _tournamentId = await usecases.tournamentRepository.getNextTournamentId();
-      _players = [];
-      _title = '';
-      errors = {};
-      emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
+    print("onInitData");
+    _tournamentId =
+        await tournamentsUseCases.tournamentRepository.getNextTournamentId();
+    _players = await playersUseCases.getAllPlayers();
+    _title = '';
+    errors = {};
+    emit(CreateTournamentData(
+        _title, _players, _tournamentId, checkIfCanStart(), errors));
     //}
   }
 
-  void _onAddPlayer(AddPlayerEvent event, Emitter<CreateTournamentState> emit) {
+  Future<void> _onAddPlayer(
+      AddPlayerEvent event, Emitter<CreateTournamentState> emit) async {
     final playerName = event.playerName.trim();
     if (playerName.isNotEmpty) {
       final newPlayer = PlayerEntity(
-          id: _players.isEmpty ? 1 : _players.last.id + 1, name: playerName);
+          id: _players.isEmpty ? 1 : _players.last.id + 1,
+          name: playerName,
+          iconId: event.playerIconId);
       _players.add(newPlayer);
+
+      await playersUseCases.addNewPlayer(newPlayer);
       print("onAddPlayer");
-      emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
+      emit(CreateTournamentData(
+          _title, _players, _tournamentId, checkIfCanStart(), errors));
     } else {
       emit(CreateTournamentError("Enter player name"));
     }
   }
 
-  void _onRemovePlayer(
-      RemovePlayerEvent event, Emitter<CreateTournamentState> emit) {
+  Future<void> _onRemovePlayer(
+      RemovePlayerEvent event, Emitter<CreateTournamentState> emit) async {
     _players.removeWhere((player) => player.id == event.playerId);
+    await playersUseCases.removePlayerById(event.playerId);
     print("onRemovePlayer");
-    emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
+    emit(CreateTournamentData(
+        _title, _players, _tournamentId, checkIfCanStart(), errors));
   }
+
   void _onUpdateTitle(
       UpdateTitleEvent event, Emitter<CreateTournamentState> emit) {
     String changedValue = event.title.trim();
@@ -68,7 +81,8 @@ class CreateTournamentBloc
     } else {
       error(CustomInputError.titleEmpty);
     }
-    emit(CreateTournamentData(_title, _players, _tournamentId, checkIfCanStart(), errors));
+    emit(CreateTournamentData(
+        _title, _players, _tournamentId, checkIfCanStart(), errors));
   }
 
   Future<void> _onStartTournament(
@@ -76,10 +90,11 @@ class CreateTournamentBloc
     TournamentEntity tournament = TournamentEntity(
         id: _tournamentId,
         title: _title,
-        players: _players);
+        players: _players,
+        createdAt: DateTime.now());
 
-    TournamentEntity result =
-        await usecases.tournamentRepository.addNewTournamentToDB(tournament);
+    TournamentEntity result = await tournamentsUseCases.tournamentRepository
+        .addNewTournamentToDB(tournament);
 
     if (result.id == tournament.id) {
       print('Starting tournament with title: $_title and players: $_players');
@@ -88,12 +103,11 @@ class CreateTournamentBloc
     }
   }
 
-  bool checkIfCanStart(){
-    return _title.isNotEmpty&&_players.length>1;
+  bool checkIfCanStart() {
+    return _title.isNotEmpty && _players.length > 1;
   }
 
-  void error(CustomInputError error){
+  void error(CustomInputError error) {
     errors.add(error);
   }
-
 }

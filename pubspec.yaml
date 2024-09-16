@@ -50,6 +50,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.1
+  #flutter_staggered_grid_view: ^0.7.0 #grid list
 dev_dependencies:
 
   flutter_launcher_icons: "^0.13.1"
@@ -72,20 +73,31 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/icons/csv_crown_icon.svg
-     - assets/icons/anim_crown.svg
-     - assets/icons/logo_icon.svg
      - assets/lang/en.json
      - assets/lang/ru.json
      - assets/lang/de.json
      - assets/lang/ua.json
-     - assets/images/logo_tr_500_500.png
-     - assets/images/logo_tr_200_200.png
-     - assets/images/logo_tr_250_250.png
-     - assets/images/logo_tr_300_300.png
-     - assets/images/logo_250_250_white.png
-     - assets/images/logo_500_500_white.png
      - assets/images/
-
+     - assets/icons/persons/Artist.svg
+     - assets/icons/persons/Astronaut.svg
+     - assets/icons/persons/Fashionista.svg
+     - assets/icons/persons/Maid.svg
+     - assets/icons/persons/Woman-1.svg
+     - assets/icons/persons/Woman-2.svg
+     - assets/icons/persons/Woman-3.svg
+     - assets/icons/persons/Woman-4.svg
+     - assets/icons/persons/Woman-5.svg
+     - assets/icons/persons/Woman-6.svg
+     - assets/icons/persons/Woman-7.svg
+     - assets/icons/persons/Batman.svg
+     - assets/icons/persons/Thief.svg
+     - assets/icons/persons/Surfer.svg
+     - assets/icons/persons/Soldier.svg
+     - assets/icons/persons/Scientist.svg
+     - assets/icons/persons/Rasta.svg
+     - assets/icons/persons/Pilot-1.svg
+     - assets/icons/persons/Ninja.svg
+     - assets/icons/persons/Man-7.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

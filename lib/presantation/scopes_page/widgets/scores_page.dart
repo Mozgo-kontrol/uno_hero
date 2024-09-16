@@ -71,6 +71,15 @@ class _ScopesPageState extends State<ScopesPage> {
               localizations?.get("title_s") ?? "Scores", // Pluralized for clarity.
               style: themeData.textTheme.displayLarge,
             ),
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.cyanAccent, Colors.lightBlueAccent], //Customize the colors as needed
+                ),
+              ),
+            ),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new), // Use a different icon// Change the color
               onPressed: () {
