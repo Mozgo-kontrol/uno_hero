@@ -6,7 +6,8 @@ class CreateTournamentInitEvent extends CreateTournamentEvent{}
 
 class AddPlayerEvent extends CreateTournamentEvent {
   final String playerName;
-  AddPlayerEvent(this.playerName);
+  final int playerIconId;
+  AddPlayerEvent(this.playerName, this.playerIconId);
 }
 
 class RemovePlayerEvent extends CreateTournamentEvent {

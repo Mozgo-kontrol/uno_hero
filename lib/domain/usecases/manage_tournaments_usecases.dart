@@ -1,6 +1,6 @@
 import 'package:uno_notes/domain/entities/tournament_entity.dart';
 
-import '../repositories/TournamentRepository.dart';
+import '../repositories/tournament_repository.dart';
 
 class ManageTournamentsUsecases {
 
@@ -9,6 +9,12 @@ class ManageTournamentsUsecases {
 
   Future<List<TournamentEntity>> getAllTournamentsUsecase() async {
     return tournamentRepository.getAllTournamentsFromApi();
+  }
+  Future<List<TournamentEntity>> getAllActiveTournaments() async {
+    return tournamentRepository.getAllActiveTournaments();
+  }
+  Future<List<TournamentEntity>> getAllFinishedTournaments() async {
+    return tournamentRepository.getAllFinishedTournaments();
   }
   Future<TournamentEntity> findTournamentById(int id) async {
     return tournamentRepository.findTournamentById(id);
