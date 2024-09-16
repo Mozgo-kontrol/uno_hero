@@ -13,18 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: dart-lang/setup-dart@v1.3  # Use a tagged release
+      - uses: flutter/flutter-action@v1
         with:
-          sdk: '2.19.6' # Optional: Specify SDK version
+          channel: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
+        run: flutter format --output=none --set-exit-if-changed .
 
       - name: Analyze project source
-        run: dart analyze --fatal-infos
+        run: flutter analyze --fatal-infos
 
       - name: Run tests
         run: flutter test
