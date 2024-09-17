@@ -21,3 +21,13 @@ class UpdateTitleEvent extends CreateTournamentEvent {
 }
 
 class StartTournamentEvent extends CreateTournamentEvent {}
+class NavigateToPreviousPageEvent extends CreateTournamentEvent {}
+class NavigateToNextPageEvent extends CreateTournamentEvent {}
+
+class AddMaxScoreEvent extends CreateTournamentEvent {
+  AddMaxScoreEvent();
+}
+
+class MinusMaxScoreEvent extends CreateTournamentEvent {
+  MinusMaxScoreEvent();
+}
