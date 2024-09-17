@@ -18,6 +18,7 @@ class CreateTournamentBloc
   late TournamentEntity tournament;
   late List<PlayerEntity> _players;
   late String _title;
+  late int _maxScore;
   late int _tournamentId;
   late Set<CustomInputError> errors; // Initialize an empty set
 
@@ -28,7 +29,9 @@ class CreateTournamentBloc
     on<AddPlayerEvent>(_onAddPlayer);
     on<RemovePlayerEvent>(_onRemovePlayer);
     on<UpdateTitleEvent>(_onUpdateTitle);
+    on<AddMaxScoreEvent>(_addMaxScore);
     on<StartTournamentEvent>(_onStartTournament);
+    on<MinusMaxScoreEvent>(_minusMaxScore);
   }
 
   Future<void> _onInitData(CreateTournamentInitEvent event,
@@ -39,10 +42,32 @@ class CreateTournamentBloc
     _players = await playersUseCases.getAllPlayers();
     _title = '';
     errors = {};
+    _maxScore = 500;
     emit(CreateTournamentData(
-        _title, _players, _tournamentId, checkIfCanStart(), errors));
-    //}
+        _title, _players, _tournamentId, checkIfCanStart(), _maxScore,  errors));
   }
+
+  Future<void> _addMaxScore(
+      AddMaxScoreEvent event, Emitter<CreateTournamentState> emit) async {
+      print("addMaxScore");
+      _maxScore = _maxScore + 10;
+      emit(CreateTournamentData(
+          _title, _players, _tournamentId, checkIfCanStart(), _maxScore, errors));
+  }
+
+Future<void> _minusMaxScore(
+    MinusMaxScoreEvent event, Emitter<CreateTournamentState> emit) async {
+  print("minusMaxScore");
+  if(_maxScore - 10 > 0){
+    _maxScore = _maxScore - 10;
+  }
+  else{
+    _maxScore = 0;
+  }
+  emit(CreateTournamentData(
+      _title, _players, _tournamentId, checkIfCanStart(), _maxScore, errors));
+}
+
 
   Future<void> _onAddPlayer(
       AddPlayerEvent event, Emitter<CreateTournamentState> emit) async {
@@ -57,7 +82,7 @@ class CreateTournamentBloc
       await playersUseCases.addNewPlayer(newPlayer);
       print("onAddPlayer");
       emit(CreateTournamentData(
-          _title, _players, _tournamentId, checkIfCanStart(), errors));
+          _title, _players, _tournamentId, checkIfCanStart(), _maxScore, errors));
     } else {
       emit(CreateTournamentError("Enter player name"));
     }
@@ -69,7 +94,7 @@ class CreateTournamentBloc
     await playersUseCases.removePlayerById(event.playerId);
     print("onRemovePlayer");
     emit(CreateTournamentData(
-        _title, _players, _tournamentId, checkIfCanStart(), errors));
+        _title, _players, _tournamentId, checkIfCanStart(), _maxScore, errors));
   }
 
   void _onUpdateTitle(
@@ -82,7 +107,7 @@ class CreateTournamentBloc
       error(CustomInputError.titleEmpty);
     }
     emit(CreateTournamentData(
-        _title, _players, _tournamentId, checkIfCanStart(), errors));
+        _title, _players, _tournamentId, checkIfCanStart(), _maxScore, errors));
   }
 
   Future<void> _onStartTournament(

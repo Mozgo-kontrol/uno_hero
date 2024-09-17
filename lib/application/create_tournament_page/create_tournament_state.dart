@@ -10,10 +10,11 @@ class CreateTournamentLoading extends CreateTournamentState {}
 class CreateTournamentData extends CreateTournamentState {
   final int tournamentId;
   final String title;
+  int maxScore;
   final List<PlayerEntity> players;
   final bool isReadyToStart;
   final Set<CustomInputError> errors;
-  CreateTournamentData(this.title, this.players, this.tournamentId, this.isReadyToStart, [this.errors = const {}]);
+  CreateTournamentData(this.title, this.players, this.tournamentId, this.isReadyToStart, this.maxScore, [this.errors = const {}]);
 }
 
 class CreateTournamentError extends CreateTournamentState {

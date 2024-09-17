@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uno_notes/presantation/create_tournament_page/widgets/player_icon.dart';
-import 'package:uno_notes/presantation/create_tournament_page/widgets/radio_group_widget.dart';
 import '../../../application/common_widgets/pop_up_dialog.dart';
 import '../../../application/create_tournament_page/Error.dart';
 import '../../../application/create_tournament_page/create_tournamet_bloc.dart';
@@ -186,12 +185,8 @@ class _TournamentCreationPageState extends State<TournamentCreationPage> {
                         _playerNameFocusNode,
                         size,
                         sendNewEvent),
-                   // RadioGroupWidget(selectedValue: _selectedValue, onChanged: (value) {setState(() {_selectedValue = value;});},),
-                    // 5. Use a more descriptive widget name for the player list section.
                     _buildPlayerList(state, sendNewEvent),
-                    // 6. Use a more descriptive widget name for the action buttons section.
-                    _buildActionButtons(
-                        localizations, context, state, sendNewEvent),
+                    _buildActionButtons(localizations, context, state, sendNewEvent),
                   ],
                 ),
               ),

@@ -24,14 +24,15 @@ class TournamentEntity extends HiveObject {
   final DateTime createdAt;
   @HiveField(6)
   DateTime? finishedAt;
-
+  @HiveField(7)
+  final int maxScore;
 
   @override
   String toString() {
-    return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, listOfWinners: ${listOfWinners.toString()}, createdAt: $createdAt';
+    return 'TournamentEntity{id: $id, title: $title, isFinished: $isFinished, players: $players, listOfWinners: ${listOfWinners.toString()}, createdAt: $createdAt, maxScore: $maxScore';
   }
 
-  TournamentEntity({required this.id, required this.title, required this.players, required this.createdAt});
+  TournamentEntity({required this.id, required this.title, required this.players, required this.createdAt, this.maxScore = 500});
 
   // Setter for createdAt
   set createdAt(DateTime newCreatedAt) {

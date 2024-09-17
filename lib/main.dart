@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:uno_notes/presantation/create_game_screen/create_game_main_screen.dart';
 import 'package:uno_notes/presantation/create_tournament_page/widgets/tournament_create_page.dart';
 import 'package:uno_notes/presantation/home_page/widgets/home_page.dart';
 
@@ -56,8 +57,8 @@ class MyApp extends StatelessWidget {
             ),
             NavigationRoute.createTournamentScreen: (context) => BlocProvider(
               create: (context) => getIt<CreateTournamentBloc>(),
-              child: const TournamentCreationPage(),
-            ),
+              child: CreateGameScreen(),
+           ),
             NavigationRoute.scopesScreen: (context) => BlocProvider(
               create: (context) => getIt<ScopeBloc>(),
               child: const ScopesPage(),
