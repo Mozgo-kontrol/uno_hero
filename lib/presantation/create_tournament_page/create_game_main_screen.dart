@@ -3,17 +3,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uno_notes/presantation/create_game_screen/widgets/page_indicator.dart';
+import 'package:uno_notes/presantation/create_tournament_page/widgets/page_indicator.dart';
 
 import '../../application/common_widgets/pop_up_dialog.dart';
 import '../../application/create_tournament_page/Error.dart';
 import '../../application/create_tournament_page/create_tournamet_bloc.dart';
 import '../../application/services/app_localizations.dart';
 import '../../application/utils/utils.dart';
-import '../create_tournament_page/scope_screen_arguments.dart';
-import '../create_tournament_page/widgets/error_message_widget.dart';
-import '../create_tournament_page/widgets/grid_list.dart';
-import '../create_tournament_page/widgets/player_icon.dart';
+import 'scope_screen_arguments.dart';
+import 'widgets/error_message_widget.dart';
+import 'widgets/grid_list.dart';
+import 'widgets/player_icon.dart';
 
 class CreateGameScreen extends StatefulWidget {
   const CreateGameScreen({super.key});
@@ -179,10 +179,26 @@ class _CreateGameScreenState extends State<CreateGameScreen>
     final themeData = Theme.of(context);
     final localizations = AppLocalizations.fromContext(context);
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: Text( (_currentPageIndex == 0)? localizations?.get("new_game") ?? "New game": "Players",
-              style: themeData.textTheme.displayLarge)),
+      appBar:
+      AppBar(
+          automaticallyImplyLeading: false,
+          title:  Text( (_currentPageIndex == 0)? localizations?.get("new_game") ?? "New game": "Players",
+            style: themeData.textTheme.displayLarge),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.cyanAccent, Colors.lightBlueAccent, Colors.lightBlue], //Customize the colors as needed
+            ),
+          ),
+        ),
+        centerTitle: true,
+        leading: (_currentPageIndex == 0)? IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: () =>  Navigator.pop(context),
+      ) : null,
+      ),
       body: BlocBuilder<CreateTournamentBloc, CreateTournamentState>(
           bloc: _createTournamentBloc,
           builder: (context, state) {
@@ -338,31 +354,49 @@ class _CreateGameScreenState extends State<CreateGameScreen>
     int ms = state.maxScore?? 500;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Text(
-            "Max Score",
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+      child: Card(
+        child:  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+             const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(width: 32),
+                Text(
+                  "Max Score",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6.0),
+            child: Tooltip(
+              message: 'Maximum score to end the game',
+              child: Icon(Icons.info_outline, color: Colors.blueGrey, size: 20),
+              ),
           ),
-          Row(
-            children: [
-              IconButton(
-                onPressed: () => sendNewEvent(MinusMaxScoreEvent()),
-                icon:
-                const Icon(Icons.remove_circle, color: Colors.red, size: 51),
-              ),
-              Text(
-                "$ms",
-                style: const TextStyle(fontSize: 28),
-              ),
-              IconButton(
-                onPressed: () => sendNewEvent(AddMaxScoreEvent()),
-                icon: const Icon(Icons.add_circle, color: Colors.green, size: 51),
-              ),
-            ],
-          )
-        ],
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(width: 16),
+                IconButton(
+                  onPressed: () => sendNewEvent(MinusMaxScoreEvent()),
+                  icon:
+                  const Icon(Icons.remove_circle, color: Colors.red, size: 70),
+                ),
+                Text(
+                  "$ms",
+                  style: const TextStyle(fontSize: 32),
+                ),
+                IconButton(
+                  onPressed: () => sendNewEvent(AddMaxScoreEvent()),
+                  icon: const Icon(Icons.add_circle, color: Colors.green, size: 70),
+                ),
+                const SizedBox(width: 16),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -378,54 +412,6 @@ class _CreateGameScreenState extends State<CreateGameScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildPlayerList(state, sendNewEvent),
-          // MAX/MIN Toggle
-         /* Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Center(
-                      child: Text(
-                        'MAX',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Center(
-                      child: Text(
-                        'MIN',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          TextField(
-            maxLines: 2,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText:
-              'Rew qrwrewe rwerwerw erwerwerewere wrew rwerwer rewrew rewre wrewrew rew rew rwere rwre erer!',
-            ),
-          )*/
         ],
       ),
     );
