@@ -130,7 +130,7 @@ class _ScopesPageState extends State<ScopesPage> {
     } else if (state is OnLoadingDataState) {
       return Center(
         child: CircularProgressIndicator(
-          color: themeData.colorScheme.background,
+          color: themeData.colorScheme.surface,
         ),
       );
     } else {

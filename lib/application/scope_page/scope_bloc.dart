@@ -79,7 +79,9 @@ class ScopeBloc extends Bloc<ScopeEvent, ScopeState> {
           playerId: player.id,
           score: player.score,
           playerName: Utils.makeStringShorter(player.name, null),
-          currentPosition: position++));
+          currentPosition: position++,
+        iconId: player.iconId
+      ));
     }
     print("initScoresForPlayers $list");
     return list;

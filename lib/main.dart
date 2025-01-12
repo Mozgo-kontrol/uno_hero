@@ -32,6 +32,7 @@ Future<void> main() async {
   ));
   FlutterNativeSplash.remove();
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
